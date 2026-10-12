@@ -12,6 +12,7 @@ describe("Lyrixis pricing (Ixis only, Wallet SKU)", () => {
     expect(ALL_ACCESS_MONTHLY_IXIS).toBe(3000);
     expect(ALL_ACCESS_FEATURES.filter((feature) => feature.status === "included").map((feature) => feature.name)).toEqual([
       "Unlimited song lyrics",
+      "Voice songs",
     ]);
     expect(ALL_ACCESS_FEATURES.filter((feature) => feature.status === "coming_soon").map((feature) => feature.name)).toEqual([
       "Lyric video downloads",

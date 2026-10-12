@@ -24,6 +24,7 @@ export function SiteFooter() {
           <Link href="/#api" className="hover:text-ink">API</Link>
           <Link href="/how-to" className="hover:text-ink">How to use</Link>
           <Link href="/pricing" className="hover:text-ink">Pricing</Link>
+          <Link href="/voice-songs" className="hover:text-ink">Voice Songs</Link>
           <Link href="/team" className="hover:text-ink">Team</Link>
           <a href={WALLET_BUY_URL} className="hover:text-ink">Buy Ixis</a>
           <Link href="/cixy" className="hover:text-ink">◈ Cixy</Link>

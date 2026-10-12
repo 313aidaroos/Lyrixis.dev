@@ -32,6 +32,11 @@ export const ALL_ACCESS_FEATURES: { name: string; status: PlanFeatureStatus; det
     detail: "Synced lyrics, playback, line corrections, and TXT, SRT, LRC, and JSON downloads.",
   },
   {
+    name: "Voice songs",
+    status: "included",
+    detail: "Your own voice model, 4 voice songs, and 1 store release each month. Setup is included. An extra take is 100 Ixis.",
+  },
+  {
     name: "Lyric video downloads",
     status: "coming_soon",
     detail: "A video of your lyrics is not available yet.",
@@ -57,7 +62,7 @@ export const PAYMENT_CHOICE =
 export const PLAN_FAQ: { q: string; a: string }[] = [
   {
     q: "What do I get for $30?",
-    a: "Lyrixis All-Access is $30 a month (3,000 Ixis). It renews every month. Cancel anytime and it stays active until the end of the month you already paid for. It includes unlimited song lyrics. Lyric video downloads, translations, and Voices are coming soon.",
+    a: "Lyrixis All-Access is $30 a month (3,000 Ixis). It renews every month. Cancel anytime and it stays active until the end of the month you already paid for. It includes unlimited song lyrics, plus Voice Songs: your voice model, 4 voice songs, and 1 release each month. Lyric video downloads, translations, and the Voices marketplace are coming soon.",
   },
   {
     q: "Can I pay with a card?",
