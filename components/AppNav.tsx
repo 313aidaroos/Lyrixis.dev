@@ -19,7 +19,7 @@ export function AppNav({ email }: { email?: string | null }) {
   }
 
   const linkClass = (href: string) =>
-    `text-sm ${pathname === href ? "text-ink" : "text-ink-2 hover:text-ink"}`;
+    `text-sm ${pathname === href || (href !== "/" && pathname.startsWith(href)) ? "text-ink" : "text-ink-2 hover:text-ink"}`;
 
   return (
     <header className="border-b border-line/80 bg-white/75 backdrop-blur-md">
@@ -37,6 +37,9 @@ export function AppNav({ email }: { email?: string | null }) {
           </Link>
           <Link href="/upload" className={linkClass("/upload")}>
             Upload
+          </Link>
+          <Link href="/voice-songs" className={linkClass("/voice-songs")}>
+            Voice Songs
           </Link>
           <Link href="/how-to" className={linkClass("/how-to")}>
             How to use
