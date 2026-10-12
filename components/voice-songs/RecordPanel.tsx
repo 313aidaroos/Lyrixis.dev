@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { SignInPrompt } from "./bits";
 import { uploadToSignedUrl } from "./upload";
 import type { StudioPayload } from "./types";
@@ -189,6 +190,14 @@ export function RecordPanel({ data, demo, onChanged }: { data: StudioPayload; de
             />
           </label>
         </div>
+        {!data.owner && !demo && (
+          <p className="mt-4 text-sm text-ink-2">
+            Voice setup is $5 (500 Ixis).{" "}
+            <Link className="font-semibold text-cyan" href="/voice-songs/checkout?sku=lyrixis.voice.setup">
+              Pay for setup
+            </Link>
+          </p>
+        )}
         {saved && <p className="mt-4 text-sm text-cyan">{demo ? "Demo sample, 3:12, level looks steady." : "Sample saved on your account."}</p>}
         {warnings.map((warning) => (
           <p key={warning} className="mt-2 text-sm text-gold">{warning}</p>

@@ -99,7 +99,7 @@ const STEPS: { id: string; title: string; body: string[]; image?: { src: string;
       `The request is saved and emailed to ${SALES_EMAIL}. The page then shows a thank-you screen.`,
       "Awad reviews it and marks the company as Enterprise. Sign in with the work email on the request and open Team.",
       "The company owner invites teammates by email. When they sign in with that email, they join the company.",
-      "People on the company get All-Access for the company's songs, including unlimited song lyrics. They cannot see another company's songs. Lyric video downloads, translations, and Voices stay coming soon until those features exist.",
+      "People on the company get All-Access for the company's songs, including unlimited song lyrics and the own-voice allowance (voice model, 4 voice songs, and 1 release a month). They cannot see another company's songs. Lyric video downloads, translations, and the Voices marketplace stay coming soon until those features exist.",
     ],
   },
 ];
