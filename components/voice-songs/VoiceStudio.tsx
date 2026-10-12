@@ -112,7 +112,7 @@ export function VoiceStudio({ step, demo = false, songId }: { step: string; demo
 
         {demo && (
           <p className="mt-6 rounded-2xl border border-gold/40 bg-gold/10 px-4 py-3 text-sm text-gold">
-            Demo preview. The player below is a placeholder tone, not a cloned voice. A real song needs your recording and the music keys.
+            Demo preview. These steps are filled with placeholder copy and a tone, not a cloned voice.
           </p>
         )}
 
