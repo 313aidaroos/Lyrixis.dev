@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     "/api/tracks": FFMPEG_BINARY,
     "/api/tracks/[id]/retry": FFMPEG_BINARY,
+    "/api/voice-songs/songs/[id]/advance": FFMPEG_BINARY,
   },
   async rewrites() {
     return [{ source: "/enterprise", destination: "/index.html" }];

@@ -64,6 +64,7 @@ export const config = {
     "/tracks/:path*",
     "/team/:path*",
     "/admin/:path*",
+    "/voice-songs/:path*",
     "/login",
     "/signup",
   ],

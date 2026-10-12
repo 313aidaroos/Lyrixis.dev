@@ -27,6 +27,7 @@ export function SiteFooter() {
           <Link href="/team" className="hover:text-ink">Team</Link>
           <a href={WALLET_BUY_URL} className="hover:text-ink">Buy Ixis</a>
           <Link href="/cixy" className="hover:text-ink">◈ Cixy</Link>
+          <Link href="/voice-songs" className="hover:text-ink">Voice songs</Link>
         </div>
         <div className="flex flex-col gap-2 text-sm text-ink-2">
           <p className="mb-1 font-mono text-[11px] uppercase tracking-widest text-ink-3">Company</p>

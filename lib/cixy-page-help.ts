@@ -245,6 +245,73 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
     tips: ["The database migration 20261006_enterprise_accounts.sql has to be applied before requests can be saved."],
     suggestions: ["How do I approve a company?"],
   },
+  "/voice-songs": {
+    title: "Voice songs",
+    steps: [
+      "Open Record and capture your own voice in the browser. Talk, then sing. Three minutes is the aim.",
+      "On Consent, agree in plain words, then read the phrase on screen out loud.",
+      "On Lyrics, pick a theme, mood, and genre. Write with Cixy, then edit the lines. Other artists' names are refused.",
+      "On Song, generate a preview and download it. A live song needs the music keys. Until then the page says not configured.",
+      "Voice setup is $5 (500 Ixis). A voice song is $6 (600 Ixis). You keep 90% of master royalties.",
+    ],
+    tips: ["Sign in with Apixis ID. Delete my voice removes the sample and the model."],
+    suggestions: ["How do I record my voice?", "What does a voice song cost?", "Can I sing in someone else's voice?"],
+  },
+  "/voice-songs/record": {
+    title: "Record your voice",
+    steps: [
+      "Press Start recording and allow the microphone. The bar shows the level while you talk and sing.",
+      "Aim for about three minutes. Under 20 seconds is rejected. Clipping and a very quiet mic are called out.",
+      "Press Stop and save. The file goes to a private bucket on your account only.",
+      "Delete my voice removes the recording, the model, and the songs tied to it.",
+    ],
+    tips: ["A saved audio file is only a fallback. The mic recording is the path to use."],
+    suggestions: ["How long should the sample be?", "How do I delete my voice?"],
+  },
+  "/voice-songs/consent": {
+    title: "Voice consent",
+    steps: [
+      "Read the consent. It says the recording is your own voice and is used only for your Apixis ID.",
+      "Tick the box and press Sign consent.",
+      "Read the phrase on the right out loud, in the same voice as the sample, then stop.",
+      "If the words do not match, read it again. We do not clone anyone else.",
+    ],
+    tips: ["The phrase is chosen on the server. It is not a famous lyric."],
+    suggestions: ["Why do I read a phrase?", "Who can use my voice model?"],
+  },
+  "/voice-songs/lyrics": {
+    title: "Write the lyric",
+    steps: [
+      "Set a title, theme, genre, and mood.",
+      "Press Write with Cixy for a draft, or type your own lines.",
+      "Cixy refuses other artists' names, song titles, and copied lyrics.",
+      "Save and preview stores the lyric on your account.",
+    ],
+    tips: ["Edit any line before you generate. The draft is yours."],
+    suggestions: ["Write a chorus about a night drive", "Why was my prompt refused?"],
+  },
+  "/voice-songs/preview": {
+    title: "Your voice song",
+    steps: [
+      "Press Generate song after the sample, consent, phrase, and lyric are done.",
+      "The first pass trains your voice, then writes the music, then re-sings it in your voice.",
+      "Play the preview and download it. Previews are watermarked.",
+      "If the page says not configured, the server is missing ELEVENLABS_API_KEY or REPLICATE_API_TOKEN.",
+    ],
+    tips: ["A voice song includes 3 takes. Setup is $5 (500 Ixis) and a song is $6 (600 Ixis)."],
+    suggestions: ["How long does a song take?", "Why is the song not configured?"],
+  },
+  "/voice-songs/songs/": {
+    title: "A voice song",
+    steps: [
+      "This page is one song from your account. Nobody else can open it.",
+      "Press play to hear the watermarked preview, or download the file.",
+      "Generate again for another of the included takes.",
+      "If status says not configured, the music keys are not on the server yet.",
+    ],
+    tips: ["You own the master. Lyrixis keeps 10% of the royalties the distributor reports."],
+    suggestions: ["Where do I download the song?", "How many takes do I get?"],
+  },
   "/voices": {
     title: "Lyrixis Voices",
     steps: [
