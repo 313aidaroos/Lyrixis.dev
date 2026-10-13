@@ -12,6 +12,10 @@ Entry format:
 
 ---
 
+## 2026-10-13 — Lyrixis Lead via cloud agent (Grok)
+- Changed: `components/SiteFooter.tsx`, `NOTES/GROK.md`
+- Why: add a verified Instagram icon link for @lyrixis.dev (Lyrixis Metadata Company). Facebook URLs could not be confirmed as the brand's Page, so none was added.
+
 ## 2026-10-06 — Grok (Developer Bot): locked plans, How to use, Label / Enterprise
 - Changed: pricing copy and three-option plans ($30 All-Access, $3 per song, Label / Enterprise contact form), `/how-to`, Cixy page help and prompt, FAQ, footer, homepage, `/enterprise` (`public/index.html`). New inquiry API, admin approve page, team page, `lib/enterprise-access.ts`, `services/enterprise.ts`, `lib/mail.ts`, migration `database/migrations/20261006_enterprise_accounts.sql` (not applied) and its rollback. Tests. At mid widths, “How to use” stays in the Product menu and the Menu panel so the top bar does not overflow; the signed-in bar wraps instead of running off the page.
 - Why: Awad locked All-Access at $30/month and $3 per song, asked for a How to use guide with live-site screenshots, and a fully wired Label / Enterprise path (save the request, email awad@apixis.dev, approve the company, invite the team, isolate company songs). Card checkout was not added. Lyric video, translations, and Voices stay labeled Coming soon.
