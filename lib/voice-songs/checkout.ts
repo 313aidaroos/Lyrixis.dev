@@ -9,6 +9,18 @@ import {
   ixisForSku,
 } from "./pricing";
 
+/**
+ * Live charges stay off until the Wallet SKUs and card checkout are registered.
+ * Set VOICE_SONGS_PAYMENTS=live to open them. Owners still skip the charge.
+ */
+export function voicePaymentsLive(env: Record<string, string | undefined> = process.env): boolean {
+  const flag = (env.VOICE_SONGS_PAYMENTS ?? "").trim().toLowerCase();
+  return flag === "live";
+}
+
+export const PAYMENTS_CLOSED_REASON =
+  "Payments are not open yet. The Wallet products lyrixis.voice.setup, lyrixis.voice.song, lyrixis.voice.take, and lyrixis.voice.release are not registered, and card checkout is off. Nothing was charged.";
+
 export function cardAllowed(sku: VoiceSongSku): boolean {
   return sku !== VOICE_TAKE_SKU;
 }

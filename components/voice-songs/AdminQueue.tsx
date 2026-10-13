@@ -18,8 +18,8 @@ const DEMO_ROWS: Row[] = [
     id: "demo-release",
     artistName: "Awad Alaidaroos",
     title: "Window Down",
-    status: "submitted",
-    note: null,
+    status: "pending distributor",
+    note: "Pending distributor. This sample is not on Spotify, Apple Music, Tidal, or any other store.",
     funding: "owner_bypass",
     royaltyUserBps: 9000,
     royaltyLyrixisBps: 1000,
@@ -53,8 +53,8 @@ export function AdminQueue({ demo }: { demo: boolean }) {
           row.id === id
             ? {
                 ...row,
-                status: decision === "reject" ? "rejected" : "held",
-                note: decision === "reject" ? note : "Held. Distributor is not configured, so this did not go to stores.",
+                status: decision === "reject" ? "rejected" : "pending distributor",
+                note: decision === "reject" ? note : "Pending distributor. This song is not on Spotify, Apple Music, Tidal, or any other store.",
               }
             : row,
         ),
@@ -86,7 +86,7 @@ export function AdminQueue({ demo }: { demo: boolean }) {
   return (
     <div className="mt-10 space-y-4">
       <p className="text-sm text-ink-3">
-        Approving with no distributor key holds the release. It does not go to stores. Set VOICE_SONGS_DISTRIBUTOR to too_lost or revelator, plus TOO_LOST_API_KEY or REVELATOR_API_KEY.
+        Store status stays pending distributor. Approving does not put a song on Spotify, Apple Music, Tidal, or any other store. No distributor is contracted.
       </p>
       {demo && <p className="rounded-2xl border border-gold/40 bg-gold/10 px-4 py-3 text-sm text-gold">Demo preview. This queue is sample copy, not a live release.</p>}
       {rows.length === 0 && <p className="card text-ink-2">No releases waiting. If the table is missing, apply database/migrations/0008_voice_song_releases.sql.</p>}
@@ -103,7 +103,7 @@ export function AdminQueue({ demo }: { demo: boolean }) {
             AI vocals, AI music, and AI-assisted lyrics disclosed. Royalties {row.royaltyUserBps / 100}% user / {row.royaltyLyrixisBps / 100}% Lyrixis. Funding {row.funding.replace(/_/g, " ")}.
           </p>
           {row.note && <p className="mt-2 text-sm text-ink-2">{row.note}</p>}
-          {(row.status === "submitted" || row.status === "in_review") && (
+          {(row.status === "submitted" || row.status === "in_review" || row.status === "pending distributor") && (
             <div className="mt-4 flex flex-wrap items-center gap-3">
               <input className="input max-w-sm" value={note} onChange={(event) => setNote(event.target.value)} aria-label="Reviewer note" />
               <button type="button" className="btn-primary px-4 py-2 text-sm" onClick={() => void decide(row.id, "approve")}>

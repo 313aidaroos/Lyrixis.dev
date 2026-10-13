@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { SignInPrompt } from "./bits";
+import { PAYMENTS_CLOSED_REASON } from "@/lib/voice-songs/checkout";
 import {
   VOICE_RELEASE_IXIS,
   VOICE_RELEASE_SKU,
@@ -70,6 +71,7 @@ export function CheckoutPanel({
   const [error, setError] = useState<string | null>(null);
   const product = PRODUCTS.find((item) => item.sku === selected) ?? PRODUCTS[1];
   const needsSong = selected !== VOICE_SETUP_SKU;
+  const paymentsOpen = data.payments?.live === true;
 
   useEffect(() => {
     if (demo || !sessionId || !paid) return;
@@ -165,21 +167,18 @@ export function CheckoutPanel({
           </label>
         )}
         <div className="mt-6 flex flex-wrap gap-3">
-          <button type="button" className="btn-primary" disabled={busy || (needsSong && !chosenSong)} onClick={() => void pay("ixis")}>
+          <button type="button" className="btn-primary" disabled={busy || (needsSong && !chosenSong) || (!demo && !data.owner && !paymentsOpen)} onClick={() => void pay("ixis")}>
             {busy ? "Working…" : `Pay ${product.ixis}`}
           </button>
           {product.card && (
-            <button type="button" className="btn-secondary" disabled={busy || (needsSong && !chosenSong)} onClick={() => void pay("card")}>
+            <button type="button" className="btn-secondary" disabled={busy || (needsSong && !chosenSong) || (!demo && !data.owner && !paymentsOpen)} onClick={() => void pay("card")}>
               Pay {product.price} by card
             </button>
           )}
         </div>
         {data.owner && <p className="mt-4 text-sm text-cyan">Owner test pass. This account skips the charge.</p>}
-        {!data.payments?.card && (
-          <p className="mt-4 text-sm text-gold">Card checkout is not configured. Missing STRIPE_SECRET_KEY. You can still pay with Ixis.</p>
-        )}
-        {!data.payments?.wallet && !demo && (
-          <p className="mt-2 text-sm text-gold">Ixis checkout needs WALLET_API_KEY, and these products in the Apixis Wallet catalog: lyrixis.voice.setup, lyrixis.voice.song, lyrixis.voice.take, lyrixis.voice.release.</p>
+        {!paymentsOpen && (
+          <p className="mt-4 text-sm text-gold" data-testid="payments-closed">{PAYMENTS_CLOSED_REASON}</p>
         )}
         {message && <p className="mt-4 text-sm text-cyan">{message}</p>}
         {error && <p className="mt-4 text-sm text-magenta">{error}</p>}

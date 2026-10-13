@@ -1,8 +1,8 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { HttpError } from "@/lib/errors";
-import { createVoiceUpload, pathBelongsToUser, voiceSignedUrl } from "./storage";
+import { createVoiceUpload, pathBelongsToUser } from "./storage";
 import { reviewRelease, type ReleaseDraft } from "./release";
-import { submitRelease } from "./distributors";
+import { displayStoreStatus, pendingDistributor } from "./distributors";
 import { songForUser } from "./repo";
 import { usageThisMonth } from "./billing";
 
@@ -13,7 +13,7 @@ export type ReleaseRow = {
   artist_name: string;
   title: string;
   cover_path: string | null;
-  credits: { writer?: string; producer?: string };
+  credits: { writer?: string; producer?: string; genre?: string; releaseDate?: string; explicit?: boolean };
   ai_vocals: boolean;
   ai_music: boolean;
   ai_lyrics: boolean;
@@ -44,6 +44,9 @@ export function publicRelease(row: ReleaseRow) {
     funding: row.funding,
     royaltyUserBps: row.royalty_user_bps,
     royaltyLyrixisBps: row.royalty_lyrixis_bps,
+    storeStatus: displayStoreStatus(row.status),
+    genre: row.credits?.genre ?? null,
+    explicit: Boolean(row.credits?.explicit),
     hasCover: Boolean(row.cover_path),
     createdAt: row.created_at,
   };
@@ -122,12 +125,7 @@ export async function decideRelease(input: { id: string; decision: "approve" | "
     if (updateError) throw new Error(updateError.message);
     return { status: "rejected" };
   }
-  let audioUrl: string | null = null;
-  let coverUrl: string | null = null;
-  const song = await songForUser(row.song_id, row.user_id);
-  if (song?.output_path && song.output_path !== "mock") audioUrl = await voiceSignedUrl(song.output_path, 60 * 60 * 24);
-  if (row.cover_path) coverUrl = await voiceSignedUrl(row.cover_path, 60 * 60 * 24);
-  const sent = await submitRelease({
+  const sent = await pendingDistributor.submit({
     id: row.id,
     artistName: row.artist_name,
     title: row.title,
@@ -135,23 +133,18 @@ export async function decideRelease(input: { id: string; decision: "approve" | "
     ai: { vocals: row.ai_vocals, music: row.ai_music, lyrics: row.ai_lyrics },
     royaltyUserBps: row.royalty_user_bps,
     royaltyLyrixisBps: row.royalty_lyrixis_bps,
-    audioUrl,
-    coverUrl,
+    audioUrl: null,
+    coverUrl: null,
   });
-  if (!sent.ok) {
-    await db().from("voice_releases").update({ status: "failed", reviewer_note: sent.message, distributor: sent.distributor, updated_at: new Date().toISOString() }).eq("id", row.id);
-    throw new HttpError(503, "not_configured", sent.message);
-  }
-  const status = sent.status === "held" ? "held" : "approved";
   await db()
     .from("voice_releases")
     .update({
-      status,
+      status: "held",
       distributor: sent.distributor,
       distributor_ref: sent.ref,
-      reviewer_note: input.note.slice(0, 500) || (sent.status === "held" ? "Held. Distributor is not configured, so this did not go to stores." : "Sent to the distributor."),
+      reviewer_note: input.note.slice(0, 500) || sent.message,
       updated_at: new Date().toISOString(),
     })
     .eq("id", row.id);
-  return { status, distributor: sent.distributor, ref: sent.ref };
+  return { status: sent.status, distributor: sent.distributor, ref: sent.ref };
 }
