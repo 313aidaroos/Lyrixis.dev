@@ -12,6 +12,10 @@ Entry format:
 
 ---
 
+## 2026-10-13 — Lyrixis Lead via cloud agent (Grok)
+- Changed: `components/SiteFooter.tsx`, `NOTES/GROK.md`
+- Why: add a verified Instagram icon link for @lyrixis.dev (Lyrixis Metadata Company). Facebook URLs could not be confirmed as the brand's Page, so none was added.
+
 ## 2026-10-13 — Lyrixis Lead via cloud agent
 - Changed: guided voice-setup script, label release fields and royalty split, `DistributorProvider` with status pending distributor, payments gate, demo upload→lyrics, Playwright e2e, migration `0010_label_releases_ledger.sql` (not applied).
 - Why: Q1 2027 voice-song launch prep. Extend the existing voice-song studio. Do not charge, and do not claim a song is on a store, until a distributor and the Wallet SKUs are registered.
