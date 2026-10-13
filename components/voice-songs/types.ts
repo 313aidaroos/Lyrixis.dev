@@ -56,5 +56,5 @@ export type StudioPayload = {
   databaseMessage?: string;
   profile: StudioProfile;
   songs: StudioSong[];
-  payments?: { card: boolean; wallet: boolean };
+  payments?: { card: boolean; wallet: boolean; live?: boolean };
 };

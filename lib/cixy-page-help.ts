@@ -248,7 +248,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
   "/voice-songs": {
     title: "Voice songs",
     steps: [
-      "Open Record and capture your own voice in the browser. Talk, then sing. Three minutes is the aim.",
+      "Open Record. Check the mic and the room, read the consent line aloud, then read each script line. Re-record any line that clips or sounds noisy.",
       "On Consent, agree in plain words, then read the phrase on screen out loud.",
       "On Lyrics, pick a theme, mood, and genre. Write with Cixy, then edit the lines. Other artists' names are refused.",
       "On Song, generate a preview and download it. A live song needs the music keys. Until then the page says not configured.",
@@ -260,10 +260,10 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
   "/voice-songs/record": {
     title: "Record your voice",
     steps: [
-      "Press Start recording and allow the microphone. The bar shows the level while you talk and sing.",
-      "Aim for about three minutes. Under 20 seconds is rejected. Clipping and a very quiet mic are called out.",
-      "Press Stop and save. The file goes to a private bucket on your account only.",
-      "Delete my voice removes the recording, the model, and the songs tied to it.",
+      "Start with the room check, then the mic check. The meter should sit low in a quiet room.",
+      "Read the consent line aloud, then each script line at the pace shown. The counter shows how many lines are done.",
+      "Re-record one line if it clips, is too quiet, or has room noise. The other lines stay.",
+      "Save the sample when every line is done. Delete my voice removes the recording, the model, and the songs tied to it.",
     ],
     tips: ["A saved audio file is only a fallback. The mic recording is the path to use."],
     suggestions: ["How long should the sample be?", "How do I delete my voice?"],
@@ -304,10 +304,10 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
   "/voice-songs/checkout": {
     title: "Voice songs checkout",
     steps: [
-      "Pick Voice setup ($5 / 500 Ixis), a voice song ($6 / 600 Ixis), an extra take (100 Ixis), or a release ($9 / 900 Ixis).",
-      "Pay with Ixis from the Apixis Wallet, or pay by card. An extra take is Ixis only.",
-      "All-Access ($30 a month) covers the voice model, 4 voice songs, and 1 release. The owner test pass skips the charge.",
-      "If card checkout says not configured, the server is missing the card key. Ixis still needs these products in the Wallet catalog.",
+      "The prices are voice setup $5 (500 Ixis), a voice song $6 (600 Ixis), an extra take (100 Ixis), and a release $9 (900 Ixis).",
+      "Payments are not open yet. Those Wallet products are not registered, and card checkout is off. Nothing is charged.",
+      "All-Access ($30 a month) is planned to cover the voice model, 4 voice songs, and 1 release. The owner test pass skips the charge.",
+      "An extra take is 100 Ixis only. 100 Ixis equals $1.",
     ],
     tips: ["100 Ixis equals $1. You keep 90% of master royalties."],
     suggestions: ["What does a voice song cost?", "Can I pay with Ixis?"],
@@ -315,11 +315,10 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
   "/voice-songs/release": {
     title: "Release your song",
     steps: [
-      "Choose the song, then add the artist name you release under, the title, the writer, and the producer.",
-      "Upload cover art. AI vocals, AI music, and AI-assisted lyrics stay on. You cannot hide them.",
-      "Read the rights statement. You own the recording and the voice. Spotify pays only after 1,000 streams in a year.",
-      "Submit for review. Awad approves it. Until a distributor key is set, an approval is held and does not go to stores.",
-      "You keep 90% of master royalties. Lyrixis keeps 10%. Four releases a month is the limit.",
+      "Add the title, artist, genre, cover, release date, explicit flag, and the writers with splits that add up to 100%.",
+      "The master royalty split is 90% artist and 10% Lyrixis. That is separate from the writer splits.",
+      "AI vocals, AI music, and AI-assisted lyrics stay on. Confirm you have the rights.",
+      "Submit for review. The status is pending distributor. The song is not on Spotify, Apple Music, Tidal, or any other store.",
     ],
     tips: ["Other artists' names are refused as the artist name and as the title."],
     suggestions: ["How do I release a voice song?", "What has to stay disclosed?"],
@@ -330,8 +329,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
       "This queue is only for the Lyrixis owner.",
       "Each request shows the artist, title, AI disclosure, and the 90 / 10 royalty split.",
       "Reject it with a note, or approve it.",
-      "With no distributor selected, approve holds the release. It does not go to stores.",
-      "too_lost and revelator send only when VOICE_SONGS_DISTRIBUTOR and that vendor's API key are set.",
+      "Approval keeps the store status at pending distributor. The song is not placed on a store.",
     ],
     tips: ["Apply database/migrations/0008_voice_song_releases.sql before the queue can load."],
     suggestions: ["How do I approve a voice release?"],

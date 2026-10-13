@@ -66,6 +66,17 @@ export function mayGenerate(input: { owner: boolean; funding: string }): boolean
   return PAID.has(input.funding);
 }
 
+/** 90 / 10 of a reported master-royalty amount, in cents. Nothing here is a store payout. */
+export function splitReportedRoyalties(reportedCents: number): {
+  artistCents: number;
+  lyrixisCents: number;
+  status: "pending distributor";
+} {
+  const cents = Math.max(0, Math.round(reportedCents));
+  const artistCents = Math.round((cents * ROYALTY_USER_BPS) / 10000);
+  return { artistCents, lyrixisCents: cents - artistCents, status: "pending distributor" };
+}
+
 export function mayRelease(input: { owner: boolean; funding: string; releasesThisMonth: number }): boolean {
   if (input.releasesThisMonth >= MAX_RELEASES_PER_MONTH) return false;
   if (input.owner) return true;

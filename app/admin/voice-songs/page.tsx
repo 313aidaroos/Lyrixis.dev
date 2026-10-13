@@ -18,7 +18,7 @@ export default async function AdminVoiceSongsPage({ searchParams }: { searchPara
         <p className="font-mono text-xs uppercase tracking-[0.28em] text-cyan">Owner</p>
         <h1 className="mt-3 font-display text-4xl font-bold sm:font-marquee sm:text-5xl">Release queue</h1>
         <p className="mt-4 max-w-2xl text-ink-2">
-          Review a voice song before it can go to stores. AI vocals, AI music, and AI-assisted lyrics stay disclosed. You keep the 90 / 10 royalty split.
+          Review a voice song. Status stays pending distributor, so it is not on a store. AI vocals, AI music, and AI-assisted lyrics stay disclosed. The artist keeps 90% and Lyrixis keeps 10%.
         </p>
         <AdminQueue demo={params.demo === "1"} />
       </main>

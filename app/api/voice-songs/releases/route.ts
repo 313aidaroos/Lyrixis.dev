@@ -22,6 +22,10 @@ export async function POST(request: Request) {
       songId?: string;
       artistName?: string;
       title?: string;
+      genre?: string;
+      releaseDate?: string;
+      explicit?: boolean;
+      writers?: { name?: string; sharePercent?: number }[];
       writer?: string;
       producer?: string;
       rightsAccepted?: boolean;
@@ -46,7 +50,12 @@ export async function POST(request: Request) {
       draft: {
         artistName: String(body.artistName || ""),
         title: String(body.title || ""),
-        writer: String(body.writer || ""),
+        genre: String(body.genre || ""),
+        releaseDate: String(body.releaseDate || ""),
+        explicit: body.explicit === true,
+        writers: Array.isArray(body.writers) && body.writers.length
+          ? body.writers.map((writer) => ({ name: String(writer.name || ""), sharePercent: Number(writer.sharePercent) }))
+          : [{ name: String(body.writer || ""), sharePercent: 100 }],
         producer: String(body.producer || ""),
         aiVocals: true,
         aiMusic: true,

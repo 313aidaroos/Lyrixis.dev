@@ -13,7 +13,7 @@ import {
   type VoiceSongSku,
   ixisForSku,
 } from "./pricing";
-import { allAccessProductMatch, cardCents, checkoutAction } from "./checkout";
+import { PAYMENTS_CLOSED_REASON, allAccessProductMatch, cardCents, checkoutAction, voicePaymentsLive } from "./checkout";
 import { songForUser, updateSong } from "./repo";
 
 export type PurchaseRow = {
@@ -144,6 +144,10 @@ export async function startCheckout(input: {
   const price = ixisForSku(input.sku);
   const funding = action.action === "owner_bypass" ? "owner_bypass" : action.action === "included" ? "all_access" : input.method === "card" ? "card" : "wallet";
   const method = action.action === "owner_bypass" ? "owner_bypass" : action.action === "included" ? "all_access" : input.method === "card" ? "card" : "ixis";
+
+  if (action.action === "pay" && !voicePaymentsLive()) {
+    throw new HttpError(503, "payments_closed", PAYMENTS_CLOSED_REASON);
+  }
 
   if (action.action === "owner_bypass" || action.action === "included") {
     const kind = action.action === "owner_bypass" ? "owner" : "included";

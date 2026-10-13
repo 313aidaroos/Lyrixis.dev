@@ -16,6 +16,46 @@ export type DistributorResult =
   | { ok: true; distributor: DistributorName; ref: string; status: "held" | "submitted" }
   | { ok: false; distributor: DistributorName; missing?: string; message: string };
 
+/** Shown anywhere a release is discussed. A song is never described as live on a store. */
+export const PENDING_DISTRIBUTOR_NOTE =
+  "Pending distributor. Lyrixis has not contracted a distributor, so this song is not on Spotify, Apple Music, Tidal, or any other store.";
+
+export type PendingDistributorResult = {
+  ok: true;
+  distributor: "pending";
+  ref: string;
+  status: "pending distributor";
+  message: string;
+};
+
+/**
+ * The only distributor the app calls. No vendor is contracted, so submit never
+ * reaches a store API and the status is always "pending distributor".
+ */
+export interface DistributorProvider {
+  readonly name: "pending";
+  submit(release: DistributorRelease): Promise<PendingDistributorResult>;
+}
+
+export const pendingDistributor: DistributorProvider = {
+  name: "pending",
+  async submit(release) {
+    return {
+      ok: true,
+      distributor: "pending",
+      ref: `pending-${release.id}`,
+      status: "pending distributor",
+      message: PENDING_DISTRIBUTOR_NOTE,
+    };
+  },
+};
+
+/** Public store status. Rejected and failed stay as they are. Nothing else is "live". */
+export function displayStoreStatus(status: string): "pending distributor" | "rejected" | "failed" {
+  if (status === "rejected" || status === "failed") return status;
+  return "pending distributor";
+}
+
 export function selectedDistributor(env: Record<string, string | undefined> = process.env): DistributorName {
   const value = (env.VOICE_SONGS_DISTRIBUTOR || "").trim().toLowerCase();
   if (value === "too_lost" || value === "toolost") return "too_lost";

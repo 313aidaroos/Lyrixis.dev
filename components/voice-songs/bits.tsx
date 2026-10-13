@@ -8,10 +8,11 @@ export function ProviderNote({ data }: { data: StudioPayload }) {
   if (data.providers?.liveReady && !data.providers.mock) return null;
   return (
     <div className="rounded-2xl border border-line bg-white/[0.03] p-4 text-sm text-ink-2">
+      <p className="font-mono text-[11px] uppercase tracking-widest text-gold">Demo mode</p>
       {data.providers?.mock ? (
-        <p>Mock audio is on (VOICE_SONGS_MOCK). Previews are a generated tone, not your cloned voice.</p>
+        <p className="mt-2">Mock audio is on (VOICE_SONGS_MOCK). Previews are a generated tone, not your cloned voice. ElevenLabs is not driving this song.</p>
       ) : (
-        <p>Not configured for a live song. A real song needs {missing.join(" and ") || "the music keys"} on the server.</p>
+        <p className="mt-2">ElevenLabs has no key, so this is demo mode. A real song needs {missing.join(" and ") || "the music keys"} on the server. Nothing here is a live cloned voice.</p>
       )}
       <p className="mt-2 text-ink-3">
         Required: ELEVENLABS_API_KEY, REPLICATE_API_TOKEN. Optional fallback: KITS_API_KEY and KITS_MODEL_ID. Read-aloud check: TRANSCRIPTION_API_KEY.
