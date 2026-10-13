@@ -28,6 +28,8 @@ import { RecordPanel } from "./RecordPanel";
 import { ConsentPanel } from "./ConsentPanel";
 import { LyricsPanel } from "./LyricsPanel";
 import { PreviewPanel } from "./PreviewPanel";
+import { CheckoutPanel } from "./CheckoutPanel";
+import { ReleasePanel } from "./ReleasePanel";
 import type { StudioPayload } from "./types";
 
 const TABS = [
@@ -36,6 +38,8 @@ const TABS = [
   { href: "/voice-songs/consent", label: "Consent" },
   { href: "/voice-songs/lyrics", label: "Lyrics" },
   { href: "/voice-songs/preview", label: "Song" },
+  { href: "/voice-songs/checkout", label: "Checkout" },
+  { href: "/voice-songs/release", label: "Release" },
 ];
 
 const EMPTY: StudioPayload = {
@@ -60,7 +64,17 @@ const EMPTY: StudioPayload = {
   songs: [],
 };
 
-export function VoiceStudio({ step, demo = false, songId }: { step: string; demo?: boolean; songId?: string }) {
+export function VoiceStudio({
+  step,
+  demo = false,
+  songId,
+  query,
+}: {
+  step: string;
+  demo?: boolean;
+  songId?: string;
+  query?: { sku?: string; songId?: string; paid?: string; sessionId?: string; cancelled?: boolean };
+}) {
   const pathname = usePathname();
   const [data, setData] = useState<StudioPayload>(EMPTY);
   const [loading, setLoading] = useState(true);
@@ -122,6 +136,18 @@ export function VoiceStudio({ step, demo = false, songId }: { step: string; demo
           {step === "consent" && <ConsentPanel data={data} demo={demo} onChanged={refresh} />}
           {step === "lyrics" && <LyricsPanel data={data} demo={demo} onChanged={refresh} />}
           {step === "preview" && <PreviewPanel data={data} demo={demo} songId={songId} loading={loading} onChanged={refresh} />}
+          {step === "checkout" && (
+            <CheckoutPanel
+              data={data}
+              demo={demo}
+              sku={query?.sku}
+              songId={query?.songId}
+              paid={query?.paid}
+              sessionId={query?.sessionId}
+              cancelled={query?.cancelled}
+            />
+          )}
+          {step === "release" && <ReleasePanel data={data} demo={demo} songId={songId} />}
         </div>
       </main>
       <SiteFooter />
@@ -145,6 +171,9 @@ function Overview({ data, demo }: { data: StudioPayload; demo: boolean }) {
             <p className="mt-3 font-body text-4xl font-extrabold tabular-nums">{item.price}</p>
             <p className="mt-1 text-sm text-ink-2">{item.ixis}</p>
             <p className="mt-3 text-sm leading-relaxed text-ink-3">{item.note}</p>
+            <Link href={`${demo ? "/voice-songs/checkout?demo=1&sku=" : "/voice-songs/checkout?sku="}${item.sku}`} className="mt-4 inline-block text-sm font-semibold text-cyan">
+              Checkout
+            </Link>
             <p className="mt-3 font-mono text-[10px] text-ink-3">{item.sku}</p>
           </article>
         ))}

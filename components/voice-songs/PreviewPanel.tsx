@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ProviderNote, SignInPrompt } from "./bits";
 import type { StudioPayload, StudioSong } from "./types";
 
@@ -108,7 +109,13 @@ export function PreviewPanel({
           )}
           {error && <p className="mt-3 text-sm text-magenta">{error}</p>}
           {!data.owner && current.funding === "unpaid" && !demo && (
-            <p className="mt-3 text-sm text-ink-2">A voice song is $6 (600 Ixis). Checkout is on the next step. Owner accounts can generate now.</p>
+            <p className="mt-3 text-sm text-ink-2">
+              A voice song is $6 (600 Ixis).{" "}
+              <Link className="font-semibold text-cyan" href={`/voice-songs/checkout?sku=lyrixis.voice.song&songId=${current.id}`}>
+                Pay on Checkout
+              </Link>
+              . An extra take is 100 Ixis only.
+            </p>
           )}
         </section>
       )}

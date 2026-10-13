@@ -32,6 +32,11 @@ export const ALL_ACCESS_FEATURES: { name: string; status: PlanFeatureStatus; det
     detail: "Synced lyrics, playback, line corrections, and TXT, SRT, LRC, and JSON downloads.",
   },
   {
+    name: "Voice songs",
+    status: "included",
+    detail: "Your own voice model, 4 voice songs, and 1 release each month. The Voices marketplace stays separate.",
+  },
+  {
     name: "Lyric video downloads",
     status: "coming_soon",
     detail: "A video of your lyrics is not available yet.",
@@ -44,7 +49,7 @@ export const ALL_ACCESS_FEATURES: { name: string; status: PlanFeatureStatus; det
   {
     name: "Voices",
     status: "coming_soon",
-    detail: "Lyrixis Voices is switched off until it opens.",
+    detail: "The Voices marketplace stays off until it opens. Your own voice is Voice songs, not this.",
   },
 ];
 
@@ -57,11 +62,11 @@ export const PAYMENT_CHOICE =
 export const PLAN_FAQ: { q: string; a: string }[] = [
   {
     q: "What do I get for $30?",
-    a: "Lyrixis All-Access is $30 a month (3,000 Ixis). It renews every month. Cancel anytime and it stays active until the end of the month you already paid for. It includes unlimited song lyrics. Lyric video downloads, translations, and Voices are coming soon.",
+    a: "Lyrixis All-Access is $30 a month (3,000 Ixis). It renews every month. Cancel anytime and it stays active until the end of the month you already paid for. It includes unlimited song lyrics, plus your own voice model, 4 voice songs, and 1 release each month. Lyric video downloads, translations, and the Voices marketplace are coming soon.",
   },
   {
     q: "Can I pay with a card?",
-    a: "You can pay by card or with Ixis. 100 Ixis equals $1. Card checkout is not open on this site yet. Ixis top-ups happen in the Apixis Wallet. Unlocking one song for 300 Ixis ($3) works today.",
+    a: "You can pay by card or with Ixis. 100 Ixis equals $1. Voice songs checkout takes a card or Ixis. Card checkout for All-Access and the $3 unlock is not open yet. Ixis top-ups happen in the Apixis Wallet. Unlocking one song for 300 Ixis ($3) works today.",
   },
   {
     q: "How do I cancel?",

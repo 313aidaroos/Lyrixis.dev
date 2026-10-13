@@ -26,6 +26,7 @@ import { outputUrl, replicateGet, startRvcConvert, startRvcTraining } from "./pr
 import { kitsConfigured, kitsConvert } from "./providers/kits";
 import { sampleToDatasetZip } from "./audio-prep";
 import { toneWav } from "./wav";
+import { usageThisMonth } from "./billing";
 import { transcribeClip } from "./transcribe";
 import { writeLyrics } from "./lyricist";
 import {
@@ -292,7 +293,19 @@ export async function advanceSong(input: { userId: string; owner: boolean; songI
   const song = await songForUser(input.songId, input.userId);
   if (!profile || !song) throw new HttpError(404, "not_found", "Record your voice and save a lyric first.");
   if (!mayGenerate({ owner: input.owner, funding: song.funding })) {
-    return updateSong(song.id, input.userId, { status: "payment_required", error_message: null });
+    return updateSong(song.id, input.userId, {
+      status: "payment_required",
+      error_message: "A voice song is $6 (600 Ixis). Pay on Checkout first.",
+    });
+  }
+  if (!input.owner && song.funding !== "all_access" && song.funding !== "owner_bypass") {
+    const usage = await usageThisMonth(input.userId);
+    if (!usage.setupPaid) {
+      return updateSong(song.id, input.userId, {
+        status: "payment_required",
+        error_message: "Voice setup is $5 (500 Ixis) before the first song.",
+      });
+    }
   }
   if (song.output_path && song.status === "ready") return song;
   if (song.takes_used >= (song.takes_allowed || TAKES_INCLUDED) && song.output_path) {
