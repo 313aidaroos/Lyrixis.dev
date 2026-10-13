@@ -14,6 +14,7 @@ const MENUS: Record<string, { label: string; href: string; hint: string }[]> = {
     { label: "Live demo", href: "/#demo", hint: "Watch a track become intelligence" },
     { label: "Add a recording", href: "/add", hint: "Single or bulk CSV ingest" },
     { label: "Cixy", href: "/cixy", hint: "Native music-intelligence AI" },
+    { label: "Voice songs", href: "/voice-songs", hint: "Record your voice and sing a song" },
     // Lyrixis Voices: shown on previews, or in production once NEXT_PUBLIC_VOICES_NAV=true (with VOICES_LIVE).
     ...(process.env.NEXT_PUBLIC_VOICES_NAV === "true" || (process.env.NEXT_PUBLIC_VERCEL_ENV && process.env.NEXT_PUBLIC_VERCEL_ENV !== "production")
       ? [{ label: "Voices", href: "/voices", hint: "License Arabic & bilingual voices" }]

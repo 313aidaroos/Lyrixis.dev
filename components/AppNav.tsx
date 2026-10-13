@@ -38,6 +38,9 @@ export function AppNav({ email }: { email?: string | null }) {
           <Link href="/upload" className={linkClass("/upload")}>
             Upload
           </Link>
+          <Link href="/voice-songs" className={linkClass("/voice-songs")}>
+            Voice songs
+          </Link>
           <Link href="/how-to" className={linkClass("/how-to")}>
             How to use
           </Link>

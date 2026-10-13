@@ -59,6 +59,38 @@
 
 ---
 
+### 6. Voice setup (one-time)
+- **SKU:** `lyrixis.voice.setup`
+- **Cost:** 500 Ixis ($5.00)
+- **Type:** One-time purchase
+- **Description:** Private voice model for the signed-in Apixis ID, including a re-record.
+- **Entitlement:** One own-voice model. Not a license to clone anyone else.
+
+### 7. Voice song
+- **SKU:** `lyrixis.voice.song`
+- **Cost:** 600 Ixis ($6.00)
+- **Type:** One-time purchase
+- **Description:** One song in the user's own voice. Includes 3 takes and lyric edits.
+- **Entitlement:** One voice song with 3 takes.
+
+### 8. Extra voice take
+- **SKU:** `lyrixis.voice.take`
+- **Cost:** 100 Ixis ($1.00)
+- **Type:** One-time purchase
+- **Description:** One extra full take after the three included with a voice song.
+- **Entitlement:** One additional take.
+
+### 9. Voice song release
+- **SKU:** `lyrixis.voice.release`
+- **Cost:** 900 Ixis ($9.00)
+- **Type:** One-time purchase
+- **Description:** Submit one single for review and distribution. User keeps 90% of reported master royalties.
+- **Entitlement:** One release request.
+
+All-Access ($30 / month, 3,000 Ixis) includes the voice model, 4 voice songs, and 1 release each month.
+
+---
+
 ## Requested Action
 
 Please add these SKUs to `lib/catalog.ts` in the Apixis Wallet repo (313aidaroos/ApixisWallet).  
