@@ -9,6 +9,8 @@ export type StudioProviders = {
   musicReady: boolean;
   voiceReady: boolean;
   liveReady: boolean;
+  /** False until a request-time read has filled this object. */
+  checked?: boolean;
 };
 
 export type StudioProfile = {

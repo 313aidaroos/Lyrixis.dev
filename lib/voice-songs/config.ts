@@ -13,12 +13,19 @@ export type VoiceProviderStatus = {
   liveReady: boolean;
 };
 
+/** Bracket access so Next does not inline the value from the build environment. */
+function readEnv(env: Record<string, string | undefined>, name: string): string {
+  const value = env[name];
+  return typeof value === "string" ? value.trim() : "";
+}
+
 export function voiceProviderStatus(env: Record<string, string | undefined> = process.env): VoiceProviderStatus {
-  const elevenlabs = Boolean(env.ELEVENLABS_API_KEY?.trim());
-  const replicate = Boolean(env.REPLICATE_API_TOKEN?.trim());
-  const kits = Boolean(env.KITS_API_KEY?.trim());
-  const speech = Boolean(env.TRANSCRIPTION_API_KEY?.trim());
-  const mock = env.VOICE_SONGS_MOCK === "1" || env.VOICE_SONGS_MOCK === "true";
+  const elevenlabs = Boolean(readEnv(env, "ELEVENLABS_API_KEY"));
+  const replicate = Boolean(readEnv(env, "REPLICATE_API_TOKEN"));
+  const kits = Boolean(readEnv(env, "KITS_API_KEY"));
+  const speech = Boolean(readEnv(env, "TRANSCRIPTION_API_KEY"));
+  const mockValue = readEnv(env, "VOICE_SONGS_MOCK");
+  const mock = mockValue === "1" || mockValue === "true";
   const missing: string[] = [];
   if (!elevenlabs) missing.push("ELEVENLABS_API_KEY");
   if (!replicate) missing.push("REPLICATE_API_TOKEN");

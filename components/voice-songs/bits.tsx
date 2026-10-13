@@ -3,6 +3,7 @@
 import type { StudioPayload } from "./types";
 
 export function ProviderNote({ data }: { data: StudioPayload }) {
+  if (data.providers?.checked === false) return null;
   const missing = data.providers?.missing ?? [];
   if (data.providers?.liveReady && !data.providers.mock) return null;
   return (

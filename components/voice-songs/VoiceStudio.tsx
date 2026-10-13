@@ -52,11 +52,12 @@ const EMPTY: StudioPayload = {
     kits: false,
     speech: false,
     mock: false,
-    missing: ["ELEVENLABS_API_KEY", "REPLICATE_API_TOKEN"],
-    optionalMissing: ["KITS_API_KEY", "TRANSCRIPTION_API_KEY"],
+    missing: [],
+    optionalMissing: [],
     musicReady: false,
     voiceReady: false,
     liveReady: false,
+    checked: false,
   },
   consent: "",
   database: true,
@@ -69,20 +70,27 @@ export function VoiceStudio({
   demo = false,
   songId,
   query,
+  initialProviders,
 }: {
   step: string;
   demo?: boolean;
   songId?: string;
   query?: { sku?: string; songId?: string; paid?: string; sessionId?: string; cancelled?: boolean };
+  initialProviders?: StudioPayload["providers"];
 }) {
   const pathname = usePathname();
-  const [data, setData] = useState<StudioPayload>(EMPTY);
+  const [data, setData] = useState<StudioPayload>(() =>
+    initialProviders ? { ...EMPTY, providers: { ...initialProviders, checked: true } } : EMPTY,
+  );
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
     try {
       const response = await fetch("/api/voice-songs/me", { cache: "no-store" });
-      if (response.ok) setData((await response.json()) as StudioPayload);
+      if (response.ok) {
+        const json = (await response.json()) as StudioPayload;
+        setData({ ...json, providers: { ...json.providers, checked: true } });
+      }
     } finally {
       setLoading(false);
     }

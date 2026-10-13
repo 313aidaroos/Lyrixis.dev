@@ -124,6 +124,9 @@ describe("generation steps", () => {
     const mock = voiceProviderStatus({ VOICE_SONGS_MOCK: "1" });
     expect(nextVoiceStep({ ...ready, owner: true, funding: "unpaid" }, mock).step).toBe("mock_render");
     expect(none.missing).toEqual(["ELEVENLABS_API_KEY", "REPLICATE_API_TOKEN"]);
+    const config = readFileSync(path.resolve(__dirname, "config.ts"), "utf8");
+    expect(config).toContain('readEnv(env, "ELEVENLABS_API_KEY")');
+    expect(config).not.toContain("env.ELEVENLABS_API_KEY");
   });
 });
 
@@ -149,6 +152,16 @@ describe("voice song studio source", () => {
     expect(studio).toContain("SiteNav");
     expect(studio).toContain("font-marquee");
     expect(studio).toContain("Sign in with Apixis ID");
+    expect(studio).toContain("checked: false");
+    const shell = readFileSync(path.join(root, "components/voice-songs/VoiceStudioShell.tsx"), "utf8");
+    expect(shell).toContain("await connection()");
+    expect(shell).toContain("voiceProviderStatus()");
+    const page = readFileSync(path.join(root, "app/voice-songs/page.tsx"), "utf8");
+    expect(page).toContain("VoiceStudioShell");
+    expect(page).toContain('dynamic = "force-dynamic"');
+    const sql9 = readFileSync(path.join(root, "database/migrations/0009_voice_songs_owner_execute.sql"), "utf8");
+    expect(sql9).toContain("revoke execute on function public.voice_songs_is_owner() from public, anon");
+    expect(sql9).toContain("grant execute on function public.voice_songs_is_owner() to authenticated, service_role");
     const sql = readFileSync(path.join(root, "database/migrations/0007_voice_songs.sql"), "utf8");
     expect(sql).toContain("enable row level security");
     expect(sql).toContain("voice-songs-private");

@@ -1,4 +1,4 @@
-import { VoiceStudio } from "@/components/voice-songs/VoiceStudio";
+import { VoiceStudioShell } from "@/components/voice-songs/VoiceStudioShell";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +14,7 @@ export default async function VoiceCheckoutPage({
 }) {
   const params = await searchParams;
   return (
-    <VoiceStudio
+    <VoiceStudioShell
       step="checkout"
       demo={params.demo === "1"}
       query={{

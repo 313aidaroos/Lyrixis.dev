@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { jsonError, HttpError } from "@/lib/errors";
 import { isWalletConfigured } from "@/lib/apixis-wallet";
 import { voiceProviderStatus } from "@/lib/voice-songs/config";
@@ -11,6 +12,7 @@ function payments() {
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  await connection();
   const providers = voiceProviderStatus();
   try {
     const session = await voiceSession();

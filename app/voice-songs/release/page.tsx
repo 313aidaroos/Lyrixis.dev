@@ -1,4 +1,4 @@
-import { VoiceStudio } from "@/components/voice-songs/VoiceStudio";
+import { VoiceStudioShell } from "@/components/voice-songs/VoiceStudioShell";
 
 export const dynamic = "force-dynamic";
 
@@ -9,5 +9,5 @@ export const metadata = {
 
 export default async function VoiceReleasePage({ searchParams }: { searchParams: Promise<{ demo?: string; songId?: string }> }) {
   const params = await searchParams;
-  return <VoiceStudio step="release" demo={params.demo === "1"} songId={params.songId} />;
+  return <VoiceStudioShell step="release" demo={params.demo === "1"} songId={params.songId} />;
 }
