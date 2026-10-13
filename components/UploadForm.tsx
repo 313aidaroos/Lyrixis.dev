@@ -56,7 +56,7 @@ function uploadToSignedUrl(signedUrl: string, file: File, onProgress: (fraction:
   });
 }
 
-export function UploadForm() {
+export function UploadForm({ demo = false }: { demo?: boolean }) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -83,6 +83,11 @@ export function UploadForm() {
 
     setPending(true);
     setProgress(0);
+    if (demo) {
+      const query = new URLSearchParams({ demo: "1", title: title || "Untitled", artist: artist || "Demo artist" });
+      router.push(`/tracks/demo?${query.toString()}`);
+      return;
+    }
     try {
       // 1) Ask for a one-time signed upload URL (metadata only).
       setStage("preparing");

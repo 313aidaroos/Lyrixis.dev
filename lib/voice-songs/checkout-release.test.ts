@@ -2,10 +2,10 @@ import { createHmac } from "crypto";
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "fs";
 import path from "path";
-import { cardCents, checkoutAction, stripeSignatureOk } from "./checkout";
-import { submitRelease } from "./distributors";
+import { cardCents, checkoutAction, stripeSignatureOk, voicePaymentsLive } from "./checkout";
+import { displayStoreStatus, pendingDistributor, submitRelease } from "./distributors";
 import { reviewRelease } from "./release";
-import { VOICE_RELEASE_SKU, VOICE_SETUP_SKU, VOICE_SONG_SKU, VOICE_TAKE_SKU } from "./pricing";
+import { splitReportedRoyalties, VOICE_RELEASE_SKU, VOICE_SETUP_SKU, VOICE_SONG_SKU, VOICE_TAKE_SKU } from "./pricing";
 
 const base = {
   owner: false,
@@ -65,7 +65,10 @@ describe("voice song release review", () => {
   const draft = {
     artistName: "Awad Alaidaroos",
     title: "Window Down",
-    writer: "Awad Alaidaroos",
+    genre: "Pop",
+    releaseDate: "2027-03-15",
+    explicit: false,
+    writers: [{ name: "Awad Alaidaroos", sharePercent: 100 }],
     producer: "",
     aiVocals: true,
     aiMusic: true,
@@ -77,12 +80,44 @@ describe("voice song release review", () => {
   it("accepts a complete own-voice release and refuses imitation", () => {
     const ok = reviewRelease(draft);
     expect(ok.ok).toBe(true);
-    if (ok.ok) expect(ok.royaltyUserBps).toBe(9000);
+    if (ok.ok) {
+      expect(ok.royaltyUserBps).toBe(9000);
+      expect(ok.royaltyLyrixisBps).toBe(1000);
+      expect(ok.genre).toBe("Pop");
+      expect(ok.explicit).toBe(false);
+    }
     expect(reviewRelease({ ...draft, artistName: "Drake" }).ok).toBe(false);
-    expect(reviewRelease({ ...draft, writer: "" }).ok).toBe(false);
+    expect(reviewRelease({ ...draft, writers: [] }).ok).toBe(false);
+    expect(reviewRelease({ ...draft, writers: [{ name: "Awad Alaidaroos", sharePercent: 60 }, { name: "Sam Lee", sharePercent: 30 }] }).ok).toBe(false);
+    expect(reviewRelease({ ...draft, releaseDate: "2027-02-31" }).ok).toBe(false);
+    expect(reviewRelease({ ...draft, genre: "" }).ok).toBe(false);
     expect(reviewRelease({ ...draft, aiLyrics: false }).ok).toBe(false);
     expect(reviewRelease({ ...draft, rightsAccepted: false }).ok).toBe(false);
     expect(reviewRelease({ ...draft, releasesThisMonth: 4 }).ok).toBe(false);
+  });
+});
+
+describe("payments gate", () => {
+  it("stays closed unless VOICE_SONGS_PAYMENTS=live", () => {
+    expect(voicePaymentsLive({})).toBe(false);
+    expect(voicePaymentsLive({ STRIPE_SECRET_KEY: "sk_test_x", WALLET_API_KEY: "apx_test" })).toBe(false);
+    expect(voicePaymentsLive({ VOICE_SONGS_PAYMENTS: "live" })).toBe(true);
+  });
+
+  it("splits a reported amount 90 / 10 and keeps the store status pending", () => {
+    expect(splitReportedRoyalties(1000)).toEqual({ artistCents: 900, lyrixisCents: 100, status: "pending distributor" });
+    expect(displayStoreStatus("held")).toBe("pending distributor");
+    expect(displayStoreStatus("approved")).toBe("pending distributor");
+    expect(displayStoreStatus("rejected")).toBe("rejected");
+  });
+});
+
+describe("pending distributor", () => {
+  it("never reports a store listing", async () => {
+    const sent = await pendingDistributor.submit(release);
+    expect(sent.status).toBe("pending distributor");
+    expect(sent.message).toMatch(/not on Spotify, Apple Music, Tidal/i);
+    expect(sent.ref.startsWith("pending-")).toBe(true);
   });
 });
 
@@ -123,5 +158,13 @@ describe("checkout and release pages", () => {
     expect(sql).toContain("voice_releases_select");
     expect(sql).not.toMatch(/for insert/i);
     expect(sql).toContain("grant select, insert, update, delete on public.voice_releases to service_role");
+    const ledger = readFileSync(path.join(root, "database/migrations/0010_label_releases_ledger.sql"), "utf8");
+    expect(ledger).toContain("voice_royalty_ledger");
+    expect(ledger).toContain("pending distributor");
+    expect(ledger).toContain("enable row level security");
+    expect(ledger).not.toMatch(/for insert/i);
+    const record = readFileSync(path.join(root, "components/voice-songs/RecordPanel.tsx"), "utf8");
+    expect(record).toContain("RECORDING_SCRIPT");
+    expect(record).not.toContain("The beige fox jumped");
   });
 });

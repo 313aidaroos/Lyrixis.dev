@@ -2,20 +2,32 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import {
+  RECORDING_SCRIPT,
+  RETAKE_TIPS,
+  cuesForSample,
+  scriptProgress,
+  type ScriptCue,
+} from "@/lib/voice-songs/recording-script";
 import { SignInPrompt } from "./bits";
+import { stitchTakes } from "./stitch-takes";
 import { uploadToSignedUrl } from "./upload";
 import type { StudioPayload } from "./types";
 
 type Level = { peak: number; rms: number };
+type Take = { seconds: number; peak: number; rms: number; blob: Blob | null };
 
 export function RecordPanel({ data, demo, onChanged }: { data: StudioPayload; demo: boolean; onChanged: () => Promise<void> }) {
+  const [index, setIndex] = useState(0);
+  const [takes, setTakes] = useState<Record<string, Take>>({});
   const [recording, setRecording] = useState(false);
-  const [seconds, setSeconds] = useState(demo ? 192 : 0);
-  const [level, setLevel] = useState(demo ? 0.42 : 0);
+  const [seconds, setSeconds] = useState(0);
+  const [level, setLevel] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [tip, setTip] = useState<string | null>(null);
   const [warnings, setWarnings] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
-  const [saved, setSaved] = useState(demo);
+  const [saved, setSaved] = useState(false);
   const recRef = useRef<MediaRecorder | null>(null);
   const chunks = useRef<Blob[]>([]);
   const streamRef = useRef<MediaStream | null>(null);
@@ -23,16 +35,34 @@ export function RecordPanel({ data, demo, onChanged }: { data: StudioPayload; de
   const levels = useRef<Level>({ peak: 0, rms: 0 });
   const timer = useRef<number | null>(null);
 
+  const cue = RECORDING_SCRIPT[index] ?? RECORDING_SCRIPT[0];
+  const progress = scriptProgress(Object.keys(takes));
+
   useEffect(() => () => stopTracks(), []);
 
   function stopTracks() {
     streamRef.current?.getTracks().forEach((track) => track.stop());
+    streamRef.current = null;
     if (timer.current) window.clearInterval(timer.current);
+    timer.current = null;
+  }
+
+  function levelTip(current: ScriptCue, peak: number, rms: number): string | null {
+    if (current.kind === "room" && (rms > 0.08 || peak > 0.35)) {
+      return "The room is noisy. Close a window or step away from the fan, then re-record this check.";
+    }
+    if (current.kind !== "room" && peak >= 0.98) {
+      return "That take clipped. Move back a little and re-record this line.";
+    }
+    if (current.kind !== "room" && peak > 0 && peak < 0.04) {
+      return "That take is very quiet. Check the mic is selected, then re-record this line.";
+    }
+    return null;
   }
 
   async function start() {
     setError(null);
-    setSaved(false);
+    setTip(null);
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     streamRef.current = stream;
     const audio = new AudioContext();
@@ -69,6 +99,47 @@ export function RecordPanel({ data, demo, onChanged }: { data: StudioPayload; de
     }, 200);
   }
 
+  async function stop() {
+    const recorder = recRef.current;
+    const current = cue;
+    if (!recorder) return;
+    const durationSeconds = Math.max(1, (Date.now() - started.current) / 1000);
+    const mime = recorder.mimeType || "audio/webm";
+    const blob = await new Promise<Blob>((resolve) => {
+      recorder.onstop = () => resolve(new Blob(chunks.current, { type: mime }));
+      recorder.stop();
+    });
+    setRecording(false);
+    stopTracks();
+    const take = { seconds: durationSeconds, peak: levels.current.peak, rms: levels.current.rms, blob };
+    setTakes((prev) => ({ ...prev, [current.id]: take }));
+    setTip(levelTip(current, take.peak, take.rms));
+    setSaved(false);
+    const at = RECORDING_SCRIPT.findIndex((item) => item.id === current.id);
+    if (at >= 0 && at < RECORDING_SCRIPT.length - 1) setIndex(at + 1);
+  }
+
+  function markDemo() {
+    const current = cue;
+    setTakes((prev) => ({ ...prev, [current.id]: { seconds: current.seconds, peak: 0.4, rms: current.kind === "room" ? 0.01 : 0.2, blob: null } }));
+    setTip(null);
+    setSaved(false);
+    const at = RECORDING_SCRIPT.findIndex((item) => item.id === current.id);
+    if (at >= 0 && at < RECORDING_SCRIPT.length - 1) setIndex(at + 1);
+  }
+
+  function retake(id: string) {
+    setTakes((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+    const at = RECORDING_SCRIPT.findIndex((item) => item.id === id);
+    if (at >= 0) setIndex(at);
+    setSaved(false);
+    setTip("Re-record this line. The others stay as they are.");
+  }
+
   async function finish(blob: Blob, mime: string, durationSeconds: number, peak?: number, rms?: number) {
     setBusy(true);
     setError(null);
@@ -81,7 +152,7 @@ export function RecordPanel({ data, demo, onChanged }: { data: StudioPayload; de
       const json = (await prepared.json()) as { error?: { message?: string }; upload?: { signedUrl: string; path: string }; warnings?: string[] };
       if (!prepared.ok || !json.upload) throw new Error(json.error?.message || "Could not start the upload.");
       setWarnings(json.warnings ?? []);
-      await uploadToSignedUrl(json.upload.signedUrl, blob, "sample.webm");
+      await uploadToSignedUrl(json.upload.signedUrl, blob, mime.includes("wav") ? "sample.wav" : "sample.webm");
       const done = await fetch("/api/voice-songs/sample", {
         method: "PUT",
         headers: { "content-type": "application/json" },
@@ -98,18 +169,29 @@ export function RecordPanel({ data, demo, onChanged }: { data: StudioPayload; de
     }
   }
 
-  async function stop() {
-    const recorder = recRef.current;
-    if (!recorder) return;
-    const durationSeconds = Math.max(1, (Date.now() - started.current) / 1000);
-    const mime = recorder.mimeType || "audio/webm";
-    const blob = await new Promise<Blob>((resolve) => {
-      recorder.onstop = () => resolve(new Blob(chunks.current, { type: mime }));
-      recorder.stop();
-    });
-    setRecording(false);
-    stopTracks();
-    await finish(blob, mime, durationSeconds, levels.current.peak, levels.current.rms);
+  async function saveScript() {
+    if (demo) {
+      setSaved(true);
+      return;
+    }
+    const blobs = cuesForSample()
+      .map((item) => takes[item.id]?.blob)
+      .filter((blob): blob is Blob => blob instanceof Blob);
+    if (blobs.length < cuesForSample().length) {
+      setError("Record every line, including the consent line, before you save.");
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    try {
+      const wav = await stitchTakes(blobs);
+      const duration = cuesForSample().reduce((sum, item) => sum + (takes[item.id]?.seconds || 0), 0);
+      const peak = Math.max(...cuesForSample().map((item) => takes[item.id]?.peak || 0));
+      await finish(wav, "audio/wav", duration, peak, 0.2);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not join the lines.");
+      setBusy(false);
+    }
   }
 
   async function onFile(file: File) {
@@ -121,7 +203,6 @@ export function RecordPanel({ data, demo, onChanged }: { data: StudioPayload; de
       audio.onerror = () => resolve(0);
     });
     URL.revokeObjectURL(url);
-    setSeconds(Math.round(durationSeconds));
     await finish(file, file.type || "audio/webm", durationSeconds);
   }
 
@@ -135,7 +216,8 @@ export function RecordPanel({ data, demo, onChanged }: { data: StudioPayload; de
         throw new Error(json.error?.message || "Could not delete the voice.");
       }
       setSaved(false);
-      setSeconds(0);
+      setTakes({});
+      setIndex(0);
       await onChanged();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Delete failed.");
@@ -147,33 +229,76 @@ export function RecordPanel({ data, demo, onChanged }: { data: StudioPayload; de
   if (!data.signedIn && !demo) return <SignInPrompt next="/voice-songs/record" />;
 
   const clock = `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+  const elevenDemo = demo || !data.providers?.elevenlabs;
+
   return (
     <div className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
       <section className="card">
-        <p className="font-mono text-[11px] uppercase tracking-widest text-ink-3">Sample</p>
-        <h2 className="mt-2 font-display text-3xl font-bold">Record your voice</h2>
+        <p className="font-mono text-[11px] uppercase tracking-widest text-ink-3">Voice setup script</p>
+        <h2 className="mt-2 font-display text-3xl font-bold">Read it line by line</h2>
         <p className="mt-3 text-sm leading-relaxed text-ink-2">
-          Talk for a minute, then sing a little. Three minutes is the aim. Use a quiet room and stay a hand&apos;s width from the mic.
+          A quiet room, then the consent line, then a short phonetically balanced script. About three minutes in all.
         </p>
-        <ol className="mt-4 list-decimal space-y-1 pl-5 text-sm text-ink-2">
-          <li>Say your name and what the song is about.</li>
-          <li>Read two sentences at a normal pace.</li>
-          <li>Hum a melody, then sing a few lines you just wrote.</li>
-        </ol>
+        {elevenDemo && (
+          <p data-testid="elevenlabs-demo" className="mt-4 rounded-2xl border border-gold/40 bg-gold/10 px-4 py-3 text-sm text-gold">
+            Demo mode. ElevenLabs has no key on this server, so this does not train a live cloned voice.
+          </p>
+        )}
+
+        <div className="mt-6">
+          <div className="flex items-center justify-between gap-3 text-sm">
+            <p className="font-mono text-[11px] uppercase tracking-widest text-cyan" data-testid="script-progress">
+              {progress.label}
+            </p>
+            <p className="text-ink-3">{cue.title}</p>
+          </div>
+          <div
+            className="mt-2 h-2 overflow-hidden rounded-full bg-white/10"
+            role="progressbar"
+            aria-label="Script progress"
+            aria-valuemin={0}
+            aria-valuemax={progress.total}
+            aria-valuenow={progress.done}
+          >
+            <div className="h-full rounded-full bg-gradient-to-r from-violet to-cyan" style={{ width: `${Math.round(progress.ratio * 100)}%` }} />
+          </div>
+        </div>
+
+        <p className="mt-6 text-sm text-ink-3">{cue.pace}</p>
+        <p data-testid="script-line" className="mt-3 rounded-2xl border border-line bg-black/20 p-4 text-lg leading-relaxed text-ink">
+          {cue.text}
+        </p>
+
         <div className="mt-6 flex items-end justify-between gap-4">
-          <p className="font-body text-5xl font-extrabold tabular-nums">{clock}</p>
+          <p className="font-body text-5xl font-extrabold tabular-nums">{recording ? clock : `${cue.seconds}s`}</p>
           <div className="h-3 flex-1 overflow-hidden rounded-full bg-white/10" aria-hidden="true">
             <div className="h-full rounded-full bg-gradient-to-r from-violet to-cyan" style={{ width: `${Math.min(100, Math.round(level * 220))}%` }} />
           </div>
         </div>
+
         <div className="mt-6 flex flex-wrap gap-3">
-          {!recording ? (
-            <button type="button" className="btn-primary" disabled={busy || demo} onClick={() => void start().catch((err) => setError(err instanceof Error ? err.message : "Mic blocked."))}>
-              {busy ? "Saving…" : "Start recording"}
+          {demo ? (
+            <button type="button" className="btn-primary" data-testid="record-line" disabled={busy} onClick={markDemo}>
+              {takes[cue.id] ? "Mark this line again" : "Mark this line"}
+            </button>
+          ) : !recording ? (
+            <button
+              type="button"
+              className="btn-primary"
+              data-testid="record-line"
+              disabled={busy}
+              onClick={() => void start().catch((err) => setError(err instanceof Error ? err.message : "Mic blocked."))}
+            >
+              {takes[cue.id] ? "Re-record this line" : "Record this line"}
             </button>
           ) : (
             <button type="button" className="btn-secondary" onClick={() => void stop()}>
-              Stop and save
+              Stop
+            </button>
+          )}
+          {progress.complete && (
+            <button type="button" className="btn-primary" data-testid="save-sample" disabled={busy} onClick={() => void saveScript()}>
+              {busy ? "Saving…" : "Save sample"}
             </button>
           )}
           <label className="btn-secondary cursor-pointer">
@@ -190,6 +315,8 @@ export function RecordPanel({ data, demo, onChanged }: { data: StudioPayload; de
             />
           </label>
         </div>
+
+        {tip && <p className="mt-4 text-sm text-gold">{tip}</p>}
         {!data.owner && !demo && (
           <p className="mt-4 text-sm text-ink-2">
             Voice setup is $5 (500 Ixis).{" "}
@@ -198,22 +325,58 @@ export function RecordPanel({ data, demo, onChanged }: { data: StudioPayload; de
             </Link>
           </p>
         )}
-        {saved && <p className="mt-4 text-sm text-cyan">{demo ? "Demo sample, 3:12, level looks steady." : "Sample saved on your account."}</p>}
+        {saved && (
+          <p className="mt-4 text-sm text-cyan" data-testid="sample-saved">
+            {demo ? "Demo sample marked. Nothing was uploaded and no voice was cloned." : "Sample saved on your account."}
+          </p>
+        )}
         {warnings.map((warning) => (
           <p key={warning} className="mt-2 text-sm text-gold">{warning}</p>
         ))}
         {error && <p className="mt-3 text-sm text-magenta">{error}</p>}
       </section>
-      <aside className="card">
-        <h3 className="font-display text-xl font-bold">This account</h3>
-        <p className="mt-3 text-sm text-ink-2">{data.email || (demo ? "you@apixis.dev" : "Signed in")}</p>
-        <p className="mt-2 text-sm text-ink-3">
-          {data.profile?.sampleSeconds ? `${Math.round(data.profile.sampleSeconds)} seconds on file.` : demo ? "192 seconds on file." : "No sample yet."}
-        </p>
-        <button type="button" className="btn-secondary mt-6 px-4 py-2 text-sm" disabled={busy || (!data.profile && !demo)} onClick={() => void erase()}>
-          Delete my voice
-        </button>
-        <p className="mt-3 text-xs leading-relaxed text-ink-3">Deletes the sample, the model, and the songs tied to this voice. This cannot be undone.</p>
+
+      <aside className="space-y-4">
+        <article className="card">
+          <h3 className="font-display text-xl font-bold">Lines</h3>
+          <ol className="mt-4 space-y-2">
+            {RECORDING_SCRIPT.map((item, itemIndex) => {
+              const done = Boolean(takes[item.id]);
+              return (
+                <li key={item.id} className="flex items-center justify-between gap-3 text-sm">
+                  <button type="button" className={`text-left ${itemIndex === index ? "text-ink" : "text-ink-2"}`} onClick={() => setIndex(itemIndex)}>
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-ink-3">{done ? "Done" : "Open"}</span>
+                    <span className="mt-0.5 block">{item.title}</span>
+                  </button>
+                  {done && (
+                    <button type="button" className="text-sm font-semibold text-cyan" data-testid={`rerecord-${item.id}`} onClick={() => retake(item.id)}>
+                      Re-record
+                    </button>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+        </article>
+        <article className="card">
+          <h3 className="font-display text-xl font-bold">Retake tips</h3>
+          <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-ink-2">
+            {RETAKE_TIPS.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+        <article className="card">
+          <h3 className="font-display text-xl font-bold">This account</h3>
+          <p className="mt-3 text-sm text-ink-2">{data.email || (demo ? "you@apixis.dev" : "Signed in")}</p>
+          <p className="mt-2 text-sm text-ink-3">
+            {data.profile?.sampleSeconds ? `${Math.round(data.profile.sampleSeconds)} seconds on file.` : "No sample yet."}
+          </p>
+          <button type="button" className="btn-secondary mt-6 px-4 py-2 text-sm" disabled={busy || (!data.profile && !demo)} onClick={() => void erase()}>
+            Delete my voice
+          </button>
+          <p className="mt-3 text-xs leading-relaxed text-ink-3">Deletes the sample, the model, and the songs tied to this voice. This cannot be undone.</p>
+        </article>
       </aside>
     </div>
   );

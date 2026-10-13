@@ -111,7 +111,7 @@ export function VoiceStudio({
           Sing it <span className="grad-text">yourself.</span>
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-ink-2">
-          Record your own voice, read a phrase so we know it is you, write the lyric with Cixy, then preview a song sung in that voice.
+          Record your own voice from a guided script, read a phrase so we know it is you, write the lyric with Cixy, then preview a song sung in that voice.
         </p>
 
         <nav className="mt-8 flex gap-2 overflow-x-auto pb-1" aria-label="Voice song steps">
@@ -168,7 +168,7 @@ function Overview({ data, demo }: { data: StudioPayload; demo: boolean }) {
     { name: "Voice setup", price: `$${VOICE_SETUP_USD}`, ixis: `${VOICE_SETUP_IXIS} Ixis`, sku: VOICE_SETUP_SKU, note: "One-time. Your private model, including a re-record." },
     { name: "Voice song", price: `$${VOICE_SONG_USD}`, ixis: `${VOICE_SONG_IXIS} Ixis`, sku: VOICE_SONG_SKU, note: `${TAKES_INCLUDED} takes, lyric edits, and a watermarked preview.` },
     { name: "Extra take", price: "Ixis", ixis: `${VOICE_TAKE_IXIS} Ixis`, sku: VOICE_TAKE_SKU, note: "One more full take after the three included." },
-    { name: "Release", price: `$${VOICE_RELEASE_USD}`, ixis: `${VOICE_RELEASE_IXIS} Ixis`, sku: VOICE_RELEASE_SKU, note: "One single, sent after review. You keep 90% of master royalties." },
+    { name: "Release", price: `$${VOICE_RELEASE_USD}`, ixis: `${VOICE_RELEASE_IXIS} Ixis`, sku: VOICE_RELEASE_SKU, note: "One single, held as pending distributor. You keep 90% of master royalties." },
   ];
   return (
     <div className="space-y-8">

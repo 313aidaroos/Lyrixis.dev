@@ -9,6 +9,7 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
+    "test:e2e": "playwright test",
     "test:ui": "vitest --ui",
     "worker": "tsx workers/index.ts",
     "worker:build": "esbuild workers/index.ts --bundle --platform=node --target=node22 --format=esm --packages=external --outfile=dist/worker.mjs",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
+    "@playwright/test": "^1.64.0",
     "@types/node": "^22.13.4",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
