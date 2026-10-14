@@ -47,6 +47,7 @@ export function SiteFooter() {
           <Link href="/vision" className="hover:text-ink">Vision & FAQ</Link>
           <Link href="/updates" className="hover:text-ink">Updates</Link>
           <Link href="/waitlist" className="hover:text-ink">Early access</Link>
+          <Link href="/login?mode=forgot" className="hover:text-ink">Forgot password</Link>
           <a href="mailto:lyrixis@apixis.dev?subject=Terms%20request" className="hover:text-ink">Terms</a>
           <a href="mailto:lyrixis@apixis.dev?subject=Privacy%20request" className="hover:text-ink">Privacy</a>
           <a href="mailto:lyrixis@apixis.dev?subject=DMCA%20notice" className="hover:text-ink">Copyright / DMCA</a>

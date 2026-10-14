@@ -1,20 +1,10 @@
-// Change note (Claude, Sep 2026): New. `assertRateLimit()` (Redis-backed). See docs/LAUNCH_NOTES.md.
-import IORedis from "ioredis";
-import { getRedisUrl } from "@/lib/env";
+// Public limiters. Per-instance memory only. Uploads are capped by a DB row count in
+// services/tracks.ts, so none of these need Redis.
 import { HttpError } from "@/lib/errors";
-
-let redis: IORedis | null = null;
 
 const WAITLIST_WINDOW_SEC = 10 * 60;
 const WAITLIST_MAX = 8;
 const waitlistHits = new Map<string, { count: number; resetAt: number }>();
-
-function getRedis(): IORedis {
-  if (!redis) {
-    redis = new IORedis(getRedisUrl(), { maxRetriesPerRequest: 3 });
-  }
-  return redis;
-}
 
 function throwWaitlistLimited(): never {
   throw new HttpError(429, "rate_limited", "Too many requests. Try again in a few minutes.");
@@ -30,9 +20,6 @@ function assertMemoryWaitlistLimit(ip: string): void {
   current.count += 1;
   if (current.count > WAITLIST_MAX) throwWaitlistLimited();
 }
-
-// assertUploadRateLimit (Redis) was removed 2026-10-05: uploads are capped by a DB row count in
-// services/tracks.ts (checkUploadRateLimit), so uploads work without REDIS_URL.
 
 const INGEST_WINDOW_SEC = 10 * 60;
 const INGEST_MAX = 6;
@@ -54,72 +41,29 @@ function assertMemoryIngestLimit(ip: string): void {
 }
 
 export async function assertCatalogIngestRateLimit(ip: string): Promise<void> {
-  const identity = ip || "unknown";
-  if (!process.env.REDIS_URL) {
-    assertMemoryIngestLimit(identity);
-    return;
-  }
-  try {
-    const key = `rl:catalog-ingest:${identity}`;
-    const count = await getRedis().incr(key);
-    if (count === 1) {
-      await getRedis().expire(key, INGEST_WINDOW_SEC);
-    }
-    if (count > INGEST_MAX) throwIngestLimited();
-  } catch (error) {
-    if (error instanceof HttpError) throw error;
-    assertMemoryIngestLimit(identity);
-  }
+  assertMemoryIngestLimit(ip || "unknown");
 }
 
-/** Light public limiter. Uses Redis when REDIS_URL is set; otherwise per-instance memory. */
+/** Light public limiter. */
 export async function assertWaitlistRateLimit(ip: string): Promise<void> {
-  const identity = ip || "unknown";
-  if (!process.env.REDIS_URL) {
-    assertMemoryWaitlistLimit(identity);
-    return;
-  }
-  try {
-    const key = `rl:waitlist:${identity}`;
-    const count = await getRedis().incr(key);
-    if (count === 1) {
-      await getRedis().expire(key, WAITLIST_WINDOW_SEC);
-    }
-    if (count > WAITLIST_MAX) throwWaitlistLimited();
-  } catch (error) {
-    if (error instanceof HttpError) throw error;
-    assertMemoryWaitlistLimit(identity);
-  }
+  assertMemoryWaitlistLimit(ip || "unknown");
 }
 
 const genericMemory = new Map<string, { count: number; resetAt: number }>();
 
-/** Named fixed-window limit. Uses Redis when REDIS_URL is set; otherwise per-instance memory. */
+/** Named fixed-window limit. */
 export async function assertRateLimit(name: string, identity: string, max: number, windowSec: number): Promise<void> {
   const id = identity || "unknown";
-  const limited = () => {
+  const now = Date.now();
+  const key = `${name}:${id}`;
+  const current = genericMemory.get(key);
+  if (!current || current.resetAt <= now) {
+    genericMemory.set(key, { count: 1, resetAt: now + windowSec * 1000 });
+    if (genericMemory.size > 5000) genericMemory.clear();
+    return;
+  }
+  current.count += 1;
+  if (current.count > max) {
     throw new HttpError(429, "rate_limited", "Too many requests. Please wait a few minutes.");
-  };
-  const memory = () => {
-    const now = Date.now();
-    const key = `${name}:${id}`;
-    const current = genericMemory.get(key);
-    if (!current || current.resetAt <= now) {
-      genericMemory.set(key, { count: 1, resetAt: now + windowSec * 1000 });
-      if (genericMemory.size > 5000) genericMemory.clear();
-      return;
-    }
-    current.count += 1;
-    if (current.count > max) limited();
-  };
-  if (!process.env.REDIS_URL) return memory();
-  try {
-    const key = `rl:${name}:${id}`;
-    const count = await getRedis().incr(key);
-    if (count === 1) await getRedis().expire(key, windowSec);
-    if (count > max) limited();
-  } catch (error) {
-    if (error instanceof HttpError) throw error;
-    memory();
   }
 }

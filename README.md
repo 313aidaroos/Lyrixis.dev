@@ -18,10 +18,8 @@ Deferred (schema only): public API keys UI, batch upload, org admin, translation
 |---|---|
 | Marketing (`public/index.html`) | Static, rewritten to `/` |
 | Next.js App Router | Vercel (or `npm run dev`) — auth, dashboard, upload, Wallet redeem, APIs |
-| Lyrixis pipeline (`workers/pipeline.ts`) | **Default (2026-10-05): inside Vercel.** Finalizing an upload (`POST /api/tracks`) or pressing Retry (`POST /api/tracks/:id/retry`) runs `processTrack` via Next `after()` in that function (maxDuration 300 s, Hobby). ffmpeg comes from `ffmpeg-static`. |
-| BullMQ worker (`npm run worker`) | Optional (Option A): set `PROCESSING_MODE=queue` + `REDIS_URL` and run the worker on Railway / Fly / Render. |
+| Lyrixis pipeline (`workers/pipeline.ts`) | Inside Vercel. Finalizing an upload (`POST /api/tracks`) or pressing Retry (`POST /api/tracks/:id/retry`) runs `processTrack` via Next `after()` (maxDuration 300 s). ffmpeg comes from `ffmpeg-static`. Whisper transcribes. |
 | Postgres + Auth + private Storage | Supabase |
-| Queue | Redis, only when `PROCESSING_MODE=queue` |
 | Transcription | Env-selected provider (`TRANSCRIPTION_PROVIDER=whisper_v3`) |
 
 Pricing is read from `pricing_tiers` on the server. The frontend never calculates a charged price. Single-track jobs use job size = 1 (the 300 Ixis tier, same as the Wallet product `lyrixis.track.unlock`, unless an org `custom_rate_cents` is set).
@@ -35,9 +33,7 @@ npm install
 cp .env.example .env.local
 ```
 
-Copy the same values into `.env` for the worker, or keep using `.env.local` (the worker loads both).
-
-Install **ffmpeg** on the machine that runs the worker (`ffmpeg -version`).
+ffmpeg is the bundled `ffmpeg-static` binary. Set `FFMPEG_PATH` only if you want a different binary.
 
 ### 2. Supabase
 
@@ -47,15 +43,13 @@ Install **ffmpeg** on the machine that runs the worker (`ffmpeg -version`).
 4. Copy project URL, anon key, and **service role** key into `.env.local`.
 5. Confirm Storage bucket `lyrixis-audio-private` is **private**.
 
-### 3. Redis
+### 3. Payments
 
-Run Redis locally (`redis-server` or Docker) and set `REDIS_URL=redis://127.0.0.1:6379`.
+Ixis stays in the Apixis Wallet. A track unlock is the Wallet product `lyrixis.track.unlock` (300 Ixis). `POST /api/redeem` holds the Ixis, records the unlock in `track_unlocks`, then captures (released if recording fails). Set `WALLET_API_KEY` from `npm run family-keys` in the ApixisWallet repo.
 
-### 4. Payments (Apixis Wallet)
+Card checkout is optional. Set `STRIPE_SECRET_KEY` (and `STRIPE_WEBHOOK_SECRET` for the renewal notice) to open it. Without those keys the site shows “Card coming soon” and Ixis keeps working. Card payments do not create an Ixis balance.
 
-Lyrixis takes no card payments. A track unlock is the Wallet product `lyrixis.track.unlock` (300 Ixis). `POST /api/redeem` holds the Ixis, records the unlock in `track_unlocks`, then captures (released if recording fails). Set `WALLET_API_KEY` from `npm run family-keys` in the ApixisWallet repo. The old Stripe Checkout code was removed (Sep 2026); the `stripe_*` columns in the schema are unused.
-
-### 5. Transcription provider
+### 4. Transcription provider
 
 Set a real key. There is no mock path.
 
@@ -71,13 +65,10 @@ LANGUAGE_PROVIDER=whisper
 
 If `TRANSCRIPTION_API_KEY` is missing, the job fails with a clear error.
 
-### 6. Run
-
-Two processes:
+### 5. Run
 
 ```bash
 npm run dev          # http://localhost:3000  (marketing at /, app at /login)
-npm run worker       # BullMQ consumer
 ```
 
 Then: Sign in → Upload → wait for status → preview → Unlock (Ixis) → exports.
@@ -110,16 +101,16 @@ Nothing in this repo talks to live vendors without keys. Before a paying-custome
 |---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | Auth, DB, Storage |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Browser + SSR auth |
-| `SUPABASE_SERVICE_ROLE_KEY` | Worker + privileged API (never expose to the browser) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Privileged API (never expose to the browser) |
 | `WALLET_API_KEY` | Apixis Wallet key for track unlocks (from `npm run family-keys`) |
-| `REDIS_URL` | Only for `PROCESSING_MODE=queue` (Option A); uploads are rate-limited by a DB row count |
+| `STRIPE_SECRET_KEY` | Optional. Card checkout. Leave unset to show “Card coming soon”. |
 | `TRANSCRIPTION_API_KEY` | Whisper (or OpenAI-compatible) transcription |
 | ffmpeg | Bundled (`ffmpeg-static`); `FFMPEG_PATH` overrides. Normalizes to 16 kHz mono MP3 64k (a 12-min song is ~6 MB, under Whisper's 25 MB limit) |
 | `APP_URL` | Public URL for links and OAuth redirects |
 
 Google OAuth also needs the client ID/secret configured **inside the Supabase dashboard**, not in this repo.
 
-Deploy the Next.js app to Vercel; lyrics processing runs there too (no Redis, no worker). A track left processing past the 300 s limit is marked failed on the next view and gets a **Retry processing** button. For songs that need more time, move to Vercel Pro (raise `maxDuration` to 800 in `app/api/tracks/route.ts` and `app/api/tracks/[id]/retry/route.ts`) or switch to Option A (`PROCESSING_MODE=queue`, `REDIS_URL`, `npm run worker`).
+Deploy the Next.js app to Vercel. Lyrics processing runs there (`ffmpeg-static` + Whisper). A track left processing past the 300 s limit is marked failed on the next view and gets a **Retry processing** button. For songs that need more time, move to Vercel Pro and raise `maxDuration` to 800 in `app/api/tracks/route.ts` and `app/api/tracks/[id]/retry/route.ts`.
 
 ## Docs
 

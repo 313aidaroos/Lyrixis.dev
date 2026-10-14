@@ -166,15 +166,19 @@ export function CheckoutPanel({
             </select>
           </label>
         )}
-        <div className="mt-6 flex flex-wrap gap-3">
+        <div className="mt-6 flex flex-wrap items-center gap-3">
           <button type="button" className="btn-primary" disabled={busy || (needsSong && !chosenSong) || (!demo && !data.owner && !paymentsOpen)} onClick={() => void pay("ixis")}>
             {busy ? "Working…" : `Pay ${product.ixis}`}
           </button>
-          {product.card && (
-            <button type="button" className="btn-secondary" disabled={busy || (needsSong && !chosenSong) || (!demo && !data.owner && !paymentsOpen)} onClick={() => void pay("card")}>
+          {product.card && (data.payments?.card ? (
+            <button type="button" className="btn-secondary" disabled={busy || (needsSong && !chosenSong)} onClick={() => void pay("card")}>
               Pay {product.price} by card
             </button>
-          )}
+          ) : (
+            <span data-testid="card-coming-soon" className="inline-flex items-center rounded-full border border-gold/40 px-3 py-2 font-mono text-[10px] uppercase tracking-widest text-gold">
+              Card coming soon
+            </span>
+          ))}
         </div>
         {data.owner && <p className="mt-4 text-sm text-cyan">Owner test pass. This account skips the charge.</p>}
         {!paymentsOpen && (

@@ -18,7 +18,7 @@ export default async function UploadPage({ searchParams }: { searchParams: Promi
         <p className="mt-3 text-ink-2">
           One file, rights confirmation required. Lyrics start processing as soon as the file is stored, usually in
           about a minute; the track page updates by itself. One song is $3 (300 Ixis). All-Access is $30 a month.
-          Card checkout is not open yet. Ixis top-ups are in the Apixis Wallet.
+          Card coming soon until card checkout is turned on. Ixis top-ups are in the Apixis Wallet.
         </p>
         {demo && (
           <p className="mt-4 rounded-2xl border border-gold/40 bg-gold/10 px-4 py-3 text-sm text-gold">

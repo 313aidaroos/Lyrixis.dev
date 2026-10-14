@@ -19,7 +19,7 @@ const FAQS = [
   },
   {
     q: "Is search free?",
-    a: "The public catalog on this site is free to search. Unlocking one song is $3 (300 Ixis). Lyrixis All-Access is $30 a month (3,000 Ixis). Pay by card or with Ixis. Card checkout is not open yet. Ixis top-ups are in the Apixis Wallet.",
+    a: "The public catalog on this site is free to search. Unlocking one song is $3 (300 Ixis). Lyrixis All-Access is $30 a month (3,000 Ixis). Pay by card or with Ixis. Card coming soon until card checkout is turned on. Ixis top-ups are in the Apixis Wallet.",
   },
   {
     q: "Why is the background karaoke?",

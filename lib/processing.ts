@@ -1,12 +1,6 @@
-// 2026-10-05 (Grok): Option B — run the lyrics pipeline inside a Vercel function, no Redis, no
-// separate worker. The upload-finalize request (POST /api/tracks) and the retry route schedule
-// `processTrack` with Next's `after()`, so the response returns immediately and the pipeline keeps
-// running in the same function invocation until it finishes or hits maxDuration.
-//
-// Option A (BullMQ + `npm run worker` on Railway etc.) still works: set PROCESSING_MODE=queue and
-// REDIS_URL, and run the worker. `workers/index.ts` and `lib/queue.ts` are untouched.
-// next/server is imported lazily inside startTrackProcessing so this module (pulled in through
-// services/tracks) stays importable by the standalone worker bundle (Option A).
+// Lyrics run inside the Vercel function that accepted the upload. ffmpeg-static normalizes
+// the audio and Whisper transcribes it. There is no Redis queue and no Railway worker.
+// next/server is imported lazily so this module stays importable from tests and services.
 
 /**
  * Vercel Hobby with Fluid compute allows functions up to 300 s (Pro: 800 s). The project is on
@@ -22,10 +16,10 @@ export const ACTIVE_STATUSES = new Set(["queued", "processing", "transcribing", 
 
 export const STUCK_MESSAGE = "Processing stopped before it finished (time limit). Press Retry to run it again.";
 
-export type ProcessingMode = "inline" | "queue";
+export type ProcessingMode = "inline";
 
 export function processingMode(): ProcessingMode {
-  return process.env.PROCESSING_MODE?.trim().toLowerCase() === "queue" ? "queue" : "inline";
+  return "inline";
 }
 
 export function isStuck(track: { status: string; updated_at?: string | null }, now = Date.now()): boolean {
@@ -51,10 +45,6 @@ export function canRetry(track: { status: string; updated_at?: string | null; au
  * processing_jobs.queue_job_id ("inline" for Option B). Must be called inside a request.
  */
 export async function startTrackProcessing(trackId: string): Promise<string> {
-  if (processingMode() === "queue") {
-    const { enqueueTrackProcessing } = await import("@/lib/queue");
-    return enqueueTrackProcessing(trackId);
-  }
   const { after } = await import("next/server");
   after(async () => {
     try {

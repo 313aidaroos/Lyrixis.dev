@@ -283,7 +283,7 @@ async function queueStoredTrack(input: {
     throw new HttpError(500, "update_failed", updateError.message);
   }
 
-  const queueJobId = processingMode() === "queue" ? `track-${input.trackId}` : "inline";
+  const queueJobId = processingMode();
   const { error: jobsError } = await admin.from("processing_jobs").insert(
     PIPELINE_STEPS.map((step) => ({
       track_id: input.trackId,

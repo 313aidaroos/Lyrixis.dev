@@ -50,6 +50,9 @@ export function AppNav({ email }: { email?: string | null }) {
           <Link href="/pricing" className={linkClass("/pricing")}>
             Pricing
           </Link>
+          <Link href="/login?mode=forgot" className={linkClass("/login")}>
+            Forgot password
+          </Link>
           <a href={enterApixisUrl("lyrixis")} className="text-sm text-ink-2 hover:text-ink">
             Apixis World ↗
           </a>

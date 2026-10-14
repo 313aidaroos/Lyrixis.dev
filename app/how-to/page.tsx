@@ -72,7 +72,7 @@ const STEPS: { id: string; title: string; body: string[]; image?: { src: string;
     body: [
       `Without a plan, press Unlock full lyrics · ${TRACK_UNLOCK_IXIS} Ixis. That is $3, paid from your Apixis Wallet. This unlock works today.`,
       `Lyrixis All-Access is $${ALL_ACCESS_MONTHLY_USD} a month (${ALL_ACCESS_MONTHLY_IXIS.toLocaleString()} Ixis). ${ALL_ACCESS_TERMS}`,
-      "You can pay by card or with Ixis. 100 Ixis equals $1. Card checkout is not open yet. Add Ixis in the Apixis Wallet.",
+      "You can pay by card or with Ixis. 100 Ixis equals $1. Card coming soon until card checkout is turned on. Add Ixis in the Apixis Wallet.",
       "After a song is unlocked you can correct a line and download TXT, SRT, LRC, or JSON.",
     ],
     image: {
