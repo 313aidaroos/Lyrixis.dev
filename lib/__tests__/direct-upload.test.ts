@@ -100,7 +100,7 @@ vi.mock("@/lib/apixis-wallet", () => ({
 }));
 
 function post(body: unknown) {
-  return new Request("https://lyrixis.vercel.app/api/redeem", {
+  return new Request("https://lyrixis.apixis.dev/api/redeem", {
     method: "POST",
     headers: { "content-type": "application/json", "x-idempotency-key": "attempt-1234-5678" },
     body: JSON.stringify(body),

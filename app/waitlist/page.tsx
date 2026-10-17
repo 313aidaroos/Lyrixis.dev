@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 async function waitlistCount(): Promise<number | null> {
   try {
-    const res = await fetch(`${process.env.APP_URL ?? "https://lyrixis.vercel.app"}/api/waitlist`, {
+    const res = await fetch(`${process.env.APP_URL ?? "https://lyrixis.apixis.dev"}/api/waitlist`, {
       cache: "no-store",
     });
     if (!res.ok) return null;
