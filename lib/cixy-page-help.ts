@@ -3,7 +3,7 @@
  * Steps describe what the Lyrixis code on each page actually does. Keep them plain and short.
  * Cixy's picture is the shared family photo, never an SVG stand-in. No religious wording.
  */
-export const CIXY_AVATAR_SRC = "/cixy/cixy-combo-a-avatar.webp";
+export const CIXY_AVATAR_SRC = "/cixy/cixy-lyrixis-avatar.webp";
 
 export type CixyPageHelpEntry = {
   title: string;
