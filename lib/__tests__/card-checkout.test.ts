@@ -16,12 +16,12 @@ describe("card checkout gate", () => {
     expect(allAccessCardCents()).toBe(3000);
     expect(CARD_COMING_SOON).toBe("Card coming soon");
     expect(publicCardMessage("refused sk_live_secret")).toBe(CARD_COMING_SOON);
-    const song = checkoutForm({ userId: "user-1", product: "track", trackId: "rec_1", kind: "catalog", origin: "https://lyrixis.vercel.app" });
+    const song = checkoutForm({ userId: "user-1", product: "track", trackId: "rec_1", kind: "catalog", origin: "https://lyrixis.apixis.dev" });
     expect(song.get("mode")).toBe("payment");
     expect(song.get("line_items[0][price_data][unit_amount]")).toBe("300");
     expect(song.get("metadata[user_id]")).toBe("user-1");
     expect(song.get("metadata[track_id]")).toBe("rec_1");
-    const plan = checkoutForm({ userId: "user-1", product: "all_access", origin: "https://lyrixis.vercel.app" });
+    const plan = checkoutForm({ userId: "user-1", product: "all_access", origin: "https://lyrixis.apixis.dev" });
     expect(plan.get("mode")).toBe("subscription");
     expect(plan.get("line_items[0][price_data][unit_amount]")).toBe("3000");
     expect(plan.get("subscription_data[metadata][product]")).toBe("all_access");

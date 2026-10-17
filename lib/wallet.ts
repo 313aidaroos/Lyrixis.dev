@@ -17,8 +17,8 @@ export const WALLET_ORIGIN = "lyrixis";
  * Pricing stays a quote page, not the return landing.
  */
 export const WALLET_RETURN_URLS = {
-  dashboard: "https://lyrixis.vercel.app/dashboard",
-  pricing: "https://lyrixis.vercel.app/pricing",
+  dashboard: "https://lyrixis.apixis.dev/dashboard",
+  pricing: "https://lyrixis.apixis.dev/pricing",
 } as const;
 
 export type WalletReturnUrl = (typeof WALLET_RETURN_URLS)[keyof typeof WALLET_RETURN_URLS];

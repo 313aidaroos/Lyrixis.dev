@@ -108,7 +108,7 @@ async function redeemUpload(request: NextRequest, user: AppUser & { email: strin
   });
 }
 const PRODUCT_KEY = 'lyrixis.track.unlock'; // 300 Ixis, metered per-use
-const SITE = 'https://lyrixis.vercel.app';
+const SITE = 'https://lyrixis.apixis.dev';
 
 /**
  * Unlock one public catalog recording for the signed-in user — or, with kind "upload" (or a trx_ id),

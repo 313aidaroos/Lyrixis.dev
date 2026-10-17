@@ -23,7 +23,7 @@ describe("walletBuyUrl", () => {
 
   it("accepts the pricing return and rejects anything else", () => {
     const pricing = new URL(walletBuyUrl(WALLET_RETURN_URLS.pricing));
-    expect(pricing.searchParams.get("return_url")).toBe("https://lyrixis.vercel.app/pricing");
+    expect(pricing.searchParams.get("return_url")).toBe("https://lyrixis.apixis.dev/pricing");
 
     expect(() => walletBuyUrl("https://evil.example/steal" as never)).toThrow(/allowlist/);
   });

@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
         from: process.env.EMAIL_FROM || 'Lyrixis <lyrixis@apixis.dev>',
         to: 'awad@apixis.dev',
         subject: `Lyrixis Support: ${subject || 'General inquiry'}`,
-        text: `New support ticket ${ticket.id}\n\nFrom: ${email}\nCategory: ${category || 'general'}\nSubject: ${subject || 'General inquiry'}\n\nMessage:\n${message}\n\nView: https://lyrixis.vercel.app/admin/support/${ticket.id}`,
+        text: `New support ticket ${ticket.id}\n\nFrom: ${email}\nCategory: ${category || 'general'}\nSubject: ${subject || 'General inquiry'}\n\nMessage:\n${message}\n\nView: https://lyrixis.apixis.dev/admin/support/${ticket.id}`,
       });
     } catch (emailError) {
       console.error('Email send failed:', emailError);

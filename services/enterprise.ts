@@ -16,7 +16,7 @@ import {
 } from "@/lib/enterprise-access";
 import type { AppUser } from "@/types";
 
-const SITE = "https://lyrixis.vercel.app";
+const SITE = "https://lyrixis.apixis.dev";
 
 interface DbError {
   code?: string;
