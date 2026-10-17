@@ -16,11 +16,18 @@ export const metadata: Metadata = {
   title: "Lyrixis — The intelligence layer for music catalogs",
   description:
     "Lyrixis All-Access is $30 a month, or $3 per song for synced lyrics. Pay by card or with Ixis. Labels and companies contact sales.",
-  icons: { icon: "/favicon.png" },
+  icons: {
+    icon: [
+      { url: "/brand/favicon.ico", sizes: "any" },
+      { url: "/brand/favicon-32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [{ url: "/brand/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  manifest: "/manifest.webmanifest",
   openGraph: {
     title: "Lyrixis — Music. Understood.",
     description: "All-Access is $30 a month (3,000 Ixis), or $3 (300 Ixis) per song. Lyric video, translations, and Voices are coming soon.",
-    images: ["/lyrixis-logo.png"],
+    images: [{ url: "/brand/og-image.png", width: 1200, height: 630 }],
   },
 };
 

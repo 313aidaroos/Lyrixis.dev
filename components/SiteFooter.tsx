@@ -10,10 +10,7 @@ export function SiteFooter() {
       <div className="seam" />
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 sm:grid-cols-5">
         <div className="sm:col-span-2">
-          <div className="flex items-center gap-2.5">
-            <img src="/lyrixis-mark.png" alt="" className="mark-glow h-8 w-8 object-contain" />
-            <p className="font-display text-sm tracking-[0.24em]">LYRIXIS</p>
-          </div>
+          <img src="/brand/logo-full.png" alt="Lyrixis" className="h-12 w-auto object-contain" />
           <p className="mt-4 max-w-sm text-sm text-ink-3">
             The intelligence layer for music catalogs. Music. Understood. All-Access is $30 a month, or $3 a song.
             Labels and companies: contact sales.

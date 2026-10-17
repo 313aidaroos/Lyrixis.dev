@@ -1,0 +1,24 @@
+{
+  "name": "Lyrixis",
+  "domain": "lyrixis.dev",
+  "tagline": "Music. Understood.",
+  "colors": {
+    "primary": "#8b5cf6",
+    "accent": "#22d3ee",
+    "background": "#07061a",
+    "text": "#f4f2ff"
+  },
+  "fonts": ["Manrope", "Monoton", "Martian Mono"],
+  "files": {
+    "logo-full": "logo-full.png",
+    "logo-full-white": "logo-full-white.png",
+    "mark": "mark.png",
+    "mark-white": "mark-white.png",
+    "favicon": "favicon.ico",
+    "favicon-32": "favicon-32.png",
+    "apple-touch-icon": "apple-touch-icon.png",
+    "icon-192": "icon-192.png",
+    "icon-512": "icon-512.png",
+    "og-image": "og-image.png"
+  }
+}

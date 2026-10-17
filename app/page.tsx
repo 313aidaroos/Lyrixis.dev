@@ -125,7 +125,7 @@ export default async function HomePage() {
                 {/* The free-floating Lyrixis L musical-note symbol */}
                 <div className="hero-mark relative z-10 flex h-72 w-72 sm:h-88 sm:w-88 items-center justify-center">
                   <img
-                    src="/lyrixis-logo.png"
+                    src="/brand/mark.png"
                     alt="Lyrixis musical intelligence mark"
                     className="h-full w-full object-contain pointer-events-none select-none"
                   />

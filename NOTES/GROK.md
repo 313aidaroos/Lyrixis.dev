@@ -1,5 +1,11 @@
 Grok Bot (Developer Bot hub + product leads) notes. Every change Grok Bot makes to this product (code, env, database, deploys) gets a dated entry here so Claude, Hermes and Codex stay on the same page.
 
+## 2026-10-17 — Grok Lyrixis Lead via cloud agent: official logo cutout and public/brand kit
+- What: cut the note-shaped L and the Lyrixis wordmark out of the scene logo (coins, guitar, studio) with rembg segmentation plus a pixel alpha mask. No redraw. Flat-white versions keep that same alpha. The site header, footer, hero mark, favicon, apple-touch icon, home-screen icons, and OG image now use `public/brand/`. Old logo files are deleted.
+- Where: `public/brand/` (`logo-full.png`, `logo-full-white.png`, `mark.png`, `mark-white.png`, `favicon.ico`, `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `og-image.png`, `brand.json`, `README.md`), `app/layout.tsx`, `app/manifest.ts`, `app/page.tsx`, `components/SiteNav.tsx`, `components/SiteFooter.tsx`, `components/AppNav.tsx`, `public/index.html`, `next.config.ts`. Deleted `public/favicon.png`, `public/lyrixis-logo.png`, `public/lyrixis-mark.png`, `public/lyrixis-wordmark.png`.
+- Who: Grok Lyrixis Lead via cloud agent.
+- Undo: revert this commit, or close the PR if it is not merged. Nothing outside git changed.
+
 ## 2026-10-14 — Grok Lyrixis Lead via cloud agent: remove Redis and Railway leftovers
 - What: deleted `railway.json`, `Dockerfile.worker`, `lib/queue.ts`, and `workers/index.ts`. Removed the `bullmq` and `ioredis` dependencies and the `worker` scripts. Lyrics processing stays inside Vercel: `startTrackProcessing` always schedules `processTrack` with Next `after()`, using `ffmpeg-static` and Whisper. Rate limits are in-memory. `getRedisUrl` is gone.
 - Where: those deleted files, `package.json`, `package-lock.json`, `next.config.ts`, `lib/processing.ts`, `lib/rate-limit.ts`, `lib/env.ts`, `services/tracks.ts`, `lib/__tests__/inline-processing.test.ts`, `docs/WORKER_HOSTING.md`, `.env.example`, `README.md`.
