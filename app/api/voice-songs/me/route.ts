@@ -1,6 +1,7 @@
 import { connection } from "next/server";
 import { jsonError, HttpError } from "@/lib/errors";
 import { isWalletConfigured } from "@/lib/apixis-wallet";
+import { cardCheckoutReady } from "@/lib/card-checkout";
 import { voicePaymentsLive } from "@/lib/voice-songs/checkout";
 import { voiceProviderStatus } from "@/lib/voice-songs/config";
 import { VOICE_CONSENT_TEXT } from "@/lib/voice-songs/consent";
@@ -8,7 +9,7 @@ import { studioSnapshot, voiceSession } from "@/lib/voice-songs/service";
 
 function payments() {
   return {
-    card: Boolean(process.env.STRIPE_SECRET_KEY?.trim()),
+    card: cardCheckoutReady(),
     wallet: isWalletConfigured(),
     live: voicePaymentsLive(),
   };

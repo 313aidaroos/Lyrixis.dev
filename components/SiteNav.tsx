@@ -153,12 +153,18 @@ export function SiteNav() {
               <Link href="/dashboard" className="nav-link text-ink-2 hover:text-ink" data-active={active("/dashboard")}>
                 Dashboard
               </Link>
+              <Link href="/login?mode=forgot" className="nav-link hidden text-ink-2 hover:text-ink xl:inline">
+                Forgot password
+              </Link>
               <button type="button" onClick={() => void signOut()} className="text-ink-2 hover:text-ink">
                 Sign out
               </button>
             </>
           ) : (
             <>
+              <Link href="/login?mode=forgot" className="nav-link hidden text-ink-2 hover:text-ink xl:inline">
+                Forgot password
+              </Link>
               <Link href="/login" className="nav-link text-ink-2 hover:text-ink" data-active={active("/login")}>
                 Sign in
               </Link>
@@ -208,6 +214,9 @@ export function SiteNav() {
             </Link>
             <Link href="/pricing" onClick={() => setOpen(false)}>
               Pricing
+            </Link>
+            <Link href="/login?mode=forgot" onClick={() => setOpen(false)}>
+              Forgot password
             </Link>
             <a href={WALLET_BUY_URL} onClick={() => setOpen(false)}>
               Wallet

@@ -3,6 +3,7 @@ import { redeem, buyIxisUrl, isWalletConfigured, entitlements, WalletError } fro
 import { apixisOwner } from "@/lib/apixis-login";
 import { HttpError } from "@/lib/errors";
 import { getAppUrl } from "@/lib/env";
+import { CARD_COMING_SOON, cardAllAccessActive, cardCheckoutReady, publicCardMessage } from "@/lib/card-checkout";
 import {
   VOICE_RELEASE_SKU,
   VOICE_SETUP_SKU,
@@ -71,7 +72,7 @@ export async function usageThisMonth(userId: string) {
   };
 }
 
-export async function hasAllAccess(email: string): Promise<boolean> {
+async function walletAllAccess(email: string): Promise<boolean> {
   if (!isWalletConfigured()) return false;
   try {
     const owner = (await apixisOwner(email)) ?? email;
@@ -80,6 +81,12 @@ export async function hasAllAccess(email: string): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+/** Wallet entitlement first. A card subscription is checked on Stripe, not in a second Ixis ledger. */
+export async function hasAllAccess(email: string): Promise<boolean> {
+  if (await walletAllAccess(email)) return true;
+  return cardAllAccessActive(email);
 }
 
 async function insertPurchase(row: Record<string, unknown>): Promise<{ id: string; created: boolean }> {
@@ -145,10 +152,6 @@ export async function startCheckout(input: {
   const funding = action.action === "owner_bypass" ? "owner_bypass" : action.action === "included" ? "all_access" : input.method === "card" ? "card" : "wallet";
   const method = action.action === "owner_bypass" ? "owner_bypass" : action.action === "included" ? "all_access" : input.method === "card" ? "card" : "ixis";
 
-  if (action.action === "pay" && !voicePaymentsLive()) {
-    throw new HttpError(503, "payments_closed", PAYMENTS_CLOSED_REASON);
-  }
-
   if (action.action === "owner_bypass" || action.action === "included") {
     const kind = action.action === "owner_bypass" ? "owner" : "included";
     const { id, created } = await insertPurchase({
@@ -171,8 +174,8 @@ export async function startCheckout(input: {
   if (input.method === "card") {
     const cents = cardCents(input.sku);
     const key = process.env.STRIPE_SECRET_KEY?.trim();
-    if (!cents || !key) {
-      throw new HttpError(503, "not_configured", "Card checkout is not configured. Missing STRIPE_SECRET_KEY. You can pay with Ixis instead.");
+    if (!cents || !key || !cardCheckoutReady()) {
+      throw new HttpError(503, "card_coming_soon", `${CARD_COMING_SOON}. You can pay with Ixis.`);
     }
     const { id: purchaseId } = await insertPurchase({
       user_id: input.userId,
@@ -202,10 +205,14 @@ export async function startCheckout(input: {
     });
     const json = (await response.json().catch(() => ({}))) as { id?: string; url?: string; error?: { message?: string } };
     if (!response.ok || !json.url || !json.id) {
-      throw new HttpError(502, "card_failed", json.error?.message || "Card checkout could not start.");
+      throw new HttpError(502, "card_failed", publicCardMessage(json.error?.message, "Card checkout could not start. You can pay with Ixis."));
     }
     await db().from("voice_purchases").update({ stripe_session_id: json.id }).eq("id", purchaseId).eq("user_id", input.userId);
     return { ok: true as const, url: json.url, purchaseId };
+  }
+
+  if (action.action === "pay" && !voicePaymentsLive()) {
+    throw new HttpError(503, "payments_closed", PAYMENTS_CLOSED_REASON);
   }
 
   const owner = (await apixisOwner(input.email)) ?? input.email;
@@ -256,7 +263,7 @@ export async function startCheckout(input: {
 
 export async function confirmCard(input: { userId: string; sessionId: string }) {
   const key = process.env.STRIPE_SECRET_KEY?.trim();
-  if (!key) throw new HttpError(503, "not_configured", "Card checkout is not configured. Missing STRIPE_SECRET_KEY.");
+  if (!key) throw new HttpError(503, "card_coming_soon", `${CARD_COMING_SOON}. You can pay with Ixis.`);
   const response = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(input.sessionId)}`, {
     headers: { authorization: `Bearer ${key}` },
   });

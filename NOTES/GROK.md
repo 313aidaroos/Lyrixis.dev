@@ -1,5 +1,35 @@
 Grok Bot (Developer Bot hub + product leads) notes. Every change Grok Bot makes to this product (code, env, database, deploys) gets a dated entry here so Claude, Hermes and Codex stay on the same page.
 
+## 2026-10-14 — Grok Lyrixis Lead via cloud agent: remove Redis and Railway leftovers
+- What: deleted `railway.json`, `Dockerfile.worker`, `lib/queue.ts`, and `workers/index.ts`. Removed the `bullmq` and `ioredis` dependencies and the `worker` scripts. Lyrics processing stays inside Vercel: `startTrackProcessing` always schedules `processTrack` with Next `after()`, using `ffmpeg-static` and Whisper. Rate limits are in-memory. `getRedisUrl` is gone.
+- Where: those deleted files, `package.json`, `package-lock.json`, `next.config.ts`, `lib/processing.ts`, `lib/rate-limit.ts`, `lib/env.ts`, `services/tracks.ts`, `lib/__tests__/inline-processing.test.ts`, `docs/WORKER_HOSTING.md`, `.env.example`, `README.md`.
+- Who: Grok Lyrixis Lead via cloud agent.
+- Undo: revert this commit, or close the draft PR if it is not merged. No database or env change.
+
+## 2026-10-14 — Grok Lyrixis Lead via cloud agent: /signup is Apixis ID only
+- What: `/signup` no longer reuses the magic-link or password form. The only account button sends people to https://www.apixis.dev/enter?from=lyrixis. Existing accounts still sign in on `/login` with Apixis ID, a magic link, or a password.
+- Where: `app/signup/page.tsx`, `components/LoginForm.tsx` (signup variant, if reused, uses the same Apixis URL and still hides the email tabs), `lib/cixy-page-help.ts`, `lib/cixy-prompt.ts`.
+- Who: Grok Lyrixis Lead via cloud agent.
+- Undo: revert this commit, or close the draft PR if it is not merged.
+
+## 2026-10-14 — Grok Lyrixis Lead via cloud agent: Forgot password on every page
+- What: "Forgot password" links to `/login?mode=forgot` from the site footer, the site menu (desktop when it fits, and the Menu panel), the signed-in app nav, the static `/enterprise` footer, and the login form (including a link that does not require opening the Password tab first).
+- Where: `components/SiteFooter.tsx`, `components/SiteNav.tsx`, `components/AppNav.tsx`, `components/LoginForm.tsx`, `public/index.html`, `app/signup/page.tsx`.
+- Who: Grok Lyrixis Lead via cloud agent.
+- Undo: revert this commit, or close the draft PR if it is not merged.
+
+## 2026-10-14 — Grok Lyrixis Lead via cloud agent: pay by card or with Ixis
+- What: each paid action offers Ixis or card. Ixis still redeems from the Apixis Wallet (`POST /api/redeem` for a song, the existing voice checkout for a voice product). Card uses Stripe Checkout only when `STRIPE_SECRET_KEY` is set. Without that key the control says "Card coming soon" and Ixis keeps working. `STRIPE_WEBHOOK_SECRET` verifies `POST /api/checkout/webhook`. A paid song writes the existing `track_unlocks` row (or `tracks.paid` for an upload). All-Access is a Stripe subscription checked on Stripe, not a new Ixis balance. No new ledger table.
+- Where: `lib/card-checkout.ts`, `lib/card-copy.ts`, `app/api/checkout/route.ts`, `app/api/checkout/webhook/route.ts`, `app/checkout/return/page.tsx`, `components/CardPayButton.tsx`, `components/RedeemButton.tsx`, `components/PriceList.tsx`, `components/voice-songs/CheckoutPanel.tsx`, `lib/voice-songs/billing.ts`, `app/api/voice-songs/me/route.ts`, `lib/__tests__/card-checkout.test.ts`.
+- Who: Grok Lyrixis Lead via cloud agent.
+- Undo: revert this commit, or close the draft PR if it is not merged. Unset `STRIPE_SECRET_KEY` to turn card checkout back off. Nothing was written to a new table.
+
+## 2026-10-14 — Grok Lyrixis Lead via cloud agent: full price list on /pricing
+- What: `/pricing` lists every locked price from `lib/ixis-pricing.ts` and `lib/voice-songs/pricing.ts`. One song $3 / 300 Ixis. Voice setup $5 / 500 Ixis. Voice song $6 / 600 Ixis. Extra take 100 Ixis (Ixis only). Release $9 / 900 Ixis, store status pending distributor, and the page does not say a release is live on a store. All-Access $30 a month / 3,000 Ixis, including the voice model, 4 voice songs, and 1 release a month. Label / Enterprise is Contact sales.
+- Where: `lib/price-list.ts`, `components/PriceList.tsx`, `app/pricing/page.tsx`, `components/PricingPlans.tsx`, `lib/ixis-pricing.ts`, `lib/__tests__/card-checkout.test.ts`.
+- Who: Grok Lyrixis Lead via cloud agent.
+- Undo: revert this commit, or close the draft PR if it is not merged.
+
 ## 2026-10-13 — Lyrixis Lead via cloud agent: Instagram icon in SiteFooter (Facebook left out)
 - What: added one Instagram icon link in the shared site footer, under the brand blurb. It opens https://www.instagram.com/lyrixis.dev/ in a new tab (`target="_blank"` `rel="noopener noreferrer"`), uses the existing `text-ink-2` / `hover:text-ink` colors, and has the accessible name "Lyrixis on Instagram". No Facebook icon.
 - Verified: a Slack link-preview request to that Instagram URL returned the public title "Lyrixis Metadata Company (@lyrixis.dev)" and the description "13 Followers, 15 Following, 0 Posts — See Instagram photos and videos from Lyrixis Metadata Company (@lyrixis.dev)" (profile id `profilePage_42249153397`). The same username is not a 404 on Instagram's public profile API (unknown usernames such as `zzzznotreal.dev` are). That name is this brand. `@lyrixis` is a different, empty 2011 account and was not linked. `@lyrixisdev` does not exist.

@@ -160,7 +160,7 @@ export function TrackView({ publicId }: { publicId: string }) {
         {!ready && track.status !== "failed" && (
           <p className="mt-6 text-sm text-ink-3">
             Lyrics are processing. The $3 unlock (300 Ixis) appears here when they are ready, so you only pay for a
-            finished transcription. All-Access is $30 a month. Card checkout is not open yet.
+            finished transcription. All-Access is $30 a month. Card coming soon until card checkout is turned on. You can pay with Ixis.
           </p>
         )}
       </header>

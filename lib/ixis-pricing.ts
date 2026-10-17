@@ -6,8 +6,9 @@
  * migration 20261005_track_unlock_price_300.sql; the display code still pins the 1-song
  * tier to the SKU price so an old seed can never show 299.
  *
- * All-Access is $30/month (3,000 Ixis). Card checkout is not built, and this file does not
- * start a charge. Label / Enterprise has no fixed price.
+ * All-Access is $30/month (3,000 Ixis). Card checkout runs only when STRIPE_SECRET_KEY
+ * is set; otherwise the site says card coming soon. This file does not start a charge.
+ * Label / Enterprise has no fixed price. Ixis balances stay in the Apixis Wallet.
  */
 export const IXIS_PER_DOLLAR = 100;
 export const TRACK_UNLOCK_SKU = "lyrixis.track.unlock";
@@ -57,7 +58,7 @@ export const ALL_ACCESS_TERMS =
   "Renews automatically every month. Cancel anytime. It stays active until the end of the month you already paid for.";
 
 export const PAYMENT_CHOICE =
-  "Pay by card or with Ixis (100 Ixis = $1). Card checkout is not open on Lyrixis yet. Add Ixis in the Apixis Wallet.";
+  "Pay by card or with Ixis (100 Ixis = $1). Add Ixis in the Apixis Wallet.";
 
 export const PLAN_FAQ: { q: string; a: string }[] = [
   {
@@ -66,11 +67,11 @@ export const PLAN_FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Can I pay with a card?",
-    a: "You can pay by card or with Ixis. 100 Ixis equals $1. Voice songs checkout takes a card or Ixis. Card checkout for All-Access and the $3 unlock is not open yet. Ixis top-ups happen in the Apixis Wallet. Unlocking one song for 300 Ixis ($3) works today.",
+    a: "You can pay by card or with Ixis. 100 Ixis equals $1. Card coming soon until card checkout is turned on. Ixis works today: one song is 300 Ixis ($3) through the Apixis Wallet. Voice songs can take a card or Ixis once that checkout is open.",
   },
   {
     q: "How do I cancel?",
-    a: "Cancel anytime. All-Access stays active until the end of the month you already paid for. Email awad@apixis.dev to cancel the renewal. There is no cancel button yet, because card checkout is not open.",
+    a: "Cancel anytime. All-Access stays active until the end of the month you already paid for. Email awad@apixis.dev to cancel the renewal.",
   },
   {
     q: "What is Ixis?",

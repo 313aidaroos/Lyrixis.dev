@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CARD_COMING_SOON } from "@/lib/card-copy";
 import {
   ALL_ACCESS_FEATURES,
   ALL_ACCESS_MONTHLY_IXIS,
@@ -9,7 +10,8 @@ import {
   TRACK_UNLOCK_USD,
 } from "@/lib/ixis-pricing";
 
-export function PricingPlans({ contactHref = "#contact-sales" }: { contactHref?: string }) {
+export function PricingPlans({ contactHref = "#contact-sales", cardReady = false }: { contactHref?: string; cardReady?: boolean }) {
+  const choice = cardReady ? PAYMENT_CHOICE : `${PAYMENT_CHOICE} ${CARD_COMING_SOON}.`;
   return (
     <div className="grid items-stretch gap-5 lg:grid-cols-3">
       <article className="glass flex flex-col rounded-3xl p-6 sm:p-8 ring-1 ring-cyan/40">
@@ -39,7 +41,7 @@ export function PricingPlans({ contactHref = "#contact-sales" }: { contactHref?:
             </li>
           ))}
         </ul>
-        <p className="mt-6 text-xs leading-relaxed text-ink-3">{PAYMENT_CHOICE}</p>
+        <p className="mt-6 text-xs leading-relaxed text-ink-3">{choice}</p>
         <Link href="/how-to#pay" className="btn-secondary mt-6 px-5 py-2.5 text-center text-sm">
           How this plan works
         </Link>
@@ -56,7 +58,7 @@ export function PricingPlans({ contactHref = "#contact-sales" }: { contactHref?:
           No plan needed. You get synced lyrics for that song: playback, corrections, and TXT, SRT, LRC, and JSON downloads.
           This is the unlock that works today.
         </p>
-        <p className="mt-6 text-xs leading-relaxed text-ink-3">{PAYMENT_CHOICE}</p>
+        <p className="mt-6 text-xs leading-relaxed text-ink-3">{choice}</p>
         <Link href="/upload" className="btn-primary mt-auto px-5 py-2.5 text-center text-sm">
           Unlock a song · {TRACK_UNLOCK_IXIS} Ixis
         </Link>

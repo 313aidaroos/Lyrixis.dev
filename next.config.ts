@@ -6,7 +6,7 @@ import type { NextConfig } from "next";
 const FFMPEG_BINARY = ["./node_modules/ffmpeg-static/ffmpeg"];
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ["bullmq", "ioredis", "music-metadata", "ffmpeg-static"],
+  serverExternalPackages: ["music-metadata", "ffmpeg-static"],
   outputFileTracingIncludes: {
     "/api/tracks": FFMPEG_BINARY,
     "/api/tracks/[id]/retry": FFMPEG_BINARY,

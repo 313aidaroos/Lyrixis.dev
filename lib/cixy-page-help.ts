@@ -21,7 +21,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
       "Type a song, artist, writer or ISRC in the search box and press Search the catalog, or tap one of the Examples.",
       "Scroll to the live demo to see how a track becomes synced lyrics. How to use Lyrixis walks through every step.",
       "All-Access is $30 a month (3,000 Ixis). One song without the plan is $3 (300 Ixis). Labels use Contact sales.",
-      "Pay by card or with Ixis (100 Ixis = $1). Card checkout is not open yet. Add Ixis in the Apixis Wallet.",
+      "Pay by card or with Ixis (100 Ixis = $1). Card coming soon until card checkout is turned on. Add Ixis in the Apixis Wallet.",
       "To process your own song, sign in with Apixis ID and use Upload.",
     ],
     tips: ["The round ◈ button at the bottom right opens a full chat with me."],
@@ -43,7 +43,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
     steps: [
       "The top shows title, artist and IDs (ISRC, ISWC, UPC, writers) on file.",
       "Press Redeem · 300 Ixis ($3) to unlock this recording. You need to be signed in. All-Access is $30 a month.",
-      "Pay by card or with Ixis. Card checkout is not open yet. If your Wallet is short, buy Ixis and come back.",
+      "Pay by card or with Ixis. Card coming soon until card checkout is turned on. If your Wallet is short, buy Ixis and come back.",
       "Once unlocked, download the lyrics as .txt, .lrc or .json from the same card.",
     ],
     tips: ["Redeeming the same recording again doesn't charge you twice."],
@@ -67,7 +67,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
       "Lyrixis All-Access is $30 a month (3,000 Ixis). It renews every month. Cancel anytime; it stays on until the end of the paid month.",
       "Included now: unlimited song lyrics, plus your own voice model, 4 voice songs, and 1 release a month. Lyric video downloads, translations, and the Voices marketplace are marked Coming soon.",
       "Without the plan, one song is $3 (300 Ixis). That unlock still works today.",
-      "Pay by card or with Ixis (100 Ixis = $1). Voice songs checkout takes a card or Ixis. The $30 plan and the $3 unlock still add Ixis in the Apixis Wallet.",
+      "The full price list is on this page: song $3 (300 Ixis), voice setup $5 (500), voice song $6 (600), extra take 100 Ixis, release $9 (900, pending distributor), All-Access $30 a month. Card coming soon until card checkout is turned on.",
       "Labels and companies: fill in Contact sales. Company, your name, work email, phone if you want, songs per month, seats, and a message.",
       "After Awad approves the company, the owner opens Team and invites people by email. They get All-Access on that company's songs.",
     ],
@@ -147,7 +147,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
     steps: [
       "Press Log in with Apixis ID. One Apixis ID works on every Apixis site.",
       "Existing email accounts can use Magic link (we email a sign-in link) or Password.",
-      "Forgot your password? Choose Password, then Forgot password?, and open the reset link we email you.",
+      "Forgot your password? Use Forgot password in the footer, the menu, or on this page. Open the reset link we email you.",
       "The sign-in help card on this page can answer questions about magic links and Apixis ID.",
     ],
     tips: ["Nobody from Lyrixis will ever ask for your password."],
@@ -156,9 +156,9 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
   "/signup": {
     title: "Create your account",
     steps: [
-      "New accounts are created with Apixis ID: press Log in with Apixis ID.",
-      "Sign up once on the Apixis ID page, then you come back here signed in.",
-      "Every new Apixis ID gets 1,000 free Ixis once, in the shared Apixis Wallet.",
+      "New accounts are Apixis ID only. Press Create your Apixis ID. That opens https://www.apixis.dev/enter?from=lyrixis.",
+      "This page has no magic-link signup and no password signup.",
+      "Every new Apixis ID gets 1,000 free Ixis once, in the shared Apixis Wallet. Forgot password is in the footer and on Sign in.",
     ],
     tips: [],
     suggestions: ["What is Apixis ID?", "Is it free to start?"],
@@ -179,7 +179,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
       "Your tracks table lists every song you uploaded, with status, language, access and confidence.",
       "Click a title to open its synced lyrics. Status moves from Queued to Completed (or Needs review) on its own.",
       "Paid shows Preview until you unlock a song for $3 (300 Ixis), or until your company Enterprise plan covers it.",
-      "Upload a track adds a new song. All-Access is $30 a month. Card checkout is not open yet.",
+      "Upload a track adds a new song. All-Access is $30 a month. Card coming soon until card checkout is turned on.",
       "The Ixis pill in the top bar is your Apixis Wallet balance. Buy Ixis tops it up.",
     ],
     tips: ["Confidence is how sure the transcription is. Low-confidence tracks are marked for review."],
@@ -193,7 +193,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
       "Tick the box confirming you have the rights to this recording. Lyrixis stores that confirmation.",
       "Press Upload and process. You go straight to the track page while the lyrics are made.",
     ],
-    tips: ["Processing is free. You pay $3 (300 Ixis) to unlock one song, or $30 a month for All-Access. Card checkout is not open yet."],
+    tips: ["Processing is free. You pay $3 (300 Ixis) to unlock one song, or $30 a month for All-Access. Card coming soon until card checkout is turned on."],
     suggestions: ["Which file format is best?", "How long does processing take?", "What does the rights box mean?"],
   },
   "/tracks/": {
@@ -202,7 +202,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
       "The status badge updates every few seconds until the lyrics are Completed (or Needs review).",
       "Press play. The current line highlights, and you can click any word to jump the audio there.",
       "Before unlocking you see the first 30 seconds. Press Unlock full lyrics · 300 Ixis ($3), unless your company plan already covers it.",
-      "All-Access is $30 a month. Pay by card or with Ixis. Card checkout is not open yet, so the $3 unlock is what works today.",
+      "All-Access is $30 a month. Pay by card or with Ixis. Card coming soon until card checkout is turned on. The 300 Ixis unlock works today.",
       "After unlocking, use Correct to fix a line and Exports for TXT, SRT, LRC, or JSON. Lyric video is coming soon.",
     ],
     tips: [
@@ -215,7 +215,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
     title: "How to use Lyrixis",
     steps: [
       "Follow the numbered steps on this page: account, upload, processing, playback, retry, and paying.",
-      "All-Access is $30 a month (3,000 Ixis). One song is $3 (300 Ixis). Card checkout is not open yet.",
+      "All-Access is $30 a month (3,000 Ixis). One song is $3 (300 Ixis). Card coming soon until card checkout is turned on.",
       "Lyric video downloads, translations, and Voices are marked Coming soon because they are not available yet.",
       "Label / Enterprise: fill in Contact sales on Pricing. After approval, the owner invites the team from Team.",
     ],
@@ -305,8 +305,8 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
     title: "Voice songs checkout",
     steps: [
       "The prices are voice setup $5 (500 Ixis), a voice song $6 (600 Ixis), an extra take (100 Ixis), and a release $9 (900 Ixis).",
-      "Payments are not open yet. Those Wallet products are not registered, and card checkout is off. Nothing is charged.",
-      "All-Access ($30 a month) is planned to cover the voice model, 4 voice songs, and 1 release. The owner test pass skips the charge.",
+      "Pay with Ixis or by card. Card coming soon until card checkout is turned on. Voice-song Ixis stays closed until those Wallet products are registered. Nothing is charged until then.",
+      "All-Access ($30 a month) includes the voice model, 4 voice songs, and 1 release a month. A release stays pending distributor. The owner test pass skips the charge.",
       "An extra take is 100 Ixis only. 100 Ixis equals $1.",
     ],
     tips: ["100 Ixis equals $1. You keep 90% of master royalties."],
@@ -344,6 +344,16 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
     ],
     tips: ["You own the master. Lyrixis keeps 10% of the royalties the distributor reports."],
     suggestions: ["Where do I download the song?", "How many takes do I get?"],
+  },
+  "/checkout/return": {
+    title: "Card payment",
+    steps: [
+      "This page confirms a card payment after checkout.",
+      "A song unlock is written on your account. All-Access renews monthly.",
+      "Ixis payments still go through the Apixis Wallet. This page does not change your Ixis balance.",
+    ],
+    tips: ["If the payment is not confirmed, you can pay with Ixis instead."],
+    suggestions: ["Can I pay with Ixis instead?"],
   },
   "/voices": {
     title: "Lyrixis Voices",

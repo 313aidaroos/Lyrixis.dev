@@ -48,13 +48,6 @@ export function getMaxDurationSeconds(): number {
   return Number.isFinite(seconds) && seconds > 0 ? seconds : 720;
 }
 
-export function getRedisUrl(): string {
-  return required("REDIS_URL");
-}
-
-
-
-
 export function getTranscriptionProviderName(): string {
   return optional("TRANSCRIPTION_PROVIDER") ?? "whisper_v3";
 }
