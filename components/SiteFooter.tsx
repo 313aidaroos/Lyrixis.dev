@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { WALLET_BUY_URL } from "@/lib/wallet";
-import { OTHER_IXIS_COMPANIES } from "@/lib/ixis-companies";
+import { IxisCompanies } from "@/components/IxisCompanies";
 
 const INSTAGRAM_URL = "https://www.instagram.com/lyrixis.dev/";
 
@@ -53,12 +53,10 @@ export function SiteFooter() {
           <a href="mailto:lyrixis@apixis.dev?subject=DMCA%20notice" className="hover:text-ink">Copyright / DMCA</a>
         </div>
         <div className="flex flex-col gap-2 text-sm text-ink-2">
-          <p className="mb-1 font-mono text-[11px] uppercase tracking-widest text-ink-3">Other Ixis companies</p>
-          {OTHER_IXIS_COMPANIES.map((c) => (
-            <a key={c.url} href={c.url} target="_blank" rel="noopener noreferrer" className="hover:text-ink">
-              {c.name}
-            </a>
-          ))}
+          <p className="mb-1 font-mono text-[11px] uppercase tracking-widest text-ink-3">Ixis family</p>
+          <div>
+            <IxisCompanies current="Lyrixis" align="right" />
+          </div>
         </div>
       </div>
       <div className="border-t border-line">
