@@ -25,25 +25,25 @@ export const IXIS_COMPANIES: readonly IxisCompany[] = [
 const THEME = { "--ixis-bg": "#100f2a", "--ixis-fg": "#f4f2ff", "--ixis-muted": "#b9b4d6", "--ixis-accent": "#22d3ee", "--ixis-hover": "rgba(139,92,246,0.16)", "--ixis-line": "rgba(168,150,255,0.24)" };
 
 const CSS = `
-.ixis-menu{position:relative;display:inline-block;font:inherit}
-.ixis-trigger{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;display:inline-flex;gap:5px;align-items:center}
-.ixis-trigger span{font-size:.75em}
-.ixis-menu:hover .ixis-trigger,.ixis-menu.is-open .ixis-trigger,.ixis-trigger:focus-visible{color:var(--ixis-accent)}
-.ixis-panel{position:absolute;left:0;bottom:calc(100% + 12px);width:min(360px,calc(100vw - 32px));max-height:min(440px,70vh);overflow-y:auto;background:var(--ixis-bg);color:var(--ixis-fg);border:1px solid var(--ixis-line);border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.28);padding:14px 10px 10px;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .15s,transform .15s,visibility .15s;z-index:60;text-align:left;font-size:12px;line-height:1.35;letter-spacing:normal;text-transform:none}
-.ixis-menu.ixis-right .ixis-panel{left:auto;right:0}
-.ixis-panel::after{content:"";position:absolute;left:0;right:0;bottom:-14px;height:14px}
-@media (hover:hover){.ixis-menu:hover .ixis-panel{opacity:1;visibility:visible;transform:none}}
-.ixis-menu:focus-within .ixis-panel,.ixis-menu.is-open .ixis-panel{opacity:1;visibility:visible;transform:none}
-.ixis-panel-title{margin:0 8px 8px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ixis-muted)}
-.ixis-panel ul{list-style:none;margin:0;padding:0}
-.ixis-panel li{margin:0;padding:0}
-.ixis-panel a,.ixis-panel .ixis-here{display:grid;gap:2px;padding:8px;border-radius:10px;color:var(--ixis-fg);text-decoration:none}
-.ixis-panel a:hover,.ixis-panel a:focus-visible{background:var(--ixis-hover)}
-.ixis-panel strong{font-size:13px;font-weight:600;color:var(--ixis-fg)}
-.ixis-panel .ixis-brief{color:var(--ixis-muted)}
-.ixis-panel .ixis-here{background:var(--ixis-hover)}
-.ixis-panel .ixis-badge{margin-left:6px;font-size:10px;font-weight:600;color:var(--ixis-accent)}
-@media (max-width:760px){.ixis-panel{position:fixed;left:16px;right:16px;bottom:16px;width:auto;max-height:70vh}.ixis-panel::after{display:none}}
+.ixis-menu.ixis-menu{position:relative;display:inline-block;font:inherit}
+.ixis-menu.ixis-menu .ixis-trigger{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;display:inline-flex;gap:5px;align-items:center}
+.ixis-menu.ixis-menu .ixis-trigger span{font-size:.75em}
+.ixis-menu.ixis-menu:hover .ixis-trigger,.ixis-menu.ixis-menu.is-open .ixis-trigger,.ixis-menu.ixis-menu .ixis-trigger:focus-visible{color:var(--ixis-accent)}
+.ixis-menu.ixis-menu .ixis-panel{position:absolute;left:0;bottom:calc(100% + 12px);width:min(360px,calc(100vw - 32px));max-height:min(440px,70vh);overflow-y:auto;background:var(--ixis-bg);color:var(--ixis-fg);border:1px solid var(--ixis-line);border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.28);padding:14px 10px 10px;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .15s,transform .15s,visibility .15s;z-index:60;text-align:left;font-size:12px;line-height:1.35;letter-spacing:normal;text-transform:none}
+.ixis-menu.ixis-menu.ixis-right .ixis-panel{left:auto;right:0}
+.ixis-menu.ixis-menu .ixis-panel::after{content:"";position:absolute;left:0;right:0;bottom:-14px;height:14px}
+@media (hover:hover){.ixis-menu.ixis-menu:hover .ixis-panel{opacity:1;visibility:visible;transform:none}}
+.ixis-menu.ixis-menu:focus-within .ixis-panel,.ixis-menu.ixis-menu.is-open .ixis-panel{opacity:1;visibility:visible;transform:none}
+.ixis-menu.ixis-menu .ixis-panel-title{margin:0 8px 8px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ixis-muted)}
+.ixis-menu.ixis-menu .ixis-panel ul{list-style:none;margin:0;padding:0}
+.ixis-menu.ixis-menu .ixis-panel li{margin:0;padding:0}
+.ixis-menu.ixis-menu .ixis-panel a,.ixis-menu.ixis-menu .ixis-panel .ixis-here{display:grid;gap:2px;padding:8px;border-radius:10px;color:var(--ixis-fg);text-decoration:none}
+.ixis-menu.ixis-menu .ixis-panel a:hover,.ixis-menu.ixis-menu .ixis-panel a:focus-visible{background:var(--ixis-hover)}
+.ixis-menu.ixis-menu .ixis-panel strong{font-size:13px;font-weight:600;color:var(--ixis-fg)}
+.ixis-menu.ixis-menu .ixis-panel .ixis-brief{color:var(--ixis-muted)}
+.ixis-menu.ixis-menu .ixis-panel .ixis-here{background:var(--ixis-hover)}
+.ixis-menu.ixis-menu .ixis-panel .ixis-badge{margin-left:6px;font-size:10px;font-weight:600;color:var(--ixis-accent)}
+@media (max-width:760px){.ixis-menu.ixis-menu .ixis-panel{position:fixed;left:16px;right:16px;bottom:16px;width:auto;max-height:70vh}.ixis-menu.ixis-menu .ixis-panel::after{display:none}}
 `;
 
 /** Footer "Ixis companies" trigger. Hover or focus opens a card (desktop); tap opens a bottom sheet (mobile). Outside click or Esc closes. */
