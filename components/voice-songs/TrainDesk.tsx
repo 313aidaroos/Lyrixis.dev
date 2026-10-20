@@ -14,7 +14,7 @@ export function TrainDesk() {
     setBusy(true);
     setNote("");
     try {
-      await api("/api/voice-songs/train", { method: "POST" });
+      await api("/api/voice-desk/train", { method: "POST" });
       await state.reload();
     } catch (error) {
       setNote(error instanceof Error ? error.message : "Training failed.");
@@ -27,8 +27,8 @@ export function TrainDesk() {
   async function erase() {
     setBusy(true);
     try {
-      await api("/api/voice-songs/voice", { method: "DELETE" });
-      router.push("/voice-songs");
+      await api("/api/voice-desk/voice", { method: "DELETE" });
+      router.push("/voice-songs/desk");
     } catch (error) {
       setNote(error instanceof Error ? error.message : "Could not delete the voice.");
       setBusy(false);
@@ -44,7 +44,7 @@ export function TrainDesk() {
           <p className="font-mono text-xs uppercase tracking-widest text-ink-2">Private model</p>
           <h1 className="mt-2 font-display text-4xl font-bold sm:font-marquee sm:text-5xl">Train your voice</h1>
           <p className="mt-3 max-w-2xl text-ink-2">Training stays on your Apixis ID. Live training uses Replicate RVC when REPLICATE_API_TOKEN is set. Without it, this page says not configured unless you are in the demo.</p>
-          <StepNav current="/voice-songs/train" />
+          <StepNav current="/voice-songs/desk/train" />
           <div className="card mt-8 max-w-2xl">
             <p className="text-sm text-ink-2">Status: <span className="text-ink">{voice?.status ?? "no sample"}</span></p>
             {voice?.provider && <p className="mt-2 text-sm text-ink-2">Provider: {voice.provider}</p>}
@@ -55,7 +55,7 @@ export function TrainDesk() {
                 {busy ? "Training…" : voice?.status === "ready" ? "Train again" : "Train model"}
               </button>
               {voice?.status === "ready" && (
-                <button type="button" className="btn-secondary" onClick={() => router.push("/voice-songs/write")}>Write lyrics</button>
+                <button type="button" className="btn-secondary" onClick={() => router.push("/voice-songs/desk/write")}>Write lyrics</button>
               )}
               <button type="button" className="btn-secondary" disabled={busy || !voice} onClick={() => void erase()}>Delete my voice</button>
             </div>

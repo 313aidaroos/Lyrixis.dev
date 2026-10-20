@@ -24,7 +24,7 @@ export function WriteDesk() {
     setBusy(true);
     setError("");
     try {
-      const result = await api<{ lyrics: string; reply: string; provider: string }>("/api/voice-songs/lyrics", {
+      const result = await api<{ lyrics: string; reply: string; provider: string }>("/api/voice-desk/lyrics", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ theme, mood, genre, note, lyrics }),
@@ -42,12 +42,12 @@ export function WriteDesk() {
     setBusy(true);
     setError("");
     try {
-      const result = await api<{ song: { id: string } }>("/api/voice-songs/songs", {
+      const result = await api<{ song: { id: string } }>("/api/voice-desk/songs", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ title: theme, theme, mood, genre, lyrics, idempotencyKey }),
       });
-      router.push(`/voice-songs/song/${result.song.id}`);
+      router.push(`/voice-songs/desk/song/${result.song.id}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Generation failed.");
       setBusy(false);
@@ -62,7 +62,7 @@ export function WriteDesk() {
           <p className="font-mono text-xs uppercase tracking-widest text-ink-2">Cixy</p>
           <h1 className="mt-2 font-display text-4xl font-bold sm:font-marquee sm:text-5xl">Write the lyric</h1>
           <p className="mt-3 max-w-2xl text-ink-2">Pick a theme, mood, and genre. Cixy drafts original lines. Names of other artists, their songs, and “sing like” requests are blocked.</p>
-          <StepNav current="/voice-songs/write" />
+          <StepNav current="/voice-songs/desk/write" />
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
             <div className="card">
               <label className="label">Theme</label>

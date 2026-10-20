@@ -1,5 +1,56 @@
 Grok Bot (Developer Bot hub + product leads) notes. Every change Grok Bot makes to this product (code, env, database, deploys) gets a dated entry here so Claude, Hermes and Codex stay on the same page.
 
+## 2026-10-17 — Grok Lyrixis Lead via cloud agent: official logo cutout and public/brand kit
+- What: cut the note-shaped L and the Lyrixis wordmark out of the scene logo (coins, guitar, studio) with rembg segmentation plus a pixel alpha mask. No redraw. Flat-white versions keep that same alpha. The site header, footer, hero mark, favicon, apple-touch icon, home-screen icons, and OG image now use `public/brand/`. Old logo files are deleted.
+- Where: `public/brand/` (`logo-full.png`, `logo-full-white.png`, `mark.png`, `mark-white.png`, `favicon.ico`, `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `og-image.png`, `brand.json`, `README.md`), `app/layout.tsx`, `app/manifest.ts`, `app/page.tsx`, `components/SiteNav.tsx`, `components/SiteFooter.tsx`, `components/AppNav.tsx`, `public/index.html`, `next.config.ts`. Deleted `public/favicon.png`, `public/lyrixis-logo.png`, `public/lyrixis-mark.png`, `public/lyrixis-wordmark.png`.
+- Who: Grok Lyrixis Lead via cloud agent.
+- Undo: revert this commit, or close the PR if it is not merged. Nothing outside git changed.
+
+## 2026-10-14 — Grok Lyrixis Lead via cloud agent: remove Redis and Railway leftovers
+- What: deleted `railway.json`, `Dockerfile.worker`, `lib/queue.ts`, and `workers/index.ts`. Removed the `bullmq` and `ioredis` dependencies and the `worker` scripts. Lyrics processing stays inside Vercel: `startTrackProcessing` always schedules `processTrack` with Next `after()`, using `ffmpeg-static` and Whisper. Rate limits are in-memory. `getRedisUrl` is gone.
+- Where: those deleted files, `package.json`, `package-lock.json`, `next.config.ts`, `lib/processing.ts`, `lib/rate-limit.ts`, `lib/env.ts`, `services/tracks.ts`, `lib/__tests__/inline-processing.test.ts`, `docs/WORKER_HOSTING.md`, `.env.example`, `README.md`.
+- Who: Grok Lyrixis Lead via cloud agent.
+- Undo: revert this commit, or close the draft PR if it is not merged. No database or env change.
+
+## 2026-10-14 — Grok Lyrixis Lead via cloud agent: /signup is Apixis ID only
+- What: `/signup` no longer reuses the magic-link or password form. The only account button sends people to https://www.apixis.dev/enter?from=lyrixis. Existing accounts still sign in on `/login` with Apixis ID, a magic link, or a password.
+- Where: `app/signup/page.tsx`, `components/LoginForm.tsx` (signup variant, if reused, uses the same Apixis URL and still hides the email tabs), `lib/cixy-page-help.ts`, `lib/cixy-prompt.ts`.
+- Who: Grok Lyrixis Lead via cloud agent.
+- Undo: revert this commit, or close the draft PR if it is not merged.
+
+## 2026-10-14 — Grok Lyrixis Lead via cloud agent: Forgot password on every page
+- What: "Forgot password" links to `/login?mode=forgot` from the site footer, the site menu (desktop when it fits, and the Menu panel), the signed-in app nav, the static `/enterprise` footer, and the login form (including a link that does not require opening the Password tab first).
+- Where: `components/SiteFooter.tsx`, `components/SiteNav.tsx`, `components/AppNav.tsx`, `components/LoginForm.tsx`, `public/index.html`, `app/signup/page.tsx`.
+- Who: Grok Lyrixis Lead via cloud agent.
+- Undo: revert this commit, or close the draft PR if it is not merged.
+
+## 2026-10-14 — Grok Lyrixis Lead via cloud agent: pay by card or with Ixis
+- What: each paid action offers Ixis or card. Ixis still redeems from the Apixis Wallet (`POST /api/redeem` for a song, the existing voice checkout for a voice product). Card uses Stripe Checkout only when `STRIPE_SECRET_KEY` is set. Without that key the control says "Card coming soon" and Ixis keeps working. `STRIPE_WEBHOOK_SECRET` verifies `POST /api/checkout/webhook`. A paid song writes the existing `track_unlocks` row (or `tracks.paid` for an upload). All-Access is a Stripe subscription checked on Stripe, not a new Ixis balance. No new ledger table.
+- Where: `lib/card-checkout.ts`, `lib/card-copy.ts`, `app/api/checkout/route.ts`, `app/api/checkout/webhook/route.ts`, `app/checkout/return/page.tsx`, `components/CardPayButton.tsx`, `components/RedeemButton.tsx`, `components/PriceList.tsx`, `components/voice-songs/CheckoutPanel.tsx`, `lib/voice-songs/billing.ts`, `app/api/voice-songs/me/route.ts`, `lib/__tests__/card-checkout.test.ts`.
+- Who: Grok Lyrixis Lead via cloud agent.
+- Undo: revert this commit, or close the draft PR if it is not merged. Unset `STRIPE_SECRET_KEY` to turn card checkout back off. Nothing was written to a new table.
+
+## 2026-10-14 — Grok Lyrixis Lead via cloud agent: full price list on /pricing
+- What: `/pricing` lists every locked price from `lib/ixis-pricing.ts` and `lib/voice-songs/pricing.ts`. One song $3 / 300 Ixis. Voice setup $5 / 500 Ixis. Voice song $6 / 600 Ixis. Extra take 100 Ixis (Ixis only). Release $9 / 900 Ixis, store status pending distributor, and the page does not say a release is live on a store. All-Access $30 a month / 3,000 Ixis, including the voice model, 4 voice songs, and 1 release a month. Label / Enterprise is Contact sales.
+- Where: `lib/price-list.ts`, `components/PriceList.tsx`, `app/pricing/page.tsx`, `components/PricingPlans.tsx`, `lib/ixis-pricing.ts`, `lib/__tests__/card-checkout.test.ts`.
+- Who: Grok Lyrixis Lead via cloud agent.
+- Undo: revert this commit, or close the draft PR if it is not merged.
+
+## 2026-10-13 — Lyrixis Lead via cloud agent: Instagram icon in SiteFooter (Facebook left out)
+- What: added one Instagram icon link in the shared site footer, under the brand blurb. It opens https://www.instagram.com/lyrixis.dev/ in a new tab (`target="_blank"` `rel="noopener noreferrer"`), uses the existing `text-ink-2` / `hover:text-ink` colors, and has the accessible name "Lyrixis on Instagram". No Facebook icon.
+- Verified: a Slack link-preview request to that Instagram URL returned the public title "Lyrixis Metadata Company (@lyrixis.dev)" and the description "13 Followers, 15 Following, 0 Posts — See Instagram photos and videos from Lyrixis Metadata Company (@lyrixis.dev)" (profile id `profilePage_42249153397`). The same username is not a 404 on Instagram's public profile API (unknown usernames such as `zzzznotreal.dev` are). That name is this brand. `@lyrixis` is a different, empty 2011 account and was not linked. `@lyrixisdev` does not exist.
+- Left out: Facebook. https://www.facebook.com/lyrixis.dev and https://www.facebook.com/lyrixisdev only redirect to the Facebook login wall, and the Graph API returns "object does not exist, cannot be loaded due to missing permissions, or does not support this operation" for both. https://www.facebook.com/lyrixis redirects to https://www.facebook.com/lyri.xis/, whose public title is "Lyri Xis (@lyri.xis)", a personal profile, not the Lyrixis brand. None of those were confirmed as the brand's Page, so no Facebook link was added.
+- Where: `components/SiteFooter.tsx`. The static `/enterprise` footer in `public/index.html` is a separate page and was not changed.
+- Who: Lyrixis Lead via cloud agent.
+- Undo: revert this commit, or close the PR if it is not merged. Nothing outside git changed.
+
+## 2026-10-13 — Lyrixis Lead via cloud agent: guided voice script, label release, payments stay gated (branch `cursor/voice-script-label-e2e-0502`; migration NOT applied)
+- What: Voice setup now walks a single script (`lib/voice-songs/recording-script.ts`): room check, mic check, a consent line read aloud, phonetically balanced lines, pacing, a progress count, per-line re-record, and retake tips. The release form adds genre, release date, explicit flag, cover, and writer splits, and shows the 90% artist / 10% Lyrixis master split. Store status is `pending distributor`. The app does not call a distributor and does not say a song is on Spotify, Apple Music, Tidal, or any other store. Voice payments stay off unless `VOICE_SONGS_PAYMENTS=live`; the owner emails skip the charge; ElevenLabs with no key is labeled demo mode. Playwright covers Apixis ID sign-in, upload→lyrics, and voice setup→song→release in demo mode.
+- Where: `lib/voice-songs/recording-script.ts`, `components/voice-songs/RecordPanel.tsx`, `components/voice-songs/ReleasePanel.tsx`, `lib/voice-songs/distributors.ts`, `lib/voice-songs/release.ts`, `lib/voice-songs/checkout.ts`, `lib/voice-songs/billing.ts`, `app/upload/page.tsx`, `app/tracks/[id]/page.tsx`, `e2e/launch-flows.spec.ts`, `database/migrations/0010_label_releases_ledger.sql`.
+- Database: `0010_label_releases_ledger.sql` adds label columns on `voice_releases` and creates `voice_royalty_ledger`. It was NOT applied. Rollback: `database/migrations/rollback/0010_label_releases_ledger_down.sql`.
+- Who: Lyrixis Lead via cloud agent.
+- Undo: close the draft PR, or revert its commit. Do not run the migration down file unless the up migration was applied.
+
 ## 2026-10-06 — Grok (Developer Bot): locked $30 / $3 plans, How to use, Label / Enterprise (branch `cursor/pricing-howto-enterprise-3263`; migration NOT applied)
 - What: Customer pricing is now two locked choices plus a company path. Lyrixis All-Access is $30 a month (3,000 Ixis), renews monthly, cancel anytime and it stays on until the end of the paid month. Without the plan, one song is $3 (300 Ixis), Wallet SKU `lyrixis.track.unlock` unchanged. Pay by card or with Ixis (100 Ixis = $1). Card checkout is wording only: no Stripe, no charge claim. Working now: unlimited synced song lyrics (playback, corrections, TXT/SRT/LRC/JSON). Coming soon, labeled that way: lyric video downloads, translations, Voices. Volume calculator is no longer on customer pages.
 - What: `/how-to` is a numbered guide with screenshots from the live site (sign-in, the home demo while processing and playing, the catalog 300 Ixis redeem). Upload and Retry are described from the real screens; those screens need a signed-in owner, so they have no picture. Linked from the nav and footer.

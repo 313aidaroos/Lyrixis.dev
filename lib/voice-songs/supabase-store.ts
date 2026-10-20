@@ -33,12 +33,12 @@ export class SupabaseStore implements VoiceSongsStore {
     if (error) throw new Error(error.message);
   }
   async listTakes(songId: string) {
-    const { data, error } = await admin().from("voice_song_takes").select("*").eq("song_id", songId).order("take_number");
+    const { data, error } = await admin().from("voice_desk_takes").select("*").eq("song_id", songId).order("take_number");
     if (error) throw new Error(error.message);
     return (data ?? []).map(takeFrom);
   }
   async saveTake(row: TakeRow) {
-    const { error } = await admin().from("voice_song_takes").upsert(takeTo(row));
+    const { error } = await admin().from("voice_desk_takes").upsert(takeTo(row));
     if (error) throw new Error(error.message);
   }
   async listReleases(userId: string) {

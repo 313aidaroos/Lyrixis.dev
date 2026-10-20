@@ -1,7 +1,7 @@
-import { AdminDesk } from "@/components/voice-songs/AdminDesk";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
-export default function AdminPage() {
-  return <AdminDesk />;
+export default function AdminRedirect() {
+  redirect("/voice-songs/desk/admin");
 }

@@ -40,7 +40,7 @@ export function ApixisWorldWelcome() {
       <div className="flex flex-col gap-6 md:flex-row md:items-center">
         <figure className="flex shrink-0 flex-col items-center gap-2">
           <div className="rounded-2xl p-[2px]" style={{ background: "var(--spectrum)" }}>
-            <Image src="/cixy/cixy-combo-a-avatar.webp" alt="Cixy, your guide" width={88} height={88} className="h-[88px] w-[88px] rounded-[14px] bg-surface object-cover" />
+            <Image src="/cixy/cixy-lyrixis-avatar.webp" alt="Cixy, your guide" width={88} height={88} className="h-[88px] w-[88px] rounded-[14px] bg-surface object-cover" />
           </div>
           <figcaption className="text-center font-mono text-[10px] uppercase tracking-widest text-ink-3">
             <span className="block text-cyan">Cixy</span>your guide

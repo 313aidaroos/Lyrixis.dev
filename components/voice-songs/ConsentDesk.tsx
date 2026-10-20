@@ -17,7 +17,7 @@ export function ConsentDesk() {
     setBusy(true);
     setNote("");
     try {
-      await api("/api/voice-songs/consent", {
+      await api("/api/voice-desk/consent", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ accepted: true }),
@@ -34,7 +34,7 @@ export function ConsentDesk() {
     setBusy(true);
     setNote("");
     try {
-      await api("/api/voice-songs/liveness", {
+      await api("/api/voice-desk/liveness", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ transcript: voice?.livenessPhrase || "", bytes: 1600 }),
@@ -66,7 +66,7 @@ export function ConsentDesk() {
       const form = new FormData();
       form.set("audio", blob, "liveness.webm");
       form.set("transcript", voice?.livenessPhrase || "");
-      await api("/api/voice-songs/liveness", { method: "POST", body: form });
+      await api("/api/voice-desk/liveness", { method: "POST", body: form });
       setPaid(true);
     } catch (error) {
       setNote(error instanceof Error ? error.message : "Could not record the phrase.");
@@ -82,7 +82,7 @@ export function ConsentDesk() {
           <DemoBanner session={state.session} />
           <p className="font-mono text-xs uppercase tracking-widest text-ink-2">Consent and liveness</p>
           <h1 className="mt-2 font-display text-4xl font-bold sm:font-marquee sm:text-5xl">Your voice, in plain words</h1>
-          <StepNav current="/voice-songs/consent" />
+          <StepNav current="/voice-songs/desk/consent" />
           <div className="card mt-8 max-w-3xl">
             <p className="whitespace-pre-wrap text-sm leading-relaxed text-ink-2">{state.session.consentText}</p>
             <label className="mt-4 flex items-start gap-3 text-sm">
@@ -107,11 +107,11 @@ export function ConsentDesk() {
             </div>
           )}
           {(voice?.livenessPassed || paid) && !state.session.allAccess && !state.session.setupPaid && (
-            <PayChoice sku="setup" allowance={false} onPaid={() => router.push("/voice-songs/train")} />
+            <PayChoice sku="setup" allowance={false} onPaid={() => router.push("/voice-songs/desk/train")} />
           )}
           {(voice?.livenessPassed || paid) && (state.session.allAccess || state.session.setupPaid) && (
             <div className="mt-4">
-              <button type="button" className="btn-primary" onClick={() => router.push("/voice-songs/train")}>
+              <button type="button" className="btn-primary" onClick={() => router.push("/voice-songs/desk/train")}>
                 {state.session.setupPaid ? "Continue — setup is already paid" : "Continue — setup is included"}
               </button>
             </div>

@@ -176,8 +176,11 @@ export function LoginForm({ variant = "login" }: { variant?: "login" | "signup" 
         <p className="mt-2 text-sm text-ink-2">
           One Apixis ID for every Apixis site. New accounts are free to start, and every new Apixis ID gets 1,000 free Ixis in the shared Apixis Wallet.
         </p>
-        <a href={`/auth/apixis/start?next=${encodeURIComponent(next)}`} className="btn-primary mt-6 w-full justify-center">
-          Log in with Apixis ID
+        <a
+          href={variant === "signup" ? "https://www.apixis.dev/enter?from=lyrixis" : `/auth/apixis/start?next=${encodeURIComponent(next)}`}
+          className="btn-primary mt-6 w-full justify-center"
+        >
+          {variant === "signup" ? "Create your Apixis ID" : "Log in with Apixis ID"}
         </a>
         <p className="mt-2 text-center text-xs text-ink-3">Already use Apixis, Socixis, Renoxis or the Wallet? Same account.</p>
 
@@ -191,6 +194,11 @@ export function LoginForm({ variant = "login" }: { variant?: "login" | "signup" 
         ) : (
         <>
         <p className="mt-2 text-center text-xs text-ink-3">New to Lyrixis? Create your account with Apixis ID. Email link and password are for existing accounts.</p>
+        <p className="mt-3 text-center text-sm">
+          <button type="button" className="text-cyan underline-offset-4 hover:underline" onClick={() => switchMode("forgot")}>
+            Forgot password
+          </button>
+        </p>
 
         <div className="my-6 flex items-center gap-3 font-mono text-[11px] uppercase tracking-widest text-ink-3">
           <span className="h-px flex-1 bg-line" /> or use your email <span className="h-px flex-1 bg-line" />

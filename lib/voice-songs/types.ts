@@ -1,4 +1,4 @@
-import type { VoiceSongSku } from "./pricing";
+import type { VoicePriceKey } from "./pricing";
 import type { QualityReport } from "./audio";
 
 export type VoiceStatus =
@@ -118,7 +118,7 @@ export type ReleaseRow = {
 export type PaymentRow = {
   id: string;
   userId: string;
-  sku: VoiceSongSku;
+  sku: VoicePriceKey;
   method: PayMethod;
   ixis: number;
   usdCents: number;

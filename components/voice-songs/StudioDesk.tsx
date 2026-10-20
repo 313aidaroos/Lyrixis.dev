@@ -18,7 +18,7 @@ export function StudioDesk() {
           <p className="mt-3 max-w-2xl text-ink-2">
             Record your voice, let Cixy co-write the lyric, and hear the song in your own model. A release is queued for review before any store sees it. You own the master. Lyrixis keeps 10% of reported master royalties.
           </p>
-          <StepNav current="/voice-songs" />
+          <StepNav current="/voice-songs/desk" />
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             <div className="card md:col-span-2">
               <p className="font-mono text-xs uppercase tracking-widest text-ink-3">Your model</p>
@@ -29,9 +29,9 @@ export function StudioDesk() {
                   : "One voice per Apixis ID. Delete it any time and the recording goes with it."}
               </p>
               <div className="mt-5 flex flex-wrap gap-3">
-                <Link href="/voice-songs/record" className="btn-primary">{voice ? "Re-record" : "Record a sample"}</Link>
-                {voice?.status === "ready" && <Link href="/voice-songs/write" className="btn-secondary">Write with Cixy</Link>}
-                <Link href="/voice-songs/admin" className="btn-secondary">Review queue</Link>
+                <Link href="/voice-songs/desk/record" className="btn-primary">{voice ? "Re-record" : "Record a sample"}</Link>
+                {voice?.status === "ready" && <Link href="/voice-songs/desk/write" className="btn-secondary">Write with Cixy</Link>}
+                <Link href="/voice-songs/desk/admin" className="btn-secondary">Review queue</Link>
               </div>
             </div>
             <div className="card">
@@ -62,7 +62,7 @@ export function StudioDesk() {
                       <p className="font-semibold">{song.title}</p>
                       <p className="text-sm text-ink-3">{song.genre} · {song.mood} · {song.status}</p>
                     </div>
-                    <Link href={`/voice-songs/song/${song.id}`} className="btn-secondary">Open</Link>
+                    <Link href={`/voice-songs/desk/song/${song.id}`} className="btn-secondary">Open</Link>
                   </li>
                 ))}
               </ul>

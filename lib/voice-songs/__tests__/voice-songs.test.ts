@@ -8,8 +8,8 @@ import {
   ALL_ACCESS_SONGS_PER_MONTH,
   ROYALTY_LYRIXIS_BPS,
   ROYALTY_USER_BPS,
+  VOICE_PRICE_KEYS,
   VOICE_SONG_PRICES,
-  VOICE_SONG_SKUS,
 } from "../pricing";
 import { providerStatus } from "../providers";
 import {
@@ -24,7 +24,7 @@ import {
   submitLiveness,
   train,
   writeLyrics,
-} from "../service";
+} from "../desk-service";
 import { MemoryStore } from "../store";
 import type { Actor } from "../types";
 import { demoPreviewWav } from "../audio";
@@ -76,7 +76,7 @@ describe("Voice Songs prices", () => {
     expect(VOICE_SONG_PRICES.song).toMatchObject({ usd: 6, ixis: 600, productKey: "lyrixis.voice.song" });
     expect(VOICE_SONG_PRICES.take).toMatchObject({ usd: 1, ixis: 100, productKey: "lyrixis.voice.take" });
     expect(VOICE_SONG_PRICES.release).toMatchObject({ usd: 9, ixis: 900, productKey: "lyrixis.voice.release" });
-    expect(VOICE_SONG_SKUS.setup).toBe("lyrixis.voice.setup");
+    expect(VOICE_PRICE_KEYS.setup).toBe("lyrixis.voice.setup");
     expect(ROYALTY_USER_BPS).toBe(9000);
     expect(ROYALTY_LYRIXIS_BPS).toBe(1000);
     expect(ALL_ACCESS_SONGS_PER_MONTH).toBe(4);

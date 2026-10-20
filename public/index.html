@@ -11,7 +11,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Manrope:wght@400;500;600;700;800&family=Martian+Mono:wght@400;500;700&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2307060B'/><path d='M12 7v13.5' stroke='%23A855F7' stroke-width='3' stroke-linecap='round'/><path d='M12 20.5h9' stroke='%2322D3EE' stroke-width='3' stroke-linecap='round'/><circle cx='9.5' cy='21.5' r='3.5' fill='%23E040A0'/></svg>">
+<link rel="icon" href="/brand/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/brand/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/brand/apple-touch-icon.png">
+<meta property="og:image" content="/brand/og-image.png">
+<link rel="manifest" href="/manifest.webmanifest">
 <style>
 :root{
   --bg:#07060B;
@@ -81,7 +85,7 @@ header{
 }
 .nav{display:flex;align-items:center;gap:28px;height:66px}
 .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:1.16rem;letter-spacing:.01em}
-.brand svg{width:26px;height:26px;flex:none}
+.brand img{height:40px;width:auto;display:block}
 .tabs{display:flex;gap:4px;margin-left:auto}
 .tab{
   font-size:.88rem;color:var(--ink-3);padding:7px 13px;border-radius:9px;
@@ -341,12 +345,7 @@ footer{border-top:1px solid var(--line-soft);padding:52px 0 40px;margin-top:60px
 <header>
 <div class="wrap nav">
   <a class="brand" href="#home" data-go="home">
-    <svg viewBox="0 0 32 32" aria-hidden="true">
-      <path d="M12 6.5v13.5" stroke="#A855F7" stroke-width="3.2" stroke-linecap="round"/>
-      <path d="M12 20.5h9.5" stroke="#22D3EE" stroke-width="3.2" stroke-linecap="round"/>
-      <circle cx="9" cy="21.8" r="3.6" fill="#EC4899"/>
-    </svg>
-    LYRIXIS
+    <img src="/brand/logo-full.png" alt="Lyrixis">
   </a>
   <button class="burger" id="burger" aria-label="Menu">Menu</button>
   <nav class="tabs" id="tabs">
@@ -708,11 +707,7 @@ curl -X POST https://api.lyrixis.com/v1/tracks \
   <div class="foot">
     <div style="max-width:290px">
       <a class="brand" href="#home" data-go="home" style="margin-bottom:14px">
-        <svg viewBox="0 0 32 32" aria-hidden="true">
-          <path d="M12 6.5v13.5" stroke="#A855F7" stroke-width="3.2" stroke-linecap="round"/>
-          <path d="M12 20.5h9.5" stroke="#22D3EE" stroke-width="3.2" stroke-linecap="round"/>
-          <circle cx="9" cy="21.8" r="3.6" fill="#EC4899"/>
-        </svg> LYRIXIS
+        <img src="/brand/logo-full.png" alt="Lyrixis">
       </a>
       <p style="color:var(--ink-3);font-size:.86rem">All-Access is $30 a month, or $3 a song. Labels and companies: contact sales.</p>
     </div>
@@ -730,6 +725,7 @@ curl -X POST https://api.lyrixis.com/v1/tracks \
         <a href="mailto:Lyrixis@Apixis.dev">Lyrixis@Apixis.dev</a>
         <a href="#enterprise" data-go="enterprise">Enterprise sales</a>
         <a href="mailto:Lyrixis@Apixis.dev?subject=Lyrixis%20API%20access">API access</a>
+        <a href="/login?mode=forgot">Forgot password</a>
       </div>
       <div class="foot-col">
         <h4>Legal</h4>
@@ -741,17 +737,20 @@ curl -X POST https://api.lyrixis.com/v1/tracks \
       <div class="foot-col foot-ixis">
         <h4>Other Ixis companies</h4>
         <a href="https://www.apixis.dev" target="_blank" rel="noopener noreferrer">Apixis</a>
-        <a href="https://apixis-wallet.vercel.app" target="_blank" rel="noopener noreferrer">Apixis Wallet</a>
+        <a href="https://wallet.apixis.dev" target="_blank" rel="noopener noreferrer">Apixis Wallet</a>
         <a href="https://socixis.dev" target="_blank" rel="noopener noreferrer">Socixis</a>
         <a href="https://renoxis.dev" target="_blank" rel="noopener noreferrer">Renoxis</a>
-        <a href="https://rawixis.vercel.app" target="_blank" rel="noopener noreferrer">Rawixis</a>
-        <a href="https://contraxis-dev.vercel.app" target="_blank" rel="noopener noreferrer">Contraxis</a>
-        <a href="https://halaxis.vercel.app" target="_blank" rel="noopener noreferrer">Halaxis</a>
+        <a href="https://rawixis.dev" target="_blank" rel="noopener noreferrer">Rawixis</a>
+        <a href="https://contraxis.dev" target="_blank" rel="noopener noreferrer">Contraxis</a>
+        <a href="https://halaxis.apixis.dev" target="_blank" rel="noopener noreferrer">Halaxis</a>
         <a href="https://recovra-three.vercel.app" target="_blank" rel="noopener noreferrer">Recovra</a>
-        <a href="https://deduxis.vercel.app" target="_blank" rel="noopener noreferrer">Deduxis</a>
-        <a href="https://spatial-dashboard-xi.vercel.app" target="_blank" rel="noopener noreferrer">Geoxis</a>
-        <a href="https://ominix-app.vercel.app" target="_blank" rel="noopener noreferrer">Ominix</a>
-        <a href="https://wattixis.vercel.app" target="_blank" rel="noopener noreferrer">Wattixis</a>
+        <a href="https://deduxis.apixis.dev" target="_blank" rel="noopener noreferrer">Deduxis</a>
+        <a href="https://geoxis.apixis.dev" target="_blank" rel="noopener noreferrer">Geoxis</a>
+        <a href="https://ominixis.apixis.dev" target="_blank" rel="noopener noreferrer">Ominixis</a>
+        <a href="https://wattixis.apixis.dev" target="_blank" rel="noopener noreferrer">Wattixis</a>
+        <a href="https://launchixis.apixis.dev" target="_blank" rel="noopener noreferrer">Launchixis</a>
+        <a href="https://pinixis.dev" target="_blank" rel="noopener noreferrer">Pinixis</a>
+        <a href="https://newsxis.apixis.dev" target="_blank" rel="noopener noreferrer">Newsxis</a>
       </div>
     </div>
   </div>
@@ -917,7 +916,7 @@ render();
 <div class="cx-help" id="cxHelp">
   <section class="cx-help-panel" id="cxHelpPanel" aria-labelledby="cxHelpTitle" hidden>
     <div class="cx-help-head">
-      <img src="/cixy/cixy-combo-a-avatar.webp" alt="Cixy" width="48" height="48">
+      <img src="/cixy/cixy-lyrixis-avatar.webp" alt="Cixy" width="48" height="48">
       <div>
         <div class="eyebrow">Cixy · How this page works</div>
         <h2 id="cxHelpTitle">Lyrixis</h2>
@@ -928,7 +927,7 @@ render();
     <a class="btn btn-p" href="/cixy">Ask Cixy →</a>
   </section>
   <button class="cx-help-toggle" id="cxHelpToggle" type="button" aria-expanded="false" aria-controls="cxHelpPanel">
-    <img src="/cixy/cixy-combo-a-avatar.webp" alt="Cixy" width="36" height="36"><span>Need help?</span>
+    <img src="/cixy/cixy-lyrixis-avatar.webp" alt="Cixy" width="36" height="36"><span>Need help?</span>
   </button>
 </div>
 <script>

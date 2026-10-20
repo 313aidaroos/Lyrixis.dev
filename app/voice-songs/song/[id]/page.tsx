@@ -1,8 +1,8 @@
-import { SongDesk } from "@/components/voice-songs/SongDesk";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
-export default async function SongPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function SongRedirect({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  return <SongDesk songId={id} />;
+  redirect(`/voice-songs/desk/song/${id}`);
 }

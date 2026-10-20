@@ -12,7 +12,7 @@ export function CixyLoginHelp() {
     <aside id="ask-cixy" className="overflow-hidden rounded-2xl border border-line bg-[rgba(16,15,42,0.6)] backdrop-blur-[18px]" aria-labelledby="cixy-help-title">
       <div className="flex items-start gap-4 p-5 sm:items-center sm:p-6">
         <img
-          src="/cixy/cixy-combo-a-avatar.webp"
+          src="/cixy/cixy-lyrixis-avatar.webp"
           alt="Cixy, the Apixis family guide"
           width={80}
           height={80}

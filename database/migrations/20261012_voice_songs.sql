@@ -53,7 +53,7 @@ create table public.voice_song_songs (
 );
 create index voice_song_songs_user on public.voice_song_songs (user_id, created_at desc);
 
-create table public.voice_song_takes (
+create table public.voice_desk_takes (
   id uuid primary key default gen_random_uuid(),
   song_id uuid not null references public.voice_song_songs(id) on delete cascade,
   user_id uuid not null references public.users(id) on delete cascade,
@@ -76,7 +76,7 @@ create table public.voice_song_takes (
 create table public.voice_song_releases (
   id uuid primary key default gen_random_uuid(),
   song_id uuid not null references public.voice_song_songs(id) on delete cascade,
-  take_id uuid not null references public.voice_song_takes(id) on delete restrict,
+  take_id uuid not null references public.voice_desk_takes(id) on delete restrict,
   user_id uuid not null references public.users(id) on delete cascade,
   artist_name text not null,
   title text not null,
@@ -131,7 +131,7 @@ create table public.voice_song_usage (
 
 alter table public.voice_song_voices enable row level security;
 alter table public.voice_song_songs enable row level security;
-alter table public.voice_song_takes enable row level security;
+alter table public.voice_desk_takes enable row level security;
 alter table public.voice_song_releases enable row level security;
 alter table public.voice_song_payments enable row level security;
 alter table public.voice_song_usage enable row level security;
@@ -140,7 +140,7 @@ create policy voice_song_voices_own on public.voice_song_voices
   for select using (user_id = public.current_app_user_id());
 create policy voice_song_songs_own on public.voice_song_songs
   for select using (user_id = public.current_app_user_id());
-create policy voice_song_takes_own on public.voice_song_takes
+create policy voice_desk_takes_own on public.voice_desk_takes
   for select using (user_id = public.current_app_user_id());
 create policy voice_song_payments_own on public.voice_song_payments
   for select using (user_id = public.current_app_user_id());

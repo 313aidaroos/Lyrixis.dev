@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { VOICE_SONG_PRICES, type VoiceSongSku } from "@/lib/voice-songs/pricing";
+import { VOICE_SONG_PRICES, type VoicePriceKey } from "@/lib/voice-songs/pricing";
 import type { ReleaseRow, SongRow, TakeRow, UsageRow, VoiceRow } from "@/lib/voice-songs/types";
 
 export type ProviderFlags = {
@@ -57,7 +57,7 @@ export function useSession() {
     setLoading(true);
     setError("");
     try {
-      const data = await api<Session>("/api/voice-songs");
+      const data = await api<Session>("/api/voice-desk");
       setSession(data);
       setNeedsAuth(false);
     } catch (err) {
@@ -82,12 +82,12 @@ export function useSession() {
 }
 
 export async function openDemo(allowance: boolean) {
-  await api("/api/voice-songs/demo", {
+  await api("/api/voice-desk/demo", {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ allowance }),
   });
-  window.location.href = "/voice-songs";
+  window.location.href = "/voice-songs/desk";
 }
 
 export function AuthGate({
@@ -115,7 +115,7 @@ export function AuthGate({
           Voice Songs uses your existing Apixis ID. Lyrixis does not create a second account. The model is tied to that ID and only your own voice can be cloned.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link href="/auth/apixis/start?next=/voice-songs" className="btn-primary">Log in with Apixis ID</Link>
+          <Link href="/auth/apixis/start?next=/voice-songs/desk" className="btn-primary">Log in with Apixis ID</Link>
           {demoAvailable && (
             <button type="button" className="btn-secondary" onClick={() => void openDemo(false)}>Open the demo</button>
           )}
@@ -135,12 +135,12 @@ export function AuthGate({
 }
 
 const STEPS = [
-  { href: "/voice-songs", label: "Studio" },
-  { href: "/voice-songs/record", label: "Record" },
-  { href: "/voice-songs/consent", label: "Consent" },
-  { href: "/voice-songs/train", label: "Train" },
-  { href: "/voice-songs/write", label: "Write" },
-  { href: "/voice-songs/release", label: "Release" },
+  { href: "/voice-songs/desk", label: "Studio" },
+  { href: "/voice-songs/desk/record", label: "Record" },
+  { href: "/voice-songs/desk/consent", label: "Consent" },
+  { href: "/voice-songs/desk/train", label: "Train" },
+  { href: "/voice-songs/desk/write", label: "Write" },
+  { href: "/voice-songs/desk/release", label: "Release" },
 ];
 
 export function StepNav({ current }: { current: string }) {
@@ -190,7 +190,7 @@ export function ProviderLine({ session }: { session: Session }) {
   );
 }
 
-function keyFor(sku: VoiceSongSku) {
+function keyFor(sku: VoicePriceKey) {
   const storageKey = `vs-pay-${sku}`;
   const existing = window.sessionStorage.getItem(storageKey);
   if (existing) return existing;
@@ -204,7 +204,7 @@ export function PayChoice({
   allowance,
   onPaid,
 }: {
-  sku: VoiceSongSku;
+  sku: VoicePriceKey;
   allowance: boolean;
   onPaid: (idempotencyKey: string) => void;
 }) {
@@ -217,7 +217,7 @@ export function PayChoice({
     setMessage("");
     const idempotencyKey = keyFor(sku);
     try {
-      const result = await api<{ payment: { status: string }; checkoutUrl?: string }>("/api/voice-songs/checkout", {
+      const result = await api<{ payment: { status: string }; checkoutUrl?: string }>("/api/voice-desk/checkout", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
@@ -269,5 +269,5 @@ export function PayChoice({
 
 export function audioUrl(path: string | null) {
   if (!path) return "";
-  return `/api/voice-songs/audio?path=${encodeURIComponent(path)}`;
+  return `/api/voice-desk/audio?path=${encodeURIComponent(path)}`;
 }

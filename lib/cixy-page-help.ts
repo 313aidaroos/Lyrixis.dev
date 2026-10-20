@@ -3,7 +3,7 @@
  * Steps describe what the Lyrixis code on each page actually does. Keep them plain and short.
  * Cixy's picture is the shared family photo, never an SVG stand-in. No religious wording.
  */
-export const CIXY_AVATAR_SRC = "/cixy/cixy-combo-a-avatar.webp";
+export const CIXY_AVATAR_SRC = "/cixy/cixy-lyrixis-avatar.webp";
 
 export type CixyPageHelpEntry = {
   title: string;
@@ -21,7 +21,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
       "Type a song, artist, writer or ISRC in the search box and press Search the catalog, or tap one of the Examples.",
       "Scroll to the live demo to see how a track becomes synced lyrics. How to use Lyrixis walks through every step.",
       "All-Access is $30 a month (3,000 Ixis). One song without the plan is $3 (300 Ixis). Labels use Contact sales.",
-      "Pay by card or with Ixis (100 Ixis = $1). Card checkout is not open yet. Add Ixis in the Apixis Wallet.",
+      "Pay by card or with Ixis (100 Ixis = $1). Card coming soon until card checkout is turned on. Add Ixis in the Apixis Wallet.",
       "To process your own song, sign in with Apixis ID and use Upload.",
     ],
     tips: ["The round ◈ button at the bottom right opens a full chat with me."],
@@ -43,7 +43,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
     steps: [
       "The top shows title, artist and IDs (ISRC, ISWC, UPC, writers) on file.",
       "Press Redeem · 300 Ixis ($3) to unlock this recording. You need to be signed in. All-Access is $30 a month.",
-      "Pay by card or with Ixis. Card checkout is not open yet. If your Wallet is short, buy Ixis and come back.",
+      "Pay by card or with Ixis. Card coming soon until card checkout is turned on. If your Wallet is short, buy Ixis and come back.",
       "Once unlocked, download the lyrics as .txt, .lrc or .json from the same card.",
     ],
     tips: ["Redeeming the same recording again doesn't charge you twice."],
@@ -65,9 +65,9 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
     title: "Pricing",
     steps: [
       "Lyrixis All-Access is $30 a month (3,000 Ixis). It renews every month. Cancel anytime; it stays on until the end of the paid month.",
-      "Included now: unlimited song lyrics, plus Voice Songs (your voice model, 4 songs, and 1 release a month). Lyric video, translations, and the Voices marketplace are Coming soon.",
+      "Included now: unlimited song lyrics, plus your own voice model, 4 voice songs, and 1 release a month. Lyric video downloads, translations, and the Voices marketplace are marked Coming soon.",
       "Without the plan, one song is $3 (300 Ixis). That unlock still works today.",
-      "Pay by card or with Ixis (100 Ixis = $1). Card checkout is not open yet. Add Ixis in the Apixis Wallet.",
+      "The full price list is on this page: song $3 (300 Ixis), voice setup $5 (500), voice song $6 (600), extra take 100 Ixis, release $9 (900, pending distributor), All-Access $30 a month. Card coming soon until card checkout is turned on.",
       "Labels and companies: fill in Contact sales. Company, your name, work email, phone if you want, songs per month, seats, and a message.",
       "After Awad approves the company, the owner opens Team and invites people by email. They get All-Access on that company's songs.",
     ],
@@ -147,7 +147,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
     steps: [
       "Press Log in with Apixis ID. One Apixis ID works on every Apixis site.",
       "Existing email accounts can use Magic link (we email a sign-in link) or Password.",
-      "Forgot your password? Choose Password, then Forgot password?, and open the reset link we email you.",
+      "Forgot your password? Use Forgot password in the footer, the menu, or on this page. Open the reset link we email you.",
       "The sign-in help card on this page can answer questions about magic links and Apixis ID.",
     ],
     tips: ["Nobody from Lyrixis will ever ask for your password."],
@@ -156,9 +156,9 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
   "/signup": {
     title: "Create your account",
     steps: [
-      "New accounts are created with Apixis ID: press Log in with Apixis ID.",
-      "Sign up once on the Apixis ID page, then you come back here signed in.",
-      "Every new Apixis ID gets 1,000 free Ixis once, in the shared Apixis Wallet.",
+      "New accounts are Apixis ID only. Press Create your Apixis ID. That opens https://www.apixis.dev/enter?from=lyrixis.",
+      "This page has no magic-link signup and no password signup.",
+      "Every new Apixis ID gets 1,000 free Ixis once, in the shared Apixis Wallet. Forgot password is in the footer and on Sign in.",
     ],
     tips: [],
     suggestions: ["What is Apixis ID?", "Is it free to start?"],
@@ -179,7 +179,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
       "Your tracks table lists every song you uploaded, with status, language, access and confidence.",
       "Click a title to open its synced lyrics. Status moves from Queued to Completed (or Needs review) on its own.",
       "Paid shows Preview until you unlock a song for $3 (300 Ixis), or until your company Enterprise plan covers it.",
-      "Upload a track adds a new song. All-Access is $30 a month. Card checkout is not open yet.",
+      "Upload a track adds a new song. All-Access is $30 a month. Card coming soon until card checkout is turned on.",
       "The Ixis pill in the top bar is your Apixis Wallet balance. Buy Ixis tops it up.",
     ],
     tips: ["Confidence is how sure the transcription is. Low-confidence tracks are marked for review."],
@@ -193,7 +193,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
       "Tick the box confirming you have the rights to this recording. Lyrixis stores that confirmation.",
       "Press Upload and process. You go straight to the track page while the lyrics are made.",
     ],
-    tips: ["Processing is free. You pay $3 (300 Ixis) to unlock one song, or $30 a month for All-Access. Card checkout is not open yet."],
+    tips: ["Processing is free. You pay $3 (300 Ixis) to unlock one song, or $30 a month for All-Access. Card coming soon until card checkout is turned on."],
     suggestions: ["Which file format is best?", "How long does processing take?", "What does the rights box mean?"],
   },
   "/tracks/": {
@@ -202,7 +202,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
       "The status badge updates every few seconds until the lyrics are Completed (or Needs review).",
       "Press play. The current line highlights, and you can click any word to jump the audio there.",
       "Before unlocking you see the first 30 seconds. Press Unlock full lyrics · 300 Ixis ($3), unless your company plan already covers it.",
-      "All-Access is $30 a month. Pay by card or with Ixis. Card checkout is not open yet, so the $3 unlock is what works today.",
+      "All-Access is $30 a month. Pay by card or with Ixis. Card coming soon until card checkout is turned on. The 300 Ixis unlock works today.",
       "After unlocking, use Correct to fix a line and Exports for TXT, SRT, LRC, or JSON. Lyric video is coming soon.",
     ],
     tips: [
@@ -215,7 +215,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
     title: "How to use Lyrixis",
     steps: [
       "Follow the numbered steps on this page: account, upload, processing, playback, retry, and paying.",
-      "All-Access is $30 a month (3,000 Ixis). One song is $3 (300 Ixis). Card checkout is not open yet.",
+      "All-Access is $30 a month (3,000 Ixis). One song is $3 (300 Ixis). Card coming soon until card checkout is turned on.",
       "Lyric video downloads, translations, and Voices are marked Coming soon because they are not available yet.",
       "Label / Enterprise: fill in Contact sales on Pricing. After approval, the owner invites the team from Team.",
     ],
@@ -246,22 +246,132 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
     suggestions: ["How do I approve a company?"],
   },
   "/voice-songs": {
-    title: "Voice Songs",
+    title: "Voice songs",
     steps: [
-      "Sign in with Apixis ID. One private voice model belongs to that ID, and only your own voice can be cloned.",
-      "Record 3 to 5 minutes, sign the plain-language consent, and read the random phrase aloud.",
-      "Train the model, then write original lyrics with Cixy. Other artists’ names and “sing like” requests are refused.",
-      "A voice song is $6 (600 Ixis) and includes 3 takes. An extra take is 100 Ixis ($1). Setup is $5 (500 Ixis) once.",
-      "All-Access at $30 a month includes the voice model, 4 voice songs, and 1 release each month. Pay with Ixis or by card.",
-      "Release is $9 (900 Ixis). You keep 90% of master royalties and Lyrixis keeps 10%. A reviewer sees it before any store.",
+      "Open Record. Check the mic and the room, read the consent line aloud, then read each script line. Re-record any line that clips or sounds noisy.",
+      "On Consent, agree in plain words, then read the phrase on screen out loud.",
+      "On Lyrics, pick a theme, mood, and genre. Write with Cixy, then edit the lines. Other artists' names are refused.",
+      "On Song, generate a preview and download it. A live song needs the music keys. Until then the page says not configured.",
+      "Voice setup is $5 (500 Ixis). A voice song is $6 (600 Ixis). Pay on Checkout. You keep 90% of master royalties.",
     ],
-    tips: ["Delete my voice removes the model and the recording. Preview audio is watermarked."],
-    suggestions: ["How much is a voice song?", "Can I clone someone else’s voice?"],
+    tips: ["Sign in with Apixis ID. Delete my voice removes the sample and the model."],
+    suggestions: ["How do I record my voice?", "What does a voice song cost?", "Can I sing in someone else's voice?"],
   },
   "/voice-songs/record": {
     title: "Record your voice",
     steps: [
-      "Use the prompts: talk, sing on “la”, read the line, then hum.",
+      "Start with the room check, then the mic check. The meter should sit low in a quiet room.",
+      "Read the consent line aloud, then each script line at the pace shown. The counter shows how many lines are done.",
+      "Re-record one line if it clips, is too quiet, or has room noise. The other lines stay.",
+      "Save the sample when every line is done. Delete my voice removes the recording, the model, and the songs tied to it.",
+    ],
+    tips: ["A saved audio file is only a fallback. The mic recording is the path to use."],
+    suggestions: ["How long should the sample be?", "How do I delete my voice?"],
+  },
+  "/voice-songs/consent": {
+    title: "Voice consent",
+    steps: [
+      "Read the consent. It says the recording is your own voice and is used only for your Apixis ID.",
+      "Tick the box and press Sign consent.",
+      "Read the phrase on the right out loud, in the same voice as the sample, then stop.",
+      "If the words do not match, read it again. We do not clone anyone else.",
+    ],
+    tips: ["The phrase is chosen on the server. It is not a famous lyric."],
+    suggestions: ["Why do I read a phrase?", "Who can use my voice model?"],
+  },
+  "/voice-songs/lyrics": {
+    title: "Write the lyric",
+    steps: [
+      "Set a title, theme, genre, and mood.",
+      "Press Write with Cixy for a draft, or type your own lines.",
+      "Cixy refuses other artists' names, song titles, and copied lyrics.",
+      "Save and preview stores the lyric on your account.",
+    ],
+    tips: ["Edit any line before you generate. The draft is yours."],
+    suggestions: ["Write a chorus about a night drive", "Why was my prompt refused?"],
+  },
+  "/voice-songs/preview": {
+    title: "Your voice song",
+    steps: [
+      "Press Generate song after the sample, consent, phrase, and lyric are done.",
+      "The first pass trains your voice, then writes the music, then re-sings it in your voice.",
+      "Play the preview and download it. Previews are watermarked.",
+      "If the page says not configured, the server is missing ELEVENLABS_API_KEY or REPLICATE_API_TOKEN.",
+    ],
+    tips: ["A voice song includes 3 takes. Setup is $5 (500 Ixis) and a song is $6 (600 Ixis)."],
+    suggestions: ["How long does a song take?", "Why is the song not configured?"],
+  },
+  "/voice-songs/checkout": {
+    title: "Voice songs checkout",
+    steps: [
+      "The prices are voice setup $5 (500 Ixis), a voice song $6 (600 Ixis), an extra take (100 Ixis), and a release $9 (900 Ixis).",
+      "Pay with Ixis or by card. Card coming soon until card checkout is turned on. Voice-song Ixis stays closed until those Wallet products are registered. Nothing is charged until then.",
+      "All-Access ($30 a month) includes the voice model, 4 voice songs, and 1 release a month. A release stays pending distributor. The owner test pass skips the charge.",
+      "An extra take is 100 Ixis only. 100 Ixis equals $1.",
+    ],
+    tips: ["100 Ixis equals $1. You keep 90% of master royalties."],
+    suggestions: ["What does a voice song cost?", "Can I pay with Ixis?"],
+  },
+  "/voice-songs/release": {
+    title: "Release your song",
+    steps: [
+      "Add the title, artist, genre, cover, release date, explicit flag, and the writers with splits that add up to 100%.",
+      "The master royalty split is 90% artist and 10% Lyrixis. That is separate from the writer splits.",
+      "AI vocals, AI music, and AI-assisted lyrics stay on. Confirm you have the rights.",
+      "Submit for review. The status is pending distributor. The song is not on Spotify, Apple Music, Tidal, or any other store.",
+    ],
+    tips: ["Other artists' names are refused as the artist name and as the title."],
+    suggestions: ["How do I release a voice song?", "What has to stay disclosed?"],
+  },
+  "/admin/voice-songs": {
+    title: "Voice release queue",
+    steps: [
+      "This queue is only for the Lyrixis owner.",
+      "Each request shows the artist, title, AI disclosure, and the 90 / 10 royalty split.",
+      "Reject it with a note, or approve it.",
+      "Approval keeps the store status at pending distributor. The song is not placed on a store.",
+    ],
+    tips: ["Apply database/migrations/0008_voice_song_releases.sql before the queue can load."],
+    suggestions: ["How do I approve a voice release?"],
+  },
+  "/voice-songs/songs/": {
+    title: "A voice song",
+    steps: [
+      "This page is one song from your account. Nobody else can open it.",
+      "Press play to hear the watermarked preview, or download the file.",
+      "Generate again for another of the included takes.",
+      "If status says not configured, the music keys are not on the server yet.",
+    ],
+    tips: ["You own the master. Lyrixis keeps 10% of the royalties the distributor reports."],
+    suggestions: ["Where do I download the song?", "How many takes do I get?"],
+  },
+  "/checkout/return": {
+    title: "Card payment",
+    steps: [
+      "This page confirms a card payment after checkout.",
+      "A song unlock is written on your account. All-Access renews monthly.",
+      "Ixis payments still go through the Apixis Wallet. This page does not change your Ixis balance.",
+    ],
+    tips: ["If the payment is not confirmed, you can pay with Ixis instead."],
+    suggestions: ["Can I pay with Ixis instead?"],
+  },
+  "/voice-songs/desk": {
+    title: "Voice sample desk",
+    steps: [
+      "This desk is the 3 to 5 minute sample walkthrough. The guided studio stays on Voice songs.",
+      "Sign in with Apixis ID, or open the demo. One private voice model belongs to that ID.",
+      "Record 3 to 5 minutes, sign the consent, and read the random phrase aloud.",
+      "Train the model, then write original lyrics with Cixy. Other artists' names are refused.",
+      "A voice song is $6 (600 Ixis) and includes 3 takes. Setup is $5 (500 Ixis) once. An extra take is 100 Ixis.",
+      "All-Access at $30 a month includes the voice model, 4 voice songs, and 1 release each month.",
+    ],
+    tips: ["Delete my voice removes the model and the recording. Preview audio is watermarked."],
+    suggestions: ["How much is a voice song?", "Can I clone someone else's voice?"],
+  },
+  "/voice-songs/desk/record": {
+    title: "Record a voice sample",
+    steps: [
+      "Use the prompts: talk, sing on la, read the line, then hum.",
       "Press Start recording and watch the level. Clipping or a very quiet take will be rejected.",
       "Stop between 3 and 5 minutes, then Save sample.",
       "In the demo, Use a demo sample stands in so you can click through without a microphone.",
@@ -269,8 +379,8 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
     tips: ["The file stays in a private bucket. Other accounts cannot read it."],
     suggestions: ["How long should the sample be?", "What if the mic clips?"],
   },
-  "/voice-songs/consent": {
-    title: "Voice consent",
+  "/voice-songs/desk/consent": {
+    title: "Desk voice consent",
     steps: [
       "Read the consent. It says this is your voice, stored only for songs you ask for, and deletable in one step.",
       "Tick the box and sign. Lyrixis will not train without that.",
@@ -280,7 +390,7 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
     tips: ["The phrase changes. It is the liveness check, the same idea as a read-aloud captcha."],
     suggestions: ["What am I agreeing to?", "Why do I read a phrase?"],
   },
-  "/voice-songs/train": {
+  "/voice-songs/desk/train": {
     title: "Train your voice",
     steps: [
       "Press Train model after consent and the read-aloud check.",
@@ -291,18 +401,18 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
     tips: ["Re-recording is included in the one-time setup."],
     suggestions: ["How long does training take?", "How do I delete my voice?"],
   },
-  "/voice-songs/write": {
+  "/voice-songs/desk/write": {
     title: "Write with Cixy",
     steps: [
       "Choose a theme, mood, and genre, and add a note that is yours.",
       "Ask Cixy for a verse and chorus. Edit any line in the box.",
-      "Cixy refuses another artist’s name, a known song title, or a request to copy a voice.",
+      "Cixy refuses another artist's name, a known song title, or a request to copy a voice.",
       "Pay $6 (600 Ixis) or use one of the 4 monthly All-Access songs, then the song is generated.",
     ],
     tips: ["If Cixy is not configured, the demo writer drafts an original lyric and says so."],
     suggestions: ["Will Cixy copy a famous song?", "What is included in a voice song?"],
   },
-  "/voice-songs/song/": {
+  "/voice-songs/desk/song/": {
     title: "Preview your song",
     steps: [
       "Play the watermarked preview. The badge names the music provider and the voice provider.",
@@ -313,27 +423,27 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
     tips: ["A missing provider key stops a live render and explains which key is needed. The demo still plays a stand-in."],
     suggestions: ["Why is the preview watermarked?", "How do I get another take?"],
   },
-  "/voice-songs/release": {
-    title: "Release a song",
+  "/voice-songs/desk/release": {
+    title: "Desk release",
     steps: [
-      "Enter your own artist name and the title. Another artist’s name is blocked.",
+      "Enter your own artist name and the title. Another artist's name is blocked.",
       "Add credits, optional cover art, and read the AI disclosure.",
-      "The split is recorded as you 90% and Lyrixis 10%. Spotify may not pay under 1,000 streams a year.",
+      "The split is recorded as you 90% and Lyrixis 10%.",
       "Accept the rights line. The release is $9 (900 Ixis), or the 1 release included with All-Access.",
       "It waits in the review queue. Stores are contacted only after approval, and only if a distributor key exists.",
     ],
     tips: ["You can request at most 4 releases in a month."],
-    suggestions: ["What does the AI disclosure say?", "When does it reach Spotify?"],
+    suggestions: ["What does the AI disclosure say?", "When does it reach a store?"],
   },
-  "/voice-songs/admin": {
-    title: "Release review",
+  "/voice-songs/desk/admin": {
+    title: "Desk release review",
     steps: [
       "This queue is for a Lyrixis reviewer. In the demo you only see your own requests.",
       "Read the artist, title, split, and AI disclosure.",
       "Approve to hand it to the distributor. Reject to send it back.",
       "If Too Lost or Revelator is not configured, approval stays on file and the distributor line says not configured.",
     ],
-    tips: ["Raw voice recordings are not shown on this page."],
+    tips: ["Raw voice recordings are not shown on this page. The studio queue is at Admin, Voice songs."],
     suggestions: ["What happens when I approve?"],
   },
   "/voices": {

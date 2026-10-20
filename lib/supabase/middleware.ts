@@ -6,12 +6,16 @@ export async function updateSession(request: NextRequest) {
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   const path = request.nextUrl.pathname;
+  const demo = request.nextUrl.searchParams.get("demo") === "1";
+  const demoQueue = path === "/admin/voice-songs" && demo;
+  const demoUpload = path === "/upload" && demo;
+  const demoTrack = path === "/tracks/demo" && demo;
   const isProtected =
     path.startsWith("/dashboard") ||
-    path.startsWith("/upload") ||
-    path.startsWith("/tracks") ||
+    (path.startsWith("/upload") && !demoUpload) ||
+    (path.startsWith("/tracks") && !demoTrack) ||
     path.startsWith("/team") ||
-    path.startsWith("/admin");
+    (path.startsWith("/admin") && !demoQueue);
 
   if (!url || !anonKey) {
     if (isProtected) {

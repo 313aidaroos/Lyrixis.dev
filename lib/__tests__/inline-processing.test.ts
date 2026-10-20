@@ -6,8 +6,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const afterMock = vi.fn();
 vi.mock("next/server", () => ({ after: (fn: () => unknown) => afterMock(fn) }));
-const enqueueMock = vi.fn(async (id: string) => `track-${id}`);
-vi.mock("@/lib/queue", () => ({ enqueueTrackProcessing: (id: string) => enqueueMock(id) }));
 
 let uploadCount = 0;
 vi.mock("@/lib/supabase/admin", () => ({
@@ -34,22 +32,13 @@ const user = { id: "11111111-1111-4111-8111-111111111111", email: "t@example.com
 
 describe("processing mode", () => {
   afterEach(() => {
-    delete process.env.PROCESSING_MODE;
     afterMock.mockReset();
-    enqueueMock.mockClear();
   });
 
-  it("defaults to inline (Vercel after()), no Redis needed", async () => {
+  it("runs inside the Vercel function (after()), with no Redis queue", async () => {
     expect(processingMode()).toBe("inline");
     await expect(startTrackProcessing("t1")).resolves.toBe("inline");
     expect(afterMock).toHaveBeenCalledTimes(1);
-    expect(enqueueMock).not.toHaveBeenCalled();
-  });
-
-  it("PROCESSING_MODE=queue keeps Option A (BullMQ worker)", async () => {
-    process.env.PROCESSING_MODE = "queue";
-    await expect(startTrackProcessing("t2")).resolves.toBe("track-t2");
-    expect(afterMock).not.toHaveBeenCalled();
   });
 });
 

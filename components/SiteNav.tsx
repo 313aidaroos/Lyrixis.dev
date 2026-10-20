@@ -14,7 +14,7 @@ const MENUS: Record<string, { label: string; href: string; hint: string }[]> = {
     { label: "Live demo", href: "/#demo", hint: "Watch a track become intelligence" },
     { label: "Add a recording", href: "/add", hint: "Single or bulk CSV ingest" },
     { label: "Cixy", href: "/cixy", hint: "Native music-intelligence AI" },
-    { label: "Voice Songs", href: "/voice-songs", hint: "Sing in your own voice" },
+    { label: "Voice songs", href: "/voice-songs", hint: "Record your voice and sing a song" },
     // Lyrixis Voices: shown on previews, or in production once NEXT_PUBLIC_VOICES_NAV=true (with VOICES_LIVE).
     ...(process.env.NEXT_PUBLIC_VOICES_NAV === "true" || (process.env.NEXT_PUBLIC_VERCEL_ENV && process.env.NEXT_PUBLIC_VERCEL_ENV !== "production")
       ? [{ label: "Voices", href: "/voices", hint: "License Arabic & bilingual voices" }]
@@ -86,9 +86,8 @@ export function SiteNav() {
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-3">
-        <Link href="/" className="flex shrink-0 items-center gap-2.5" aria-label="Lyrixis home">
-          <img src="/lyrixis-mark.png" alt="" className="mark-glow h-9 w-9 object-contain" />
-          <span className="font-display text-sm font-semibold tracking-[0.24em]">LYRIXIS</span>
+        <Link href="/" className="flex shrink-0 items-center" aria-label="Lyrixis home">
+          <img src="/brand/logo-full.png" alt="" className="h-14 w-auto object-contain sm:h-16" />
         </Link>
 
         <nav className="hidden items-center gap-5 whitespace-nowrap text-sm lg:flex xl:gap-6" onMouseLeave={scheduleClose}>
@@ -153,12 +152,18 @@ export function SiteNav() {
               <Link href="/dashboard" className="nav-link text-ink-2 hover:text-ink" data-active={active("/dashboard")}>
                 Dashboard
               </Link>
+              <Link href="/login?mode=forgot" className="nav-link hidden text-ink-2 hover:text-ink xl:inline">
+                Forgot password
+              </Link>
               <button type="button" onClick={() => void signOut()} className="text-ink-2 hover:text-ink">
                 Sign out
               </button>
             </>
           ) : (
             <>
+              <Link href="/login?mode=forgot" className="nav-link hidden text-ink-2 hover:text-ink xl:inline">
+                Forgot password
+              </Link>
               <Link href="/login" className="nav-link text-ink-2 hover:text-ink" data-active={active("/login")}>
                 Sign in
               </Link>
@@ -208,6 +213,9 @@ export function SiteNav() {
             </Link>
             <Link href="/pricing" onClick={() => setOpen(false)}>
               Pricing
+            </Link>
+            <Link href="/login?mode=forgot" onClick={() => setOpen(false)}>
+              Forgot password
             </Link>
             <a href={WALLET_BUY_URL} onClick={() => setOpen(false)}>
               Wallet

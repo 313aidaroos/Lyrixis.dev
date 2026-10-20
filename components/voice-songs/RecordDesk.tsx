@@ -99,8 +99,8 @@ export function RecordDesk() {
     form.set("rms", String(meta.rms));
     form.set("clippingRatio", String(meta.clippingRatio));
     try {
-      await api("/api/voice-songs/sample", { method: "POST", body: form });
-      router.push("/voice-songs/consent");
+      await api("/api/voice-desk/sample", { method: "POST", body: form });
+      router.push("/voice-songs/desk/consent");
     } catch (error) {
       setNote(error instanceof Error ? error.message : "Upload failed.");
     } finally {
@@ -112,12 +112,12 @@ export function RecordDesk() {
     setBusy(true);
     setNote("");
     try {
-      await api("/api/voice-songs/sample", {
+      await api("/api/voice-desk/sample", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ demoStandIn: true, seconds: 8, peak: 0.4, rms: 0.08, clippingRatio: 0 }),
       });
-      router.push("/voice-songs/consent");
+      router.push("/voice-songs/desk/consent");
     } catch (error) {
       setNote(error instanceof Error ? error.message : "Demo sample failed.");
     } finally {
@@ -136,7 +136,7 @@ export function RecordDesk() {
           <p className="font-mono text-xs uppercase tracking-widest text-ink-2">Your voice</p>
           <h1 className="mt-2 font-display text-4xl font-bold sm:font-marquee sm:text-5xl">Record a sample</h1>
           <p className="mt-3 max-w-2xl text-ink-2">Talk and sing for 3 to 5 minutes. We check length, clipping, and level before anything is stored. Only this Apixis ID can use the model.</p>
-          <StepNav current="/voice-songs/record" />
+          <StepNav current="/voice-songs/desk/record" />
           <ol className="mt-8 grid gap-3 sm:grid-cols-2">
             {PROMPTS.map((prompt, index) => (
               <li key={prompt} className="card text-sm text-ink-2"><span className="font-mono text-xs text-cyan">0{index + 1}</span><p className="mt-2">{prompt}</p></li>

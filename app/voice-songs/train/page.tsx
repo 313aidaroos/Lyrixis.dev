@@ -1,7 +1,7 @@
-import { TrainDesk } from "@/components/voice-songs/TrainDesk";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
-export default function TrainPage() {
-  return <TrainDesk />;
+export default function TrainRedirect() {
+  redirect("/voice-songs/desk/train");
 }

@@ -6,8 +6,9 @@
  * migration 20261005_track_unlock_price_300.sql; the display code still pins the 1-song
  * tier to the SKU price so an old seed can never show 299.
  *
- * All-Access is $30/month (3,000 Ixis). Card checkout is not built, and this file does not
- * start a charge. Label / Enterprise has no fixed price.
+ * All-Access is $30/month (3,000 Ixis). Card checkout runs only when STRIPE_SECRET_KEY
+ * is set; otherwise the site says card coming soon. This file does not start a charge.
+ * Label / Enterprise has no fixed price. Ixis balances stay in the Apixis Wallet.
  */
 export const IXIS_PER_DOLLAR = 100;
 export const TRACK_UNLOCK_SKU = "lyrixis.track.unlock";
@@ -34,7 +35,7 @@ export const ALL_ACCESS_FEATURES: { name: string; status: PlanFeatureStatus; det
   {
     name: "Voice songs",
     status: "included",
-    detail: "Your own voice model, 4 voice songs, and 1 store release each month. Setup is included. An extra take is 100 Ixis.",
+    detail: "Your own voice model, 4 voice songs, and 1 release each month. The Voices marketplace stays separate.",
   },
   {
     name: "Lyric video downloads",
@@ -49,7 +50,7 @@ export const ALL_ACCESS_FEATURES: { name: string; status: PlanFeatureStatus; det
   {
     name: "Voices",
     status: "coming_soon",
-    detail: "Lyrixis Voices is switched off until it opens.",
+    detail: "The Voices marketplace stays off until it opens. Your own voice is Voice songs, not this.",
   },
 ];
 
@@ -57,20 +58,20 @@ export const ALL_ACCESS_TERMS =
   "Renews automatically every month. Cancel anytime. It stays active until the end of the month you already paid for.";
 
 export const PAYMENT_CHOICE =
-  "Pay by card or with Ixis (100 Ixis = $1). Card checkout is not open on Lyrixis yet. Add Ixis in the Apixis Wallet.";
+  "Pay by card or with Ixis (100 Ixis = $1). Add Ixis in the Apixis Wallet.";
 
 export const PLAN_FAQ: { q: string; a: string }[] = [
   {
     q: "What do I get for $30?",
-    a: "Lyrixis All-Access is $30 a month (3,000 Ixis). It renews every month. Cancel anytime and it stays active until the end of the month you already paid for. It includes unlimited song lyrics, plus Voice Songs: your voice model, 4 voice songs, and 1 release each month. Lyric video downloads, translations, and the Voices marketplace are coming soon.",
+    a: "Lyrixis All-Access is $30 a month (3,000 Ixis). It renews every month. Cancel anytime and it stays active until the end of the month you already paid for. It includes unlimited song lyrics, plus your own voice model, 4 voice songs, and 1 release each month. Lyric video downloads, translations, and the Voices marketplace are coming soon.",
   },
   {
     q: "Can I pay with a card?",
-    a: "You can pay by card or with Ixis. 100 Ixis equals $1. Card checkout is not open on this site yet. Ixis top-ups happen in the Apixis Wallet. Unlocking one song for 300 Ixis ($3) works today.",
+    a: "You can pay by card or with Ixis. 100 Ixis equals $1. Card coming soon until card checkout is turned on. Ixis works today: one song is 300 Ixis ($3) through the Apixis Wallet. Voice songs can take a card or Ixis once that checkout is open.",
   },
   {
     q: "How do I cancel?",
-    a: "Cancel anytime. All-Access stays active until the end of the month you already paid for. Email awad@apixis.dev to cancel the renewal. There is no cancel button yet, because card checkout is not open.",
+    a: "Cancel anytime. All-Access stays active until the end of the month you already paid for. Email awad@apixis.dev to cancel the renewal.",
   },
   {
     q: "What is Ixis?",

@@ -21,7 +21,7 @@ export function SongDesk({ songId }: { songId: string }) {
     setBusy(true);
     setError("");
     try {
-      await api(`/api/voice-songs/songs/${song.id}/takes`, {
+      await api(`/api/voice-desk/songs/${song.id}/takes`, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ idempotencyKey, voiceMix: mix, lyrics: lyrics || song.lyrics }),
@@ -44,7 +44,7 @@ export function SongDesk({ songId }: { songId: string }) {
           <DemoBanner session={state.session} />
           <p className="font-mono text-xs uppercase tracking-widest text-ink-2">Preview</p>
           <h1 className="mt-2 font-display text-4xl font-bold sm:font-marquee sm:text-5xl">{song?.title ?? "Song"}</h1>
-          <StepNav current="/voice-songs/song" />
+          <StepNav current="/voice-songs/desk/song" />
           {!song && !state.loading && <p className="mt-6 text-ink-2">That song is not on this account.</p>}
           {song && (
             <div className="mt-8 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
@@ -71,7 +71,7 @@ export function SongDesk({ songId }: { songId: string }) {
                   {busy ? "Rendering…" : includedLeft > 0 ? "Re-sing" : "Extra take"}
                 </button>
                 {ready[0] && (
-                  <Link href={`/voice-songs/release?song=${song.id}&take=${ready[ready.length - 1]?.id}`} className="btn-secondary mt-3">Request a release</Link>
+                  <Link href={`/voice-songs/desk/release?song=${song.id}&take=${ready[ready.length - 1]?.id}`} className="btn-secondary mt-3">Request a release</Link>
                 )}
                 {error && <p className="mt-3 text-sm text-magenta">{error}</p>}
               </div>

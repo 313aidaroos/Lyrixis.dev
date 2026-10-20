@@ -25,9 +25,9 @@ function appPages(dir = path.join(root, "app"), prefix = ""): string[] {
 
 describe("Cixy page help", () => {
   it("uses the real Cixy photo, not an SVG", () => {
-    expect(CIXY_AVATAR_SRC).toBe("/cixy/cixy-combo-a-avatar.webp");
+    expect(CIXY_AVATAR_SRC).toBe("/cixy/cixy-lyrixis-avatar.webp");
     expect(() => statSync(path.join(root, "public", CIXY_AVATAR_SRC))).not.toThrow();
-    expect(readFileSync(path.join(root, "public/index.html"), "utf8")).toContain('src="/cixy/cixy-combo-a-avatar.webp"');
+    expect(readFileSync(path.join(root, "public/index.html"), "utf8")).toContain('src="/cixy/cixy-lyrixis-avatar.webp"');
   });
 
   it("has specific steps for every page in the app (no generic fallback)", () => {

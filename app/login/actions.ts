@@ -55,7 +55,7 @@ export async function magicLink(form: FormData) {
   const next = rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/";
   if (!email.includes("@")) return { message: "Enter your email." };
   const supabase = await client();
-  const base = process.env.NEXT_PUBLIC_APP_URL ?? process.env.APP_URL ?? "https://lyrixis.vercel.app";
+  const base = process.env.NEXT_PUBLIC_APP_URL ?? process.env.APP_URL ?? "https://lyrixis.apixis.dev";
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {

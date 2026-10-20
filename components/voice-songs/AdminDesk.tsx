@@ -12,7 +12,7 @@ export function AdminDesk() {
   const [note, setNote] = useState("");
 
   async function load() {
-    const data = await api<{ queue: ReleaseRow[]; providers: ProviderFlags }>("/api/voice-songs/admin");
+    const data = await api<{ queue: ReleaseRow[]; providers: ProviderFlags }>("/api/voice-desk/admin");
     setQueue(data.queue);
     setProviders(data.providers);
   }
@@ -24,7 +24,7 @@ export function AdminDesk() {
   async function decide(releaseId: string, decision: "approve" | "reject") {
     setNote("");
     try {
-      await api("/api/voice-songs/admin", {
+      await api("/api/voice-desk/admin", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ releaseId, decision, note: decision === "approve" ? "Approved in review." : "Needs a change." }),

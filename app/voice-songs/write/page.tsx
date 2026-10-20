@@ -1,7 +1,7 @@
-import { WriteDesk } from "@/components/voice-songs/WriteDesk";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
-export default function WritePage() {
-  return <WriteDesk />;
+export default function WriteRedirect() {
+  redirect("/voice-songs/desk/write");
 }

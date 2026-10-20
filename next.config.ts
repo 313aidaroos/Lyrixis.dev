@@ -6,13 +6,18 @@ import type { NextConfig } from "next";
 const FFMPEG_BINARY = ["./node_modules/ffmpeg-static/ffmpeg"];
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ["bullmq", "ioredis", "music-metadata", "ffmpeg-static"],
+  serverExternalPackages: ["music-metadata", "ffmpeg-static"],
   outputFileTracingIncludes: {
     "/api/tracks": FFMPEG_BINARY,
     "/api/tracks/[id]/retry": FFMPEG_BINARY,
+    "/api/voice-songs/songs/[id]/advance": FFMPEG_BINARY,
   },
   async rewrites() {
-    return [{ source: "/enterprise", destination: "/index.html" }];
+    return [
+      { source: "/enterprise", destination: "/index.html" },
+      { source: "/favicon.ico", destination: "/brand/favicon.ico" },
+      { source: "/apple-touch-icon.png", destination: "/brand/apple-touch-icon.png" },
+    ];
   },
 };
 

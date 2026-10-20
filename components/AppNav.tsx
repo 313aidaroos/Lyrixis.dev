@@ -19,14 +19,13 @@ export function AppNav({ email }: { email?: string | null }) {
   }
 
   const linkClass = (href: string) =>
-    `text-sm ${pathname === href || (href !== "/" && pathname.startsWith(href)) ? "text-ink" : "text-ink-2 hover:text-ink"}`;
+    `text-sm ${pathname === href ? "text-ink" : "text-ink-2 hover:text-ink"}`;
 
   return (
     <header className="border-b border-line/80 bg-white/75 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-y-3 px-6 py-4">
-        <Link href="/" className="flex items-center gap-3">
-          <img src="/lyrixis-mark.png" alt="" className="h-11 w-11 rounded-xl object-cover ring-1 ring-black/10" />
-          <span className="font-display text-lg font-semibold tracking-[0.18em]">LYRIXIS</span>
+        <Link href="/" className="flex items-center" aria-label="Lyrixis home">
+          <img src="/brand/logo-full.png" alt="" className="h-11 w-auto object-contain" />
         </Link>
         <nav className="flex flex-wrap items-center justify-end gap-x-5 gap-y-2">
           <Link href="/" className={linkClass("/")}>
@@ -39,7 +38,7 @@ export function AppNav({ email }: { email?: string | null }) {
             Upload
           </Link>
           <Link href="/voice-songs" className={linkClass("/voice-songs")}>
-            Voice Songs
+            Voice songs
           </Link>
           <Link href="/how-to" className={linkClass("/how-to")}>
             How to use
@@ -49,6 +48,9 @@ export function AppNav({ email }: { email?: string | null }) {
           </Link>
           <Link href="/pricing" className={linkClass("/pricing")}>
             Pricing
+          </Link>
+          <Link href="/login?mode=forgot" className={linkClass("/login")}>
+            Forgot password
           </Link>
           <a href={enterApixisUrl("lyrixis")} className="text-sm text-ink-2 hover:text-ink">
             Apixis World ↗

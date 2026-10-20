@@ -38,7 +38,7 @@ export function ReleaseDesk() {
     form.set("idempotencyKey", idempotencyKey);
     if (artwork) form.set("artwork", artwork);
     try {
-      const result = await api<{ release: { id: string; status: string; distributorMessage: string | null } }>("/api/voice-songs/releases", { method: "POST", body: form });
+      const result = await api<{ release: { id: string; status: string; distributorMessage: string | null } }>("/api/voice-desk/releases", { method: "POST", body: form });
       setDone(`Release ${result.release.id.slice(0, 8)} is ${result.release.status}. ${result.release.distributorMessage ?? ""}`);
       await state.reload();
     } catch (err) {
@@ -56,7 +56,7 @@ export function ReleaseDesk() {
           <p className="font-mono text-xs uppercase tracking-widest text-ink-2">Stores</p>
           <h1 className="mt-2 font-display text-4xl font-bold sm:font-marquee sm:text-5xl">Request a release</h1>
           <p className="mt-3 max-w-2xl text-ink-2">Metadata, cover, credits, and the AI disclosure are stored with a 90% / 10% royalty split. A person reviews it before a distributor is called. Without distributor keys, it stays queued and the page says not configured.</p>
-          <StepNav current="/voice-songs/release" />
+          <StepNav current="/voice-songs/desk/release" />
           <div className="card mt-8 max-w-3xl">
             <label className="label">Artist name</label>
             <input className="input" value={artistName} onChange={(event) => setArtistName(event.target.value)} placeholder="Your name, not another artist" />
