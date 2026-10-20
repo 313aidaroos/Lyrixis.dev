@@ -210,9 +210,14 @@ function Overview({ data, demo }: { data: StudioPayload; demo: boolean }) {
       {data.ownerEmail && !data.owner && data.signedIn && (
         <p className="text-sm text-gold">Sign in with Apixis ID to use the owner test pass. A password session does not skip payment.</p>
       )}
-      <Link href={demo ? "/voice-songs/record?demo=1" : "/voice-songs/record"} className="btn-primary">
-        Record your voice <span className="arrow">→</span>
-      </Link>
+      <div className="flex flex-wrap gap-3">
+        <Link href={demo ? "/voice-songs/record?demo=1" : "/voice-songs/record"} className="btn-primary">
+          Record your voice <span className="arrow">→</span>
+        </Link>
+        <Link href="/voice-songs/desk" className="btn-secondary">
+          3–5 minute sample desk
+        </Link>
+      </div>
     </div>
   );
 }

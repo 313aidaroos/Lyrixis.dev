@@ -99,3 +99,71 @@ export function allAccessCovers(input: {
   if (input.kind === "song") return input.songsThisMonth < ALL_ACCESS_VOICE_SONGS_PER_MONTH;
   return input.releasesThisMonth < ALL_ACCESS_RELEASES_PER_MONTH;
 }
+
+/** Desk-flow aliases. The live studio uses the product-key exports above. */
+export const IXIS_PER_DOLLAR = IXIS_PER_USD;
+export const INCLUDED_TAKES = TAKES_INCLUDED;
+export const ALL_ACCESS_SONGS_PER_MONTH = ALL_ACCESS_VOICE_SONGS_PER_MONTH;
+export const SAMPLE_MIN_SECONDS = 180;
+export const SAMPLE_MAX_SECONDS = 300;
+
+export const VOICE_PRICE_KEYS = {
+  setup: VOICE_SETUP_SKU,
+  song: VOICE_SONG_SKU,
+  take: VOICE_TAKE_SKU,
+  release: VOICE_RELEASE_SKU,
+} as const;
+
+export type VoicePriceKey = keyof typeof VOICE_PRICE_KEYS;
+
+export type VoiceSongPrice = {
+  sku: VoicePriceKey;
+  productKey: string;
+  usd: number;
+  ixis: number;
+  label: string;
+  detail: string;
+};
+
+export const VOICE_SONG_PRICES: Record<VoicePriceKey, VoiceSongPrice> = {
+  setup: {
+    sku: "setup",
+    productKey: VOICE_SETUP_SKU,
+    usd: VOICE_SETUP_USD,
+    ixis: VOICE_SETUP_IXIS,
+    label: "Voice setup",
+    detail: "One-time private voice model, including a re-record.",
+  },
+  song: {
+    sku: "song",
+    productKey: VOICE_SONG_SKU,
+    usd: VOICE_SONG_USD,
+    ixis: VOICE_SONG_IXIS,
+    label: "Voice song",
+    detail: "Three full takes, lyric edits, and two vocal re-sings.",
+  },
+  take: {
+    sku: "take",
+    productKey: VOICE_TAKE_SKU,
+    usd: 1,
+    ixis: VOICE_TAKE_IXIS,
+    label: "Extra take",
+    detail: "One more full take after the three included.",
+  },
+  release: {
+    sku: "release",
+    productKey: VOICE_RELEASE_SKU,
+    usd: VOICE_RELEASE_USD,
+    ixis: VOICE_RELEASE_IXIS,
+    label: "Release",
+    detail: "One single, queued for review, then sent to the distributor.",
+  },
+};
+
+export function priceFor(sku: VoicePriceKey): VoiceSongPrice {
+  return VOICE_SONG_PRICES[sku];
+}
+
+export function periodKey(date: Date): string {
+  return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
+}

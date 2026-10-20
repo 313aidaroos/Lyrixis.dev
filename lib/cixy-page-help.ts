@@ -355,6 +355,97 @@ export const PAGE_HELP: Record<string, CixyPageHelpEntry> = {
     tips: ["If the payment is not confirmed, you can pay with Ixis instead."],
     suggestions: ["Can I pay with Ixis instead?"],
   },
+  "/voice-songs/desk": {
+    title: "Voice sample desk",
+    steps: [
+      "This desk is the 3 to 5 minute sample walkthrough. The guided studio stays on Voice songs.",
+      "Sign in with Apixis ID, or open the demo. One private voice model belongs to that ID.",
+      "Record 3 to 5 minutes, sign the consent, and read the random phrase aloud.",
+      "Train the model, then write original lyrics with Cixy. Other artists' names are refused.",
+      "A voice song is $6 (600 Ixis) and includes 3 takes. Setup is $5 (500 Ixis) once. An extra take is 100 Ixis.",
+      "All-Access at $30 a month includes the voice model, 4 voice songs, and 1 release each month.",
+    ],
+    tips: ["Delete my voice removes the model and the recording. Preview audio is watermarked."],
+    suggestions: ["How much is a voice song?", "Can I clone someone else's voice?"],
+  },
+  "/voice-songs/desk/record": {
+    title: "Record a voice sample",
+    steps: [
+      "Use the prompts: talk, sing on la, read the line, then hum.",
+      "Press Start recording and watch the level. Clipping or a very quiet take will be rejected.",
+      "Stop between 3 and 5 minutes, then Save sample.",
+      "In the demo, Use a demo sample stands in so you can click through without a microphone.",
+    ],
+    tips: ["The file stays in a private bucket. Other accounts cannot read it."],
+    suggestions: ["How long should the sample be?", "What if the mic clips?"],
+  },
+  "/voice-songs/desk/consent": {
+    title: "Desk voice consent",
+    steps: [
+      "Read the consent. It says this is your voice, stored only for songs you ask for, and deletable in one step.",
+      "Tick the box and sign. Lyrixis will not train without that.",
+      "Read the random phrase on the screen aloud. The words have to match.",
+      "Then pay for setup ($5 or 500 Ixis) or use the All-Access allowance if it is on.",
+    ],
+    tips: ["The phrase changes. It is the liveness check, the same idea as a read-aloud captcha."],
+    suggestions: ["What am I agreeing to?", "Why do I read a phrase?"],
+  },
+  "/voice-songs/desk/train": {
+    title: "Train your voice",
+    steps: [
+      "Press Train model after consent and the read-aloud check.",
+      "Live training needs the voice provider key. If it is missing, the page says not configured.",
+      "The demo finishes immediately and labels the model as a demo.",
+      "Delete my voice removes the model and the raw recording together.",
+    ],
+    tips: ["Re-recording is included in the one-time setup."],
+    suggestions: ["How long does training take?", "How do I delete my voice?"],
+  },
+  "/voice-songs/desk/write": {
+    title: "Write with Cixy",
+    steps: [
+      "Choose a theme, mood, and genre, and add a note that is yours.",
+      "Ask Cixy for a verse and chorus. Edit any line in the box.",
+      "Cixy refuses another artist's name, a known song title, or a request to copy a voice.",
+      "Pay $6 (600 Ixis) or use one of the 4 monthly All-Access songs, then the song is generated.",
+    ],
+    tips: ["If Cixy is not configured, the demo writer drafts an original lyric and says so."],
+    suggestions: ["Will Cixy copy a famous song?", "What is included in a voice song?"],
+  },
+  "/voice-songs/desk/song/": {
+    title: "Preview your song",
+    steps: [
+      "Play the watermarked preview. The badge names the music provider and the voice provider.",
+      "Edit the lyric and move the voice/backing mix, then press Re-sing.",
+      "Three takes are included. After that, an extra take is 100 Ixis ($1).",
+      "When a take is ready, Request a release to send it to review.",
+    ],
+    tips: ["A missing provider key stops a live render and explains which key is needed. The demo still plays a stand-in."],
+    suggestions: ["Why is the preview watermarked?", "How do I get another take?"],
+  },
+  "/voice-songs/desk/release": {
+    title: "Desk release",
+    steps: [
+      "Enter your own artist name and the title. Another artist's name is blocked.",
+      "Add credits, optional cover art, and read the AI disclosure.",
+      "The split is recorded as you 90% and Lyrixis 10%.",
+      "Accept the rights line. The release is $9 (900 Ixis), or the 1 release included with All-Access.",
+      "It waits in the review queue. Stores are contacted only after approval, and only if a distributor key exists.",
+    ],
+    tips: ["You can request at most 4 releases in a month."],
+    suggestions: ["What does the AI disclosure say?", "When does it reach a store?"],
+  },
+  "/voice-songs/desk/admin": {
+    title: "Desk release review",
+    steps: [
+      "This queue is for a Lyrixis reviewer. In the demo you only see your own requests.",
+      "Read the artist, title, split, and AI disclosure.",
+      "Approve to hand it to the distributor. Reject to send it back.",
+      "If Too Lost or Revelator is not configured, approval stays on file and the distributor line says not configured.",
+    ],
+    tips: ["Raw voice recordings are not shown on this page. The studio queue is at Admin, Voice songs."],
+    suggestions: ["What happens when I approve?"],
+  },
   "/voices": {
     title: "Lyrixis Voices",
     steps: [

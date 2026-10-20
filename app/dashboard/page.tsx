@@ -21,9 +21,14 @@ export default async function DashboardPage() {
             <p className="font-mono text-xs uppercase tracking-widest text-ink-2">Dashboard</p>
             <h1 className="mt-2 font-display text-4xl font-bold sm:font-marquee sm:text-5xl">Your tracks</h1>
           </div>
-          <Link href="/upload" className="btn-primary">
-            Upload a track
-          </Link>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/voice-songs" className="btn-secondary">
+              Voice Songs
+            </Link>
+            <Link href="/upload" className="btn-primary">
+              Upload a track
+            </Link>
+          </div>
         </div>
 
         {/* Apixis world: new accounts get their own agent created server-side; one-time welcome card. */}
