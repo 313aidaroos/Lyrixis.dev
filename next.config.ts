@@ -13,7 +13,11 @@ const nextConfig: NextConfig = {
     "/api/voice-songs/songs/[id]/advance": FFMPEG_BINARY,
   },
   async rewrites() {
-    return [{ source: "/enterprise", destination: "/index.html" }];
+    return [
+      { source: "/enterprise", destination: "/index.html" },
+      { source: "/favicon.ico", destination: "/brand/favicon.ico" },
+      { source: "/apple-touch-icon.png", destination: "/brand/apple-touch-icon.png" },
+    ];
   },
 };
 
